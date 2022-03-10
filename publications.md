@@ -12,3 +12,4 @@ Wang, Yuxin, Zeyu Ding, **Yingtai Xiao**, Daniel Kifer, and Danfeng Zhang.
 - [Diversified Interactive Recommendation with Implicit Feedback.](https://ojs.aaai.org//index.php/AAAI/article/view/5931)
 Yong Liu, **Yingtai Xiao**, Qiong Wu, Chunyan Miao, Juyong Zhang, Binqiang Zhao, Haihong Tang.
 *The Thirty-Fourth AAAI Conference on Artificial Intelligence (AAAI 2020)*
+
