@@ -3,6 +3,6 @@ layout: home
 title: "Home"
 ---
 
-This theme allows an academic person to showcase their research interests, publications, research group, curriculum vitae, any courses that they may be teaching, or anything else they may want to put out into the world.
+I am a Ph.D. student of Computer Science and Engineering at The Pennsylvania State University, under the supervision of Dr. Daniel Kifer and Dr. Danfeng Zhang. I received my B.S. degree in Mathematics from University of Science and Technology of China.
 
-Academics can use this home page to describe their research interests, display their latest publications, or provide an introduction to their research group.
+I'm interested in differential privacy, secure multiparty computation, privacy preserving machine learning.
