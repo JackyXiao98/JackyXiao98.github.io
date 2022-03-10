@@ -1,9 +1,9 @@
 featured:
-- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries..', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
+- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries.', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
 - {name: 'DPGen: Automated Program Synthesis for Differential Privacy.', url: 'http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf'}
 - {name: 'Diversified Interactive Recommendation with Implicit Feedback.', url: 'https://ojs.aaai.org//index.php/AAAI/article/view/5931'}
 
 index:
-- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries..', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
+- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries.', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
 - {name: 'DPGen: Automated Program Synthesis for Differential Privacy.', url: 'http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf'}
 - {name: 'Diversified Interactive Recommendation with Implicit Feedback.', url: 'https://ojs.aaai.org//index.php/AAAI/article/view/5931'}
