@@ -22,4 +22,4 @@ social:
 - {icon: 'linkedin', link: 'https://www.linkedin.com/in/yingtai-xiao-2b795515a/'}
 
 contacts:
-- {name: 'Yingtai Xiao', title: 'PhD Candidate', department: 'Computer Science and Engineering', institution: 'The Pennsylvania State University', institution_address: 'Westgate Building, State College, PA, USA', phone: '(814) 402-0261', email: 'yxx5224@psu.edu', office: 'W301 Westgate Building', image: 'assets/img/contact.jpg'}
+- {name: 'Yingtai Xiao', title: 'PhD Candidate', department: 'Computer Science and Engineering', institution: 'The Pennsylvania State University', institution_address: 'Westgate Building, State College, PA, USA', phone: 'Hidden', email: 'yxx5224 at psu.edu', office: 'W355 Westgate Building', image: 'assets/img/contact.jpg'}
