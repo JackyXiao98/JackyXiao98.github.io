@@ -23,4 +23,4 @@ social:
 - {icon: 'linkedin', link: 'https://www.linkedin.com/in/yingtai-xiao-2b795515a/'}
 
 contacts:
-- {name: 'Yingtai Xiao', title: 'Dr.', department: 'Privacy Innovation Lab', institution: 'TikTok Inc.', institution_address: 'San Jose, CA, USA', phone: 'Hidden', email: 'yingtai.xiao1 at bytedance.com', office: 'W355 Westgate Building', image: 'assets/img/tiktok.jfif'}
+- {name: 'Yingtai Xiao', title: 'Research Scientist', department: 'Privacy Innovation Lab', institution: 'TikTok Inc.', institution_address: 'San Jose, CA, USA', phone: 'Hidden', email: 'yingtai.xiao1 at bytedance.com', image: 'assets/img/tiktok.jpg'}
