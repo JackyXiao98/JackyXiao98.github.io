@@ -1,0 +1,64 @@
+- title: General Information
+  type: map
+  contents:
+    - name: Full Name
+      value: Yingtai Xiao
+    - name: Email
+      value: yingtai.xiao1@bytedance.com
+    - name: Languages
+      value: English, Chinese (Mandarin)
+
+- title: Education
+  type: time_table
+  contents:
+    - title: Ph.D. in Computer Science and Engineering
+      institution: The Pennsylvania State University, University Park, PA
+      year: 2019 - 2024
+      description:
+        - "Advisors: Prof. Daniel Kifer and Prof. Danfeng Zhang"
+        - "Research focus: Differential Privacy, Database Query Optimization"
+    - title: B.S. in Computer Science
+      institution: University of Science and Technology of China (USTC), Hefei, China
+      year: 2015 - 2019
+
+- title: Experience
+  type: time_table
+  contents:
+    - title: Research Scientist
+      institution: TikTok Privacy Innovation Lab, San Jose, CA
+      year: 2024 - Present
+      description:
+        - Privacy-preserving technologies for advertising and measurement
+        - Differential privacy research and applications
+    - title: Research Intern
+      institution: TikTok Privacy Innovation Lab, San Jose, CA
+      year: Summer 2023
+      description:
+        - Advertising measurement under differential privacy
+    - title: Research Intern
+      institution: JD.com, Beijing, China
+      year: Summer 2022
+      description:
+        - Multi-Party Computation (MPC) framework for deep learning
+
+- title: Academic Service
+  type: nested_list
+  contents:
+    - title: Conference Reviewer
+      items:
+        - KDD 2023
+        - NeurIPS 2023, 2024
+        - ICML 2023
+        - ICLR 2024
+        - AISTATS 2023, 2024
+    - title: Teaching
+      items:
+        - "Head Teaching Assistant: CMPSC461 Programming Language Concepts (Fall 2021)"
+
+- title: Research Interests
+  type: list
+  contents:
+    - Differential Privacy
+    - Database Query Optimization
+    - Privacy-Preserving Machine Learning
+    - Advertising Measurement
