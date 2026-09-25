@@ -1,0 +1,29 @@
+{% comment %}
+  Publication list from _data/publications.yml.
+  Params: selected=true shows only entries marked selected;
+          by_year=true adds a year heading before each new year.
+{% endcomment %}
+{% if include.selected %}
+  {% assign pubs = site.data.publications | where: 'selected', true %}
+{% else %}
+  {% assign pubs = site.data.publications %}
+{% endif %}
+<ol class="tech-card tech-cv-pubs">
+  {% assign last_year = '' %}
+  {% for p in pubs %}
+    {% if include.by_year and p.year != last_year %}
+      <li class="tech-cv-year" aria-hidden="true">{{ p.year }}</li>
+      {% assign last_year = p.year %}
+    {% endif %}
+    <li>
+      <span class="tech-cv-tag">{{ p.tag }}</span>
+      <div>
+        <a class="tech-cv-pub-title" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+        <div class="tech-cv-authors">{{ p.authors | markdownify | remove: '<p>' | remove: '</p>' }}</div>
+        <div class="tech-cv-venue">
+          {{ p.venue }}{% if p.note %} <span class="tech-cv-note">{{ p.note }}</span>{% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
+</ol>

@@ -1,9 +1,50 @@
-featured:
-- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries.', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
-- {name: 'DPGen: Automated Program Synthesis for Differential Privacy.', url: 'http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf'}
-- {name: 'Diversified Interactive Recommendation with Implicit Feedback.', url: 'https://ojs.aaai.org//index.php/AAAI/article/view/5931'}
+# Single source for all publications.
+# Rendered on /publications/, the CV and (entries with selected: true) the homepage.
+# Wrap your own name in ** ** to highlight it.
 
-index:
-- {name: 'Optimizing Fitness-For-Use of Differentially Private Linear Queries.', url: 'http://vldb.org/pvldb/vol14/p1730-xiao.pdf'}
-- {name: 'DPGen: Automated Program Synthesis for Differential Privacy.', url: 'http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf'}
-- {name: 'Diversified Interactive Recommendation with Implicit Feedback.', url: 'https://ojs.aaai.org//index.php/AAAI/article/view/5931'}
+- title: An Optimal and Scalable Matrix Mechanism for Noisy Marginals under Convex Loss Functions
+  url: https://arxiv.org/abs/2305.08175
+  authors: "**Yingtai Xiao**, Guanlin He, Danfeng Zhang, Daniel Kifer"
+  venue: Conference on Neural Information Processing Systems (NeurIPS 2023)
+  tag: NeurIPS
+  note: Spotlight
+  year: 2023
+  selected: true
+
+- title: Answering Private Linear Queries Adaptively using the Common Mechanism
+  url: https://arxiv.org/abs/2212.00135
+  authors: "**Yingtai Xiao**, Guanhong Wang, Danfeng Zhang, Daniel Kifer"
+  venue: Proc. of the 49th International Conference on Very Large Data Bases (VLDB 2023)
+  tag: VLDB
+  year: 2023
+  selected: true
+
+- title: Free Gap Estimates from the Exponential Mechanism, Sparse Vector, Noisy Max and Related Algorithms
+  url: https://link.springer.com/article/10.1007/s00778-022-00728-2
+  authors: "Zeyu Ding, Yuxin Wang, **Yingtai Xiao**, Guanhong Wang, Danfeng Zhang, Daniel Kifer"
+  venue: The VLDB Journal, 2022
+  tag: VLDBJ
+  year: 2022
+
+- title: Optimizing Fitness-For-Use of Differentially Private Linear Queries
+  url: http://vldb.org/pvldb/vol14/p1730-xiao.pdf
+  authors: "**Yingtai Xiao**, Zeyu Ding, Yuxin Wang, Danfeng Zhang, Daniel Kifer"
+  venue: Proc. of the 47th International Conference on Very Large Data Bases (VLDB 2021)
+  tag: VLDB
+  year: 2021
+  selected: true
+
+- title: 'DPGen: Automated Program Synthesis for Differential Privacy'
+  url: http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf
+  authors: "Yuxin Wang, Zeyu Ding, **Yingtai Xiao**, Daniel Kifer, Danfeng Zhang"
+  venue: Proc. of the ACM Conference on Computer and Communications Security (CCS 2021)
+  tag: CCS
+  year: 2021
+  selected: true
+
+- title: Diversified Interactive Recommendation with Implicit Feedback
+  url: https://ojs.aaai.org/index.php/AAAI/article/view/5931
+  authors: "Yong Liu, **Yingtai Xiao**, Qiong Wu, Chunyan Miao, Juyong Zhang, Binqiang Zhao, Haihong Tang"
+  venue: The Thirty-Fourth AAAI Conference on Artificial Intelligence (AAAI 2020)
+  tag: AAAI
+  year: 2020

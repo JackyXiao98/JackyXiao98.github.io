@@ -40,20 +40,7 @@ layout: default
           {% endfor %}
         </div>
       {% elsif section.type == 'publications' %}
-        <ol class="tech-card tech-cv-pubs">
-          {% for p in section.contents %}
-            <li>
-              <span class="tech-cv-tag">{{ p.tag }}</span>
-              <div>
-                <a class="tech-cv-pub-title" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-                <div class="tech-cv-authors">{{ p.authors | markdownify | remove: '<p>' | remove: '</p>' }}</div>
-                <div class="tech-cv-venue">
-                  {{ p.venue }}{% if p.note %} <span class="tech-cv-note">{{ p.note }}</span>{% endif %}
-                </div>
-              </div>
-            </li>
-          {% endfor %}
-        </ol>
+        {% include tech_pubs.liquid %}
       {% elsif section.type == 'groups' %}
         <div class="tech-interests">
           {% for g in section.contents %}

@@ -95,9 +95,7 @@ layout: default
       <span class="tech-index">04</span>{{ page.labels.publications | default: "Selected Publications" }}
       <a class="tech-more" href="{{ '/publications/' | relative_url }}">{{ page.labels.all_papers | default: "all papers" }} <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
     </h2>
-    <div class="tech-card tech-pubs">
-      {% include selected_papers.liquid %}
-    </div>
+    {% include tech_pubs.liquid selected=true %}
   </section>
 
   <!-- Services -->
