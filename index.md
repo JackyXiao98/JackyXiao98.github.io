@@ -1,6 +1,7 @@
 ---
 layout: home
-title: "Home"
+title: about
+permalink: /
 
 # ---------------------------------------------------------------------------
 # Content for the homepage. Edit these lists to update the page.

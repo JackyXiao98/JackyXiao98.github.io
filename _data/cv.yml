@@ -1,48 +1,82 @@
-- title: General Information
-  type: map
-  contents:
-    - name: Full Name
-      value: Yingtai Xiao
-    - name: Email
-      value: yingtai.xiao1@bytedance.com
-    - name: Languages
-      value: English, Chinese (Mandarin)
+# CV content rendered by _layouts/tech-cv.liquid (the /cv/ page).
+# Section types: timeline, publications, groups, tags
 
 - title: Education
-  type: time_table
+  type: timeline
   contents:
     - title: Ph.D. in Computer Science and Engineering
       institution: The Pennsylvania State University, University Park, PA
-      year: 2019 - 2024
+      year: 2019 – 2024
       description:
         - "Advisors: Prof. Daniel Kifer and Prof. Danfeng Zhang"
-        - "Research focus: Differential Privacy, Database Query Optimization"
-    - title: B.S. in Computer Science
+        - "Research focus: differential privacy, database query optimization"
+    - title: B.S. in Mathematics
       institution: University of Science and Technology of China (USTC), Hefei, China
-      year: 2015 - 2019
+      year: 2015 – 2019
+      description:
+        - "Supervised by Prof. Juyong Zhang"
 
 - title: Experience
-  type: time_table
+  type: timeline
   contents:
     - title: Research Scientist
-      institution: TikTok Privacy Innovation Lab, San Jose, CA
-      year: 2024 - Present
+      institution: Privacy Innovation Lab, TikTok · San Jose, CA
+      year: Jun 2024 – Present
       description:
         - Privacy-preserving technologies for advertising and measurement
-        - Differential privacy research and applications
+        - Differential privacy research and its production applications
     - title: Research Intern
-      institution: TikTok Privacy Innovation Lab, San Jose, CA
+      institution: Privacy Innovation Lab, TikTok · San Jose, CA
       year: Summer 2023
       description:
-        - Advertising measurement under differential privacy
+        - Built an online advertising measurement system under user-level differential privacy
     - title: Research Intern
-      institution: JD.com, Beijing, China
+      institution: JD.com · Beijing, China
       year: Summer 2022
       description:
-        - Multi-Party Computation (MPC) framework for deep learning
+        - Built a three-party secure multiparty computation framework for deep learning
+    - title: Visiting Research Assistant
+      institution: Nanyang Technological University · Singapore
+      description:
+        - "Supervised by Dr. Yong Liu; research on interactive recommendation"
 
-- title: Academic Service
-  type: nested_list
+- title: Publications
+  type: publications
+  contents:
+    - title: An Optimal and Scalable Matrix Mechanism for Noisy Marginals under Convex Loss Functions
+      url: https://arxiv.org/abs/2305.08175
+      authors: "**Yingtai Xiao**, Guanlin He, Danfeng Zhang, Daniel Kifer"
+      venue: Conference on Neural Information Processing Systems (NeurIPS 2023)
+      tag: NeurIPS
+      note: Spotlight
+    - title: Answering Private Linear Queries Adaptively using the Common Mechanism
+      url: https://arxiv.org/abs/2212.00135
+      authors: "**Yingtai Xiao**, Guanhong Wang, Danfeng Zhang, Daniel Kifer"
+      venue: Proc. of the 49th International Conference on Very Large Data Bases (VLDB 2023)
+      tag: VLDB
+    - title: Free Gap Estimates from the Exponential Mechanism, Sparse Vector, Noisy Max and Related Algorithms
+      url: https://link.springer.com/article/10.1007/s00778-022-00728-2
+      authors: "Zeyu Ding, Yuxin Wang, **Yingtai Xiao**, Guanhong Wang, Danfeng Zhang, Daniel Kifer"
+      venue: The VLDB Journal, 2022
+      tag: VLDBJ
+    - title: Optimizing Fitness-For-Use of Differentially Private Linear Queries
+      url: http://vldb.org/pvldb/vol14/p1730-xiao.pdf
+      authors: "**Yingtai Xiao**, Zeyu Ding, Yuxin Wang, Danfeng Zhang, Daniel Kifer"
+      venue: Proc. of the 47th International Conference on Very Large Data Bases (VLDB 2021)
+      tag: VLDB
+    - title: "DPGen: Automated Program Synthesis for Differential Privacy"
+      url: http://www.cse.psu.edu/~dbz5017/pub/ccs21.pdf
+      authors: "Yuxin Wang, Zeyu Ding, **Yingtai Xiao**, Daniel Kifer, Danfeng Zhang"
+      venue: Proc. of the ACM Conference on Computer and Communications Security (CCS 2021)
+      tag: CCS
+    - title: Diversified Interactive Recommendation with Implicit Feedback
+      url: https://ojs.aaai.org/index.php/AAAI/article/view/5931
+      authors: "Yong Liu, **Yingtai Xiao**, Qiong Wu, Chunyan Miao, Juyong Zhang, Binqiang Zhao, Haihong Tang"
+      venue: The Thirty-Fourth AAAI Conference on Artificial Intelligence (AAAI 2020)
+      tag: AAAI
+
+- title: Service & Teaching
+  type: groups
   contents:
     - title: Conference Reviewer
       items:
@@ -53,12 +87,13 @@
         - AISTATS 2023, 2024
     - title: Teaching
       items:
-        - "Head Teaching Assistant: CMPSC461 Programming Language Concepts (Fall 2021)"
+        - "Head Teaching Assistant, CMPSC 461 Programming Language Concepts, Penn State (Fall 2021)"
 
 - title: Research Interests
-  type: list
+  type: tags
   contents:
     - Differential Privacy
     - Database Query Optimization
     - Privacy-Preserving Machine Learning
     - Advertising Measurement
+    - Program Synthesis

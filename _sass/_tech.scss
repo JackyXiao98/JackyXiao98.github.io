@@ -105,6 +105,9 @@ a {
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--tech-border);
   opacity: 1;
+  min-height: 72px;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
 
   &::after {
     content: "";
@@ -120,6 +123,7 @@ a {
 
 .navbar.navbar-light {
   .navbar-brand {
+    font-size: 1.6rem;
     font-weight: 500;
     color: var(--tech-text);
 
@@ -132,8 +136,10 @@ a {
   }
 
   .navbar-nav .nav-item .nav-link {
+    position: relative;
     font-family: $tech-font-mono;
-    font-size: 0.86rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
     color: var(--tech-muted);
     letter-spacing: 0.01em;
 
@@ -145,7 +151,22 @@ a {
   .navbar-nav .nav-item.active > .nav-link {
     color: var(--tech-accent);
     font-weight: 600;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0.8rem;
+      right: 0.8rem;
+      bottom: 0.15rem;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--tech-accent), var(--tech-accent-2));
+    }
   }
+}
+
+body.fixed-top-nav {
+  padding-top: 72px;
 }
 
 footer.sticky-bottom,
@@ -744,7 +765,7 @@ footer.fixed-bottom {
     &::before {
       content: "";
       position: absolute;
-      left: calc(-1.5rem + 1px);
+      left: -23px; // 1px right of the list padding (1.5rem)
       top: 1rem;
       width: 10px;
       height: 10px;
@@ -848,6 +869,124 @@ footer.fixed-bottom {
   }
 }
 
+// CV page
+
+.tech-cv-header {
+  padding: 2.5rem 0 0.5rem;
+}
+
+.tech-cv-timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.tech-cv-item {
+  padding: 1.2rem 1.4rem;
+  border-left: 3px solid var(--tech-accent);
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  ul {
+    margin: 0.6rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--tech-muted);
+    font-size: 0.95rem;
+  }
+}
+
+.tech-cv-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+.tech-cv-institution {
+  margin-top: 0.2rem;
+  color: var(--tech-text);
+  opacity: 0.85;
+}
+
+.tech-cv-pubs {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 1.4rem;
+
+  li {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--tech-border);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.tech-cv-tag {
+  align-self: start;
+  text-align: center;
+  font-family: $tech-font-mono;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  color: var(--tech-accent);
+  background: color-mix(in srgb, var(--tech-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tech-accent) 35%, transparent);
+}
+
+.tech-home a.tech-cv-pub-title {
+  font-weight: 600;
+}
+
+.tech-cv-authors {
+  font-size: 0.92rem;
+  margin-top: 0.2rem;
+
+  strong {
+    color: var(--tech-accent);
+  }
+}
+
+.tech-cv-venue {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--tech-muted);
+}
+
+.tech-cv-note {
+  font-family: $tech-font-mono;
+  font-style: normal;
+  font-size: 0.72rem;
+  margin-left: 0.3rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(100deg, var(--tech-accent), var(--tech-accent-2));
+}
+
+.tech-cv-group {
+  padding: 1.2rem 1.4rem;
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--tech-muted);
+  }
+}
+
 // Reveal
 
 .tech-reveal.is-pending {
@@ -907,6 +1046,15 @@ footer.fixed-bottom {
     .tech-more {
       margin-left: auto;
     }
+  }
+
+  .tech-cv-pubs li {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .tech-cv-tag {
+    justify-self: start;
   }
 
   .tech-timeline li {

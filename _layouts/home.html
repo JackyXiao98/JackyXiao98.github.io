@@ -11,11 +11,12 @@ layout: default
     <div class="tech-hero-text">
       <div class="tech-prompt"><span class="tech-prompt-user">guest@yingtai</span>:<span class="tech-prompt-path">~</span>$ whoami</div>
       <h1 class="tech-name">
-        <span class="tech-gradient-text">{{ site.first_name }} {{ site.last_name }}</span>
+        {% capture full_name %}{{ site.first_name }} {{ site.last_name }}{% endcapture %}
+        <span class="tech-gradient-text">{{ page.display_name | default: full_name }}</span>
       </h1>
       <p class="tech-role">{{ page.role }}</p>
-      <p class="tech-typing" aria-label="Research interests: {{ page.typing | join: ', ' }}">
-        <span class="tech-typing-label">&gt; researching</span>
+      <p class="tech-typing" aria-label="{{ page.labels.interests | default: "Research interests" }}: {{ page.typing | join: ', ' }}">
+        <span class="tech-typing-label">&gt; {{ page.labels.researching | default: "researching" }}</span>
         <span class="tech-typing-text" data-phrases='{{ page.typing | jsonify | escape }}'>{{ page.typing | first }}</span><span class="tech-caret" aria-hidden="true"></span>
       </p>
       <div class="tech-links">
@@ -54,7 +55,7 @@ layout: default
 
   <!-- About -->
   <section class="tech-section tech-reveal">
-    <h2 class="tech-heading"><span class="tech-index">01</span>About Me</h2>
+    <h2 class="tech-heading"><span class="tech-index">01</span>{{ page.labels.about | default: "About Me" }}</h2>
     <div class="tech-card tech-about">
       <div class="tech-card-bar"><span></span><span></span><span></span><code>about.md</code></div>
       <div class="tech-card-body">{{ content }}</div>
@@ -63,7 +64,7 @@ layout: default
 
   <!-- Research interests -->
   <section class="tech-section tech-reveal">
-    <h2 class="tech-heading"><span class="tech-index">02</span>Research Interests</h2>
+    <h2 class="tech-heading"><span class="tech-index">02</span>{{ page.labels.interests | default: "Research Interests" }}</h2>
     <div class="tech-interests">
       {% for it in page.interests %}
         <div class="tech-card tech-interest">
@@ -77,7 +78,7 @@ layout: default
 
   <!-- Activities timeline -->
   <section class="tech-section tech-reveal">
-    <h2 class="tech-heading"><span class="tech-index">03</span>Activities</h2>
+    <h2 class="tech-heading"><span class="tech-index">03</span>{{ page.labels.activities | default: "Activities" }}</h2>
     <ol class="tech-timeline">
       {% for a in page.activities %}
         <li>
@@ -91,8 +92,8 @@ layout: default
   <!-- Selected publications -->
   <section class="tech-section tech-reveal">
     <h2 class="tech-heading">
-      <span class="tech-index">04</span>Selected Publications
-      <a class="tech-more" href="{{ '/publications/' | relative_url }}">all papers <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      <span class="tech-index">04</span>{{ page.labels.publications | default: "Selected Publications" }}
+      <a class="tech-more" href="{{ '/publications/' | relative_url }}">{{ page.labels.all_papers | default: "all papers" }} <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
     </h2>
     <div class="tech-card tech-pubs">
       {% include selected_papers.liquid %}
@@ -101,7 +102,7 @@ layout: default
 
   <!-- Services -->
   <section class="tech-section tech-reveal">
-    <h2 class="tech-heading"><span class="tech-index">05</span>Review Services</h2>
+    <h2 class="tech-heading"><span class="tech-index">05</span>{{ page.labels.services | default: "Review Services" }}</h2>
     <div class="tech-chips">
       {% for s in page.services %}<span class="tech-chip">{{ s }}</span>{% endfor %}
     </div>
