@@ -2,71 +2,110 @@
 layout: default
 ---
 
-<div class="row">
-  <h3 class="fw-bold pb-3 mb-1">About Me</h3>
-  <div class="col-md-2">
-    <img src="{{ site.github.url }}/assets/img/Yingtai.jpg" alt="Home" width="100%">
-  </div>
-  <div class="col-md-6">
-    {{ content }}
-  </div>
-</div>
+<canvas id="tech-bg" class="tech-bg" aria-hidden="true"></canvas>
+<div class="tech-grid" aria-hidden="true"></div>
 
+<div class="tech-home">
+  <!-- Hero -->
+  <section class="tech-hero">
+    <div class="tech-hero-text">
+      <div class="tech-prompt"><span class="tech-prompt-user">guest@yingtai</span>:<span class="tech-prompt-path">~</span>$ whoami</div>
+      <h1 class="tech-name">
+        <span class="tech-gradient-text">{{ site.first_name }} {{ site.last_name }}</span>
+      </h1>
+      <p class="tech-role">{{ page.role }}</p>
+      <p class="tech-typing" aria-label="Research interests: {{ page.typing | join: ', ' }}">
+        <span class="tech-typing-label">&gt; researching</span>
+        <span class="tech-typing-text" data-phrases='{{ page.typing | jsonify | escape }}'>{{ page.typing | first }}</span><span class="tech-caret" aria-hidden="true"></span>
+      </p>
+      <div class="tech-links">
+        {% for link in page.links %}
+          <a class="tech-btn{% if forloop.first %} tech-btn-primary{% endif %}" href="{{ link.url }}"{% unless link.url contains 'mailto:' %} target="_blank" rel="noopener"{% endunless %}>
+            <i class="{{ link.icon }}" aria-hidden="true"></i><span>{{ link.name }}</span>
+          </a>
+        {% endfor %}
+      </div>
+      <p class="tech-meta"><i class="ti ti-map-pin" aria-hidden="true"></i> {{ page.location }}</p>
+    </div>
 
-<div class="row">
-  <div>
-    <h3 class="fw-bold pb-3 mb-1">Activities</h3>
-    <ul>
-      <li><p>
-        I joined the Privacy Innovation Lab at TikTok as a Research Scientist, June 2024
-        </p></li>
-      <li><p>
-        I graduated with a Ph.D. degree of Computer Science and Engineering from Penn State, May 2024
-        </p></li>
-      <!-- <li><p>
-        One paper got accepted at NeurIPS as a spotlight, September 2023
-        </p></li> -->
-        <li><p>
-        Finished Internship at TikTok, bulit an online advertising measurement system under user-level differential privacy, Summer 2023
-        </p></li>
-        <!-- <li><p>
-        One paper got accepted at VLDB, March 2023
-        </p></li> -->
-        <li><p>
-        Finished Internship at JD.com, built a three-party multiparty computation framework for deep learning, Summer 2022
-        </p></li>
-        <li><p>
-          Head teaching assistant of CMPSC461 Programming Language Concepts, Fall 2021
-        </p></li>
-        <!-- <li><p>
-          One paper got accepted at International Conference on Very Large Data Bases (VLDB), August 2021
-          </p></li> -->
-    </ul> 
-  </div>
-</div>
+    <div class="tech-avatar-wrap">
+      <div class="tech-avatar-ring" aria-hidden="true"></div>
+      <div class="tech-avatar">
+        <img src="{{ '/assets/img/Yingtai.jpg' | relative_url }}" alt="Portrait of {{ site.first_name }} {{ site.last_name }}" width="260" height="260">
+        <span class="tech-scanline" aria-hidden="true"></span>
+      </div>
+      <span class="tech-corner tl" aria-hidden="true"></span>
+      <span class="tech-corner tr" aria-hidden="true"></span>
+      <span class="tech-corner bl" aria-hidden="true"></span>
+      <span class="tech-corner br" aria-hidden="true"></span>
+      <div class="tech-status"><span class="tech-dot"></span>ε-DP · online</div>
+    </div>
+  </section>
 
-
-
-<div class="row">
-  <div>
-    <h3 class="fw-bold pb-3 mb-1">Review Services</h3>
-    <ul>
-      <li><p>
-        KDD 23, NeurIPS 23 24, ICML 23, ICLR 24, AISTATS 23 24
-        </p></li>
-    </ul> 
-  </div>
-</div>
-
-<!-- {% include publications.html %} -->
-
-<!-- <div class="row g-5 mb-5">
-  <div class="col-md-12">
-    <h3 class="fw-bold border-bottom pb-3 mb-5">Updates</h3>
-    {% for post in site.posts %}
-      <p><a href="{{ site.github.url }}/{{ post.url }}">{{ post.title }}</a> - {{ post.date | date: "%B %-d, %Y" }}</p>
+  <!-- Stats -->
+  <section class="tech-stats tech-reveal">
+    {% for s in page.stats %}
+      <div class="tech-stat">
+        <div class="tech-stat-value">{{ s.value }}</div>
+        <div class="tech-stat-label">{{ s.label }}</div>
+      </div>
     {% endfor %}
-  </div>
-</div> -->
+  </section>
 
+  <!-- About -->
+  <section class="tech-section tech-reveal">
+    <h2 class="tech-heading"><span class="tech-index">01</span>About Me</h2>
+    <div class="tech-card tech-about">
+      <div class="tech-card-bar"><span></span><span></span><span></span><code>about.md</code></div>
+      <div class="tech-card-body">{{ content }}</div>
+    </div>
+  </section>
 
+  <!-- Research interests -->
+  <section class="tech-section tech-reveal">
+    <h2 class="tech-heading"><span class="tech-index">02</span>Research Interests</h2>
+    <div class="tech-interests">
+      {% for it in page.interests %}
+        <div class="tech-card tech-interest">
+          <i class="{{ it.icon }}" aria-hidden="true"></i>
+          <h3>{{ it.title }}</h3>
+          <p>{{ it.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Activities timeline -->
+  <section class="tech-section tech-reveal">
+    <h2 class="tech-heading"><span class="tech-index">03</span>Activities</h2>
+    <ol class="tech-timeline">
+      {% for a in page.activities %}
+        <li>
+          <span class="tech-timeline-date">{{ a.date }}</span>
+          <p>{{ a.text }}</p>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <!-- Selected publications -->
+  <section class="tech-section tech-reveal">
+    <h2 class="tech-heading">
+      <span class="tech-index">04</span>Selected Publications
+      <a class="tech-more" href="{{ '/publications/' | relative_url }}">all papers <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+    </h2>
+    <div class="tech-card tech-pubs">
+      {% include selected_papers.liquid %}
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="tech-section tech-reveal">
+    <h2 class="tech-heading"><span class="tech-index">05</span>Review Services</h2>
+    <div class="tech-chips">
+      {% for s in page.services %}<span class="tech-chip">{{ s }}</span>{% endfor %}
+    </div>
+  </section>
+</div>
+
+<script defer src="{{ '/assets/js/tech-home.js' | relative_url | bust_file_cache }}"></script>
