@@ -1,12 +1,13 @@
 {% comment %}
-  Password-protected content. Usage: {% include protected.liquid id="diffusion-intro" %}
+  Password-protected content. Usage: {% include protected.liquid id="videos" app="videos" %}
+  app: "post" (default, decrypts content.html.enc) or "videos" (Knowledge Video library).
   Encrypted files live in assets/protected/<id>/ (see tools/protect.mjs).
 {% endcomment %}
-<div class="protected-post" data-protected-base="{{ '/assets/protected/' | append: include.id | append: '/' | relative_url }}">
+<div class="protected-post" data-protected-base="{{ '/assets/protected/' | append: include.id | append: '/' | relative_url }}" data-protected-app="{{ include.app | default: 'post' }}">
   <form class="protected-lock tech-card" autocomplete="off">
     <i class="ti ti-lock" aria-hidden="true"></i>
-    <h2>此内容受密码保护</h2>
-    <p>输入密码后，正文和视频会在你的浏览器中解密播放。</p>
+    <h2>{{ include.title | default: "此内容受密码保护" }}</h2>
+    <p>{{ include.hint | default: "输入密码后，内容会在你的浏览器中解密显示。" }}</p>
     <div class="protected-row">
       <input type="password" name="password" placeholder="密码" aria-label="密码" required>
       <button type="submit">解锁</button>

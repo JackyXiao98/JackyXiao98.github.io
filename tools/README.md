@@ -1,10 +1,11 @@
 # Password-protected posts
 
-Protected posts (e.g. `_posts/2026-10-29-diffusion-intro.md`) are encrypted with
-AES-256-GCM. Their files live in `assets/protected/<post>/`:
+Protected content is encrypted with AES-256-GCM. The Knowledge Video library
+(`/blog/knowledge-video/`, entry card on the blog page) lives in `assets/protected/videos/`:
 
-- `content.html.enc`, `video.mp4.enc` – the encrypted post body and video
 - `key.json` – the content key, encrypted with the password (PBKDF2-SHA256)
+- `catalog.json.enc` – the list of videos (title, summary, chapters) and the production plan
+- `<video-id>/video.mp4.enc`, `content.html.enc` (notes), `thumb.jpg.enc` (cover)
 
 The browser decrypts everything after the reader types the password
 (`assets/js/protected.js`). Without the password the files are unreadable, even though
@@ -31,7 +32,7 @@ are used unchanged.
 
 ```sh
 OLD_PASSWORD=checkpass NEW_PASSWORD='new password' \
-  node tools/protect.mjs change-password assets/protected/diffusion-intro/key.json
+  node tools/protect.mjs change-password assets/protected/videos/key.json
 ```
 
 Commit and push `key.json`. If `BLOG_CONTENT_KEY` is set, also update the
@@ -40,18 +41,26 @@ Commit and push `key.json`. If `BLOG_CONTENT_KEY` is set, also update the
 ## Recover the content key (needs the current password)
 
 ```sh
-PROTECT_PASSWORD=checkpass node tools/protect.mjs show-key assets/protected/diffusion-intro/key.json
+PROTECT_PASSWORD=checkpass node tools/protect.mjs show-key assets/protected/videos/key.json
 ```
 
-## Edit or add protected content
+## Add a video to the library
 
 ```sh
 export PROTECT_KEY='<content key>'
-node tools/protect.mjs decrypt _protected_src/diffusion-intro.tar.gz.enc src.tgz   # editable sources
-node tools/protect.mjs encrypt content.html assets/protected/diffusion-intro/content.html.enc
-node tools/protect.mjs encrypt video.mp4    assets/protected/diffusion-intro/video.mp4.enc
+D=assets/protected/videos
+node tools/protect.mjs decrypt $D/catalog.json.enc catalog.json      # add an entry to "videos"
+node tools/protect.mjs encrypt catalog.json $D/catalog.json.enc
+mkdir -p $D/<video-id>
+node tools/protect.mjs encrypt video.mp4    $D/<video-id>/video.mp4.enc
+node tools/protect.mjs encrypt notes.html   $D/<video-id>/content.html.enc
+node tools/protect.mjs encrypt thumb.jpg    $D/<video-id>/thumb.jpg.enc
 ```
 
-For a new post, copy `key.json` into `assets/protected/<new-post>/` (same content key),
-encrypt its files there, and put `{% include protected.liquid id="<new-post>" %}` in
-the post.
+The video generator and narration sources are kept encrypted in `_protected_src/`
+(`node tools/protect.mjs decrypt _protected_src/videos-diffusion-intro.tar.gz.enc src.tgz`).
+
+## Protect a single post instead
+
+Put `{% include protected.liquid id="<name>" %}` in the post, copy `key.json` into
+`assets/protected/<name>/` and encrypt the post body there as `content.html.enc`.
