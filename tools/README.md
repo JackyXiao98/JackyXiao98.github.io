@@ -58,7 +58,7 @@ node tools/protect.mjs encrypt thumb.jpg    $D/<video-id>/thumb.jpg.enc
 ```
 
 The video generator and narration sources are kept encrypted in `_protected_src/`
-(`node tools/protect.mjs decrypt _protected_src/videos-diffusion-intro.tar.gz.enc src.tgz`).
+(`node tools/protect.mjs decrypt _protected_src/knowledge-video-src.tar.gz.enc src.tgz`).
 
 ## Protect a single post instead
 
