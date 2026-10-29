@@ -1,0 +1,18 @@
+{% comment %}
+  Password-protected content. Usage: {% include protected.liquid id="diffusion-intro" %}
+  Encrypted files live in assets/protected/<id>/ (see tools/protect.mjs).
+{% endcomment %}
+<div class="protected-post" data-protected-base="{{ '/assets/protected/' | append: include.id | append: '/' | relative_url }}">
+  <form class="protected-lock tech-card" autocomplete="off">
+    <i class="ti ti-lock" aria-hidden="true"></i>
+    <h2>此内容受密码保护</h2>
+    <p>输入密码后，正文和视频会在你的浏览器中解密播放。</p>
+    <div class="protected-row">
+      <input type="password" name="password" placeholder="密码" aria-label="密码" required>
+      <button type="submit">解锁</button>
+    </div>
+    <p class="protected-error" role="alert"></p>
+  </form>
+  <div class="protected-body"></div>
+</div>
+<script defer src="{{ '/assets/js/protected.js' | relative_url | bust_file_cache }}"></script>

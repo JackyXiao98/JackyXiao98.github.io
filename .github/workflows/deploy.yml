@@ -13,6 +13,7 @@ on:
       - "**/*.md"
       - "**.yml"
       - "Gemfile"
+      - "tools/**"
       - "!.github/workflows/*.yml"
       - "!README.md"
       - "!specs/**"
@@ -43,6 +44,24 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
+
+      # Optional: set the password of protected posts from repository secrets.
+      # BLOG_CONTENT_KEY = the content key; BLOG_PASSWORD = the password to use.
+      # If BLOG_CONTENT_KEY is not set, the committed key.json files are used unchanged.
+      - name: Set protected-post password
+        env:
+          PROTECT_KEY: ${{ secrets.BLOG_CONTENT_KEY }}
+          PROTECT_PASSWORD: ${{ secrets.BLOG_PASSWORD }}
+        run: |
+          if [ -z "$PROTECT_KEY" ]; then
+            echo "BLOG_CONTENT_KEY not set; keeping committed passwords"
+            exit 0
+          fi
+          export PROTECT_PASSWORD="${PROTECT_PASSWORD:-checkpass}"
+          for f in assets/protected/*/key.json; do
+            node tools/protect.mjs wrap "$f"
+            echo "re-wrapped $f"
+          done
 
       - name: Install and Build
         run: |

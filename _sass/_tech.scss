@@ -1005,6 +1005,95 @@ footer.fixed-bottom {
   }
 }
 
+// Password-protected posts
+
+.protected-lock {
+  max-width: 460px;
+  margin: 2rem auto;
+  padding: 2rem 1.75rem 1.25rem;
+  text-align: center;
+
+  > i {
+    font-size: 2.2rem;
+    color: var(--tech-accent);
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin: 0.6rem 0 0.4rem;
+  }
+
+  p {
+    color: var(--tech-muted);
+    font-size: 0.92rem;
+  }
+}
+
+.protected-row {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid var(--tech-border);
+    background: var(--tech-bg);
+    color: var(--tech-text);
+    font-family: $tech-font-mono;
+
+    &:focus {
+      outline: none;
+      border-color: var(--tech-accent);
+      box-shadow: 0 0 0 3px var(--tech-glow);
+    }
+  }
+
+  button {
+    padding: 0.55rem 1.2rem;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    font-family: $tech-font-mono;
+    background: linear-gradient(100deg, var(--tech-accent), var(--tech-accent-2));
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+}
+
+.protected-error {
+  min-height: 1.4em;
+  margin: 0.6rem 0 0;
+  color: #f87171 !important;
+}
+
+.protected-post.is-unlocked .protected-lock {
+  display: none;
+}
+
+.protected-video {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--tech-border);
+  background: #000;
+  margin: 0.5rem 0 1rem;
+}
+
+.protected-status {
+  font-family: $tech-font-mono;
+  color: var(--tech-muted);
+}
+
+.protected-chapters a {
+  font-family: $tech-font-mono;
+  margin-right: 0.5rem;
+}
+
 // Reveal
 
 .tech-reveal.is-pending {

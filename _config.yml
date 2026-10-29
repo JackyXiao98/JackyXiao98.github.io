@@ -158,6 +158,7 @@ kramdown:
 include: ["_pages"]
 exclude:
   - bin/
+  - tools/
   - CONTRIBUTING.md
   - CUSTOMIZE.md
   - Dockerfile
@@ -217,7 +218,7 @@ sass:
 # -----------------------------------------------------------------------------
 
 jekyll-minifier:
-  exclude: ["robots.txt", "assets/js/search/*.js", "assets/libs/**/*", "assets/css/main.scss", "assets/css/main.css"]
+  exclude: ["robots.txt", "assets/js/search/*.js", "assets/libs/**/*", "assets/css/main.scss", "assets/css/main.css", "assets/js/protected.js", "assets/protected/**/*"]
   uglifier_args:
     harmony: true
 
