@@ -7,7 +7,7 @@ x = (200, 300, 100, 220, 260, 80): the four residual queries and their orthogona
 privacy cost and variance of every residual mechanism; the closed-form noise plan versus two
 baselines and versus a general strategy optimiser (HDMM-style, L-BFGS); one private release with
 exact standard deviations; residual counts and variance ratio for all <=3-way marginals of up to
-14 attributes with 10 values each. Mirrors ResPlan.py / visualize.py in
+14 attributes with 10 values each. Mirrors the resplan package and experiments/visualize.py in
 github.com/JackyXiao98/resplan_journal.
 """
 
@@ -141,7 +141,7 @@ def scale(d, n=N_VAL, kmax=KMAX):
     return resid, direct / vp ** 2
 
 
-# cross-check with ResPlanSum in the resplan_journal repo (visualize.py output for d = 2..5)
+# cross-check with resplan.Plan in the resplan_journal repo (experiments/visualize.py output for d = 2..5)
 assert [scale(d)[0] for d in (2, 3, 4, 5)] == [100, 1000, 3439, 8146]
 assert np.allclose([scale(d)[1] for d in (2, 3, 4, 5)], [1.304, 1.489, 1.569, 1.609], atol=5e-4)
 RESID = np.array([scale(d)[0] for d in DS], float)

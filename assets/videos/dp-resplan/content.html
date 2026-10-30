@@ -8,11 +8,11 @@
       \ \Rightarrow\ \sigma_S^2=T\sqrt{p_S/v_S}\Big/\textstyle\sum_{S'}\sqrt{v_{S'}p_{S'}},\quad T=\Big(\sum_S\sqrt{v_S p_S}\Big)^2 .$$</li>
   <li>总方差（隐私代价 1）：残差规划器 19.90；对每个边际分别加噪并最优分配预算 \((\sum_A\sqrt{n_A})^2=43.50\)；每个格子加一次噪声再求和 24.00；在 6 个格子上用 L-BFGS 直接优化策略矩阵（HDMM 式，\(\operatorname{diag}(A^{\top}A)=1\)）得到 19.90。</li>
   <li>一次发布（随机种子 0）：六个格子的误差 +0.9、−0.3、−1.2、−0.6、−0.4、+1.8，每格标准差的精确值 1.09。</li>
-  <li>规模：14 个属性、每个 10 个取值、所有 ≤3 维边际。完整的表有 \(10^{14}\) 个格子；残差答案共 \(\sum_{j\le 3}\binom{14}{j}9^j=272{,}854\) 个；分别加噪的总方差是残差规划器的 1.70 倍（\(d=2\) 时 1.30 倍）。这些值与仓库中 <code>ResPlan.py</code> 的输出一致。</li>
+  <li>规模：14 个属性、每个 10 个取值、所有 ≤3 维边际。完整的表有 \(10^{14}\) 个格子；残差答案共 \(\sum_{j\le 3}\binom{14}{j}9^j=272{,}854\) 个；分别加噪的总方差是残差规划器的 1.70 倍（\(d=2\) 时 1.30 倍）。这些值与仓库中 <code>resplan</code> 包的输出一致。</li>
 </ul>
 <h3>代码</h3>
 <ul>
-  <li><a href="https://github.com/JackyXiao98/resplan_journal">github.com/JackyXiao98/resplan_journal</a>：<code>ResPlan.py</code>（实现），<code>visualize.py</code>（本期的四张图），<code>test_resplan_core.py</code>（精确检查隐私代价 = 1、预测方差 = 实际方差、无噪声时重建精确、闭式解 = 数值最优）。</li>
+  <li><a href="https://github.com/JackyXiao98/resplan_journal">github.com/JackyXiao98/resplan_journal</a>：<code>resplan/</code>（实现：<code>Plan</code>、<code>measure</code>、<code>reconstruct</code>），<code>experiments/visualize.py</code>（本期的四张图），<code>tests/</code>（精确检查隐私代价 = 1、预测方差 = 实际方差、无噪声时重建精确、闭式解 = 数值最优）。</li>
   <li>本期视频的生成脚本：<code>knowledge-video/src/dp09_resplan.py</code>，所有口播数字都有 <code>assert</code>。</li>
 </ul>
 <h3>参考文献</h3>
