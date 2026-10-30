@@ -61,7 +61,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-chart-dots-3" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Diffusion Model</strong>
-      <span>扩散模型视频讲解 · 中文配音</span>
+      <span>扩散模型</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
@@ -69,7 +69,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-brain" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Transformer</strong>
-      <span>Transformer 基础架构视频讲解 · 中文配音</span>
+      <span>Transformer 基础架构</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
@@ -77,7 +77,15 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Differential Privacy</strong>
-      <span>差分隐私视频讲解 · 中文配音</span>
+      <span>差分隐私</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/video-generation/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Video Generation</strong>
+      <span>视频生成 · 制作中</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

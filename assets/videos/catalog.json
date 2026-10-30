@@ -993,6 +993,47 @@
     }
    ],
    "upcoming": []
+  },
+  {
+   "id": "video-generation",
+   "title": "Video Generation",
+   "subtitle": "视频生成",
+   "summary": "从时空潜空间与视频扩散 Transformer 出发，讲自回归生成与 Self-Forcing，再讲让视频生成变快的关键技术：DMD 蒸馏、SageAttention 与 SLA。",
+   "videos": [],
+   "upcoming": [
+    {
+     "title": "视频生成概览：从图片到视频",
+     "summary": "视频比图片多了时间维：一段 5 秒视频压缩成多少词元，计算量从哪里来；时空潜空间与 3D VAE。"
+    },
+    {
+     "title": "视频扩散 Transformer：时空注意力",
+     "summary": "完整 3D 注意力与空间、时间分解注意力的取舍；文本条件与长视频的一致性。"
+    },
+    {
+     "title": "自回归视频生成与 Self-Forcing",
+     "summary": "Teacher Forcing 与 Diffusion Forcing 的训练-推理不一致（暴露偏差）；Self-Forcing 用模型自己的生成结果训练，配合 KV 缓存实现流式生成。"
+    },
+    {
+     "title": "少步生成：从一致性模型到蒸馏",
+     "summary": "采样步数为什么决定速度；渐进蒸馏、一致性模型的思路与局限。"
+    },
+    {
+     "title": "DMD：分布匹配蒸馏",
+     "summary": "用真实分数与生成分数之差做梯度，把多步扩散模型蒸馏成 1–4 步生成器；DMD2 与在视频模型中的应用。"
+    },
+    {
+     "title": "注意力为什么是瓶颈",
+     "summary": "实测不同分辨率和时长下注意力的计算占比；注意力权重有多稀疏。"
+    },
+    {
+     "title": "SageAttention：量化注意力",
+     "summary": "把 QKᵀ 量化到 INT8、PV 用低精度计算，平滑 K 的离群值；即插即用的加速与精度对比。"
+    },
+    {
+     "title": "SLA：稀疏-线性注意力",
+     "summary": "把注意力权重分成关键、边缘和可忽略三类：关键部分精确计算，边缘部分用线性注意力，其余跳过；微调后大幅降低注意力计算。"
+    }
+   ]
   }
  ]
 }
