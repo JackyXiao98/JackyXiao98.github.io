@@ -159,6 +159,7 @@ include: ["_pages"]
 exclude:
   - bin/
   - tools/
+  - knowledge-video/
   - CONTRIBUTING.md
   - CUSTOMIZE.md
   - Dockerfile

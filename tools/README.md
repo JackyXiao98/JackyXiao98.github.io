@@ -12,7 +12,7 @@ Without the password the files are unreadable, even though the repository is pub
 
 The Knowledge Video library (`/blog/knowledge-video/`) is public: its files are plain in
 `assets/videos/` (`catalog.json`, and `<video-id>/video.mp4`, `content.html`, `thumb.jpg`).
-The video generator sources stay encrypted in `_protected_src/`.
+The video generator is open source in `knowledge-video/`.
 
 Default password: `checkpass`.
 
@@ -52,8 +52,8 @@ PROTECT_PASSWORD=checkpass node tools/protect.mjs show-key assets/protected/<nam
 Copy the files to `assets/videos/<video-id>/` (`video.mp4`, `content.html`, `thumb.jpg`) and
 add an entry (id, title, summary, duration, tags, chapters) to `assets/videos/catalog.json`.
 
-Decrypt the generator sources with
-`PROTECT_KEY='<content key>' node tools/protect.mjs decrypt _protected_src/knowledge-video-src.tar.gz.enc src.tgz`.
+The generator and its workflow live in `knowledge-video/` (see its README) and
+`.claude/skills/knowledge-video/SKILL.md`; `knowledge-video/publish_episode.py` does these steps.
 
 ## Protect a post
 
