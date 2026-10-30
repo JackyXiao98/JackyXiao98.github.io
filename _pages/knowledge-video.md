@@ -2,7 +2,7 @@
 layout: default
 permalink: /blog/knowledge-video/
 title: Knowledge Video
-description: 用可视化例子和中文讲解，把机器学习知识点讲清楚。
+description: 用可视化例子和中文讲解，把机器学习知识点讲清楚。按系列整理：Diffusion Model、Transformer。
 nav: false
 ---
 

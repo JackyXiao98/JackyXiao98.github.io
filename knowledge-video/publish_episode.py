@@ -6,9 +6,9 @@ usage: python publish_episode.py --out out/ep07 --video flow-matching.mp4 --id f
          --notes notes/flow-matching.html --thumb-scene reflow \\
          --chapters '{"title": "开场", "idea": "直线路径", ...}'
 
-Writes assets/videos/<id>/{video.mp4, thumb.jpg, content.html} and updates
-assets/videos/catalog.json (chapters come from <out>/timeline.json; titles from --chapters,
-falling back to the scene names).
+Writes assets/videos/<id>/{video.mp4, thumb.jpg, content.html} and adds/updates the entry in
+series --series of assets/videos/catalog.json (chapters come from <out>/timeline.json; titles
+from --chapters, falling back to the scene names).
 """
 import argparse
 import json
@@ -30,6 +30,8 @@ ap.add_argument("--notes", help="HTML notes shown under the video (MathJax works
 ap.add_argument("--chapters", default="{}", help="JSON object: scene name -> chapter title")
 ap.add_argument("--thumb-scene", help="scene to take the cover frame from (default: middle of the video)")
 ap.add_argument("--thumb-frac", type=float, default=0.9, help="position inside that scene, 0..1")
+ap.add_argument("--series", default="diffusion", help="series id in catalog.json (created if missing)")
+ap.add_argument("--series-title", help="title for a new series")
 ap.add_argument("--site", default=SITE)
 a = ap.parse_args()
 
@@ -56,17 +58,23 @@ subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{t:.2f}", "-i", v
                 "-vf", "crop=1280:500:0:10,scale=640:-1", "-q:v", "4", os.path.join(dest, "thumb.jpg")], check=True)
 
 cat_path = os.path.join(a.site, "catalog.json")
-catalog = json.load(open(cat_path)) if os.path.exists(cat_path) else {"intro": "", "videos": []}
+catalog = json.load(open(cat_path)) if os.path.exists(cat_path) else {"intro": "", "series": []}
+series = next((s for s in catalog["series"] if s["id"] == a.series), None)
+if series is None:
+    series = {"id": a.series, "title": a.series_title or a.series, "summary": "", "videos": []}
+    catalog["series"].append(series)
 entry = {
     "id": a.id, "title": a.title, "summary": a.summary,
     "duration": f"{int(dur // 60)}:{int(dur % 60):02d}",
     "tags": [x for x in a.tags.split(",") if x],
     "chapters": [{"t": s["start"], "title": names.get(s["name"], s["name"])} for s in scenes],
 }
-ids = [v["id"] for v in catalog["videos"]]
+ids = [v["id"] for v in series["videos"]]
 if a.id in ids:
-    catalog["videos"][ids.index(a.id)] = entry
+    series["videos"][ids.index(a.id)] = entry
 else:
-    catalog["videos"].append(entry)
+    series["videos"].append(entry)
+    # a planned episode with the same title is now done
+    series["upcoming"] = [u for u in series.get("upcoming", []) if u["title"] != a.title]
 json.dump(catalog, open(cat_path, "w"), ensure_ascii=False, indent=1)
-print(f"published {a.id} ({entry['duration']}, {len(entry['chapters'])} chapters) -> {dest}")
+print(f"published {a.id} in series {a.series} ({entry['duration']}, {len(entry['chapters'])} chapters) -> {dest}")

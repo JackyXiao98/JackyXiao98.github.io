@@ -1,5 +1,6 @@
-// Knowledge Video library (public): lists the videos from catalog.json and plays
-// <id>/video.mp4 with chapters and <id>/content.html as notes. Route: #<video-id>.
+// Knowledge Video library (public): lists each series in catalog.json (its videos, or its
+// planned episodes) and plays <id>/video.mp4 with chapters and <id>/content.html as notes.
+// Routes: #<video-id> opens a video; anything else shows all series.
 // Markup: <div class="kv-library" data-base="/assets/videos/"></div>
 (function () {
   const esc = (s) =>
@@ -29,10 +30,7 @@
       video.scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
-    function listView() {
-      const cards = catalog.videos
-        .map(
-          (v) => `
+    const card = (v) => `
         <a class="kv-card tech-card" href="#${esc(v.id)}">
           <div class="kv-thumb" style="background-image:url('${base}${esc(v.id)}/thumb.jpg')">
             <span class="kv-play"><i class="ti ti-player-play"></i></span>
@@ -42,10 +40,35 @@
             <p>${esc(v.summary)}</p>
             <div class="kv-tags">${(v.tags || []).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
           </div>
-        </a>`
-        )
+        </a>`;
+
+    const series = catalog.series || [{ id: "all", title: "", videos: catalog.videos || [] }];
+    const allVideos = series.flatMap((s) => s.videos.map((v) => ({ ...v, series: s })));
+
+    function listView() {
+      const sections = series
+        .map((s) => {
+          const plan = (s.upcoming || [])
+            .map(
+              (u, i) => `
+            <li><span class="kv-num">${String(s.videos.length + i + 1).padStart(2, "0")}</span>
+              <div><strong>${esc(u.title)}</strong><p>${esc(u.summary)}</p></div></li>`
+            )
+            .join("");
+          const count = s.videos.length ? `${s.videos.length} 期` : "规划中";
+          return `
+          <section class="kv-series" id="series-${esc(s.id)}">
+            <div class="kv-series-head">
+              <h2>${esc(s.title)}<span class="kv-series-count">${count}</span></h2>
+              ${s.subtitle ? `<div class="kv-series-sub">${esc(s.subtitle)}</div>` : ""}
+              ${s.summary ? `<p>${esc(s.summary)}</p>` : ""}
+            </div>
+            ${s.videos.length ? `<div class="kv-grid">${s.videos.map(card).join("")}</div>` : ""}
+            ${plan ? `<h3 class="kv-section">${s.videos.length ? "制作计划" : "推荐的讲解顺序"}</h3><ol class="kv-upcoming">${plan}</ol>` : ""}
+          </section>`;
+        })
         .join("");
-      root.innerHTML = `<p class="kv-intro">${esc(catalog.intro || "")}</p><div class="kv-grid">${cards}</div>`;
+      root.innerHTML = `<p class="kv-intro">${esc(catalog.intro || "")}</p>${sections}`;
     }
 
     function detailView(v) {
@@ -53,7 +76,7 @@
         .map((c) => `<li><a href="#" data-seek="${c.t}">${fmtTime(c.t)}</a> ${esc(c.title)}</li>`)
         .join("");
       root.innerHTML = `
-        <a class="kv-back" href="#"><i class="ti ti-arrow-left"></i> 全部视频</a>
+        <a class="kv-back" href="#series-${esc(v.series.id)}"><i class="ti ti-arrow-left"></i> ${esc(v.series.title || "全部视频")}</a>
         <h2 class="kv-title">${esc(v.title)}</h2>
         <video controls playsinline preload="metadata" class="protected-video"
           src="${base}${esc(v.id)}/video.mp4" poster="${base}${esc(v.id)}/thumb.jpg"></video>
@@ -72,8 +95,11 @@
 
     function route() {
       const id = decodeURIComponent(location.hash.slice(1));
-      const v = catalog.videos.find((x) => x.id === id);
-      v ? detailView(v) : listView();
+      const v = allVideos.find((x) => x.id === id);
+      if (v) return detailView(v);
+      listView();
+      const target = id && document.getElementById(id);
+      if (target) target.scrollIntoView();
     }
     window.addEventListener("hashchange", route);
     route();

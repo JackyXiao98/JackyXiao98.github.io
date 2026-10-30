@@ -61,8 +61,10 @@ PYTHON=.venv/bin/python ./render.sh src/ep07_flow.py out/ep07
   --chapters '{"title":"开场", ...}'
 ```
 
-This writes `assets/videos/<id>/{video.mp4,thumb.jpg,content.html}` and updates
-`assets/videos/catalog.json`; `/blog/knowledge-video/` (`assets/js/knowledge-video.js`) renders it.
+Add `--series <id>` (default `diffusion`; e.g. `transformer`). This writes
+`assets/videos/<id>/{video.mp4,thumb.jpg,content.html}` and adds the episode to that series in
+`assets/videos/catalog.json` (removing a matching planned entry from `upcoming`);
+`/blog/knowledge-video/` (`assets/js/knowledge-video.js`) renders one section per series.
 Notes are HTML with MathJax (`\( \)`, `$$ $$`); escape `<` as `&lt;` inside formulas.
 
 ## 5. Build, test, deploy

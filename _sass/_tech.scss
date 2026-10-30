@@ -1150,6 +1150,42 @@ a.kv-entry {
   }
 }
 
+.kv-series {
+  margin-bottom: 3rem;
+}
+
+.kv-series-head {
+  margin: 1.5rem 0 1.25rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--tech-accent);
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  p {
+    margin: 0.4rem 0 0;
+    color: var(--tech-muted);
+  }
+}
+
+.kv-series-count {
+  margin-left: 0.75rem;
+  font-family: $tech-font-mono;
+  font-size: 0.85rem;
+  font-weight: 400;
+  vertical-align: middle;
+  color: var(--tech-accent);
+}
+
+.kv-series-sub {
+  font-family: $tech-font-mono;
+  font-size: 0.9rem;
+  color: var(--tech-accent-2);
+}
+
 .kv-intro {
   color: var(--tech-muted);
 }

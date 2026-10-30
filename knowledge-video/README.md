@@ -26,8 +26,10 @@ PYTHON=.venv/bin/python ./render.sh src/ep07_flow.py out/ep07       # video + su
   --chapters '{"title":"开场","idea":"直线路径","marginal":"学到的是平均速度","compare":"流匹配 vs 扩散 ODE","reflow":"整流流：重新配对","summary":"总结"}'
 ```
 
-`publish_episode.py` writes `assets/videos/<id>/` and updates `assets/videos/catalog.json`,
-which the page `/blog/knowledge-video/` reads.
+`publish_episode.py` writes `assets/videos/<id>/` and adds the episode to a series
+(`--series diffusion`, `--series transformer`, …) in `assets/videos/catalog.json`, which the page
+`/blog/knowledge-video/` reads. Each series has `title`, `subtitle`, `summary`, `videos` and an
+optional `upcoming` list of planned episodes.
 
 ## Files
 
