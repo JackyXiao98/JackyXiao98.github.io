@@ -85,7 +85,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Video Generation</strong>
-      <span>视频生成 · 制作中</span>
+      <span>视频生成</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

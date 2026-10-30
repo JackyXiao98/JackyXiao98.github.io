@@ -1,0 +1,10 @@
+<h3>要点</h3>
+<ul>
+  <li>INT8 张量核心吞吐量为 FP16 的 2 倍（A100：624 vs 312 TOPS/TFLOPS；H100 SXM：1,979 vs 989，稠密）。</li>
+  <li>SageAttention（Zhang et al., ICLR 2025）：平滑 K（减去所有词元上的均值，softmax 不变）后把 Q、K 量化为 INT8，P·V 用 FP16 累加；论文报告约为 FlashAttention2 的 2.1 倍速度，端到端指标几乎无损。SageAttention2（Zhang et al., ICML 2025）进一步用 INT4 的 Q、K（逐线程量化、同时平滑 Q）和 FP8 的 P·V。</li>
+</ul>
+<h3>视频中的实验（numpy）</h3>
+<ul>
+  <li>2,048 个词元、头维 64；Q、K、V 为标准正态，K 的 6 个通道加上 ±8~15 的共同偏移（其余通道最大值约 3.7）；每 128 行一个 INT8 缩放系数。</li>
+  <li>注意力输出相对误差（Frobenius）：直接量化 4.09%；平滑后量化 1.36%；没有偏移时量化 1.36%；再把 P、V 转为 FP16 仍为 1.36%；平滑本身的差异 1.2e−15。</li>
+</ul>

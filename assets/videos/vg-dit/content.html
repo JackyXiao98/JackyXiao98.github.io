@@ -1,0 +1,8 @@
+<h3>要点</h3>
+<ul>
+  <li>视频 DiT：时空词元序列 → 自注意力 → 文本交叉注意力（或与文本词元联合注意力）→ FFN；时间步通过 adaLN 注入（Peebles &amp; Xie, 2023）。</li>
+  <li>完整 3D 注意力的词元对数 \((TS)^2\)；分解（空间 + 时间）为 \(TS^2+ST^2\)。示例 \(T=31,S=3600\)：\(1.25\times10^{10}\) vs \(4.05\times10^8\)，约少 31 倍。</li>
+  <li>早期模型常在图片模型中插入时间层（如 Video LDM, Blattmann et al., 2023；AnimateDiff, Guo et al., 2023）；CogVideoX、HunyuanVideo、Wan 等使用完整 3D 注意力。</li>
+  <li>3D RoPE：把每个头的维度分成时间、高度、宽度三份分别旋转（视频中 96 维分成 32/32/32 为示例）；\(q\cdot k\) 只依赖 \((\Delta t,\Delta h,\Delta w)\)。实测三组偏移 (1, 2, −3) 的点积均为 17.503075。</li>
+  <li>111,600 个词元的注意力矩阵（FP16）单头约 24.9 GB；FlashAttention（Dao et al., 2022）分块计算、不存整张矩阵。</li>
+</ul>

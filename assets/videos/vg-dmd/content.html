@@ -1,0 +1,11 @@
+<h3>要点</h3>
+<ul>
+  <li>DMD（Yin et al., CVPR 2024, <i>One-step Diffusion with Distribution Matching Distillation</i>）：最小化 \(D_{KL}(p_{\mathrm{fake}}\|p_{\mathrm{real}})\)，其梯度在加噪样本上为 \((s_{\mathrm{fake}}-s_{\mathrm{real}})\,\partial G/\partial\theta\)；\(s_{\mathrm{real}}\) 来自冻结的教师，\(s_{\mathrm{fake}}\) 由在生成器输出上持续训练的扩散模型给出。原版还加了基于配对的回归损失。</li>
+  <li>DMD2（Yin et al., NeurIPS 2024）：去掉回归损失，双时间尺度更新、加入 GAN 损失，支持多步生成器。</li>
+  <li>CausVid（Yin et al., CVPR 2025）用 DMD 把双向视频扩散模型蒸馏为 4 步自回归生成器；Self-Forcing 在自己的展开上使用 DMD 等分布匹配损失。</li>
+</ul>
+<h3>视频中的玩具实验（<code>vgx.train_dmd</code>，JAX）</h3>
+<ul>
+  <li>一步生成器：2→128→128→2 的 MLP；虚假分数网络同结构（输入加时间特征），每次生成器更新前训练 5 步；按 DMD 的方式用 \(1/\mathrm{mean}|x-\hat x_0^{\mathrm{real}}|\) 加权。</li>
+  <li>sliced W2：第 0 步 1.301，第 1,000 步 0.222，第 2,000 步 0.110，第 8,000 步 0.047（两组真实样本之间 0.043；教师 50 步 0.034，教师 1 步 1.413）。训练过程不是单调的（第 4,000 步为 0.131）。</li>
+</ul>
