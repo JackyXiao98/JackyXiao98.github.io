@@ -118,8 +118,8 @@ def summary(c, idx, items, seg, next_text=None, label_w=470):
         vk.text_c(d, (640, 130 + len(items) * 95 + 30), next_text, vk.F_SMALL, VIOLET)
 
 
-def title_card(c, n, title, sub):
+def title_card(c, n, title, sub, series="Transformer"):
     d = ImageDraw.Draw(c)
-    vk.text_c(d, (640, 190), f"Transformer · {n:02d}", vk.font(24, mono=True), MUTED)
+    vk.text_c(d, (640, 190), f"{series} · {n:02d}", vk.font(24, mono=True), MUTED)
     vk.text_c(d, (640, 270), title, vk.F_TITLE, CYAN)
     vk.text_c(d, (640, 340), sub, vk.F_BODY, TEXT)

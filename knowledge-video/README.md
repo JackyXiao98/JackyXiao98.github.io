@@ -41,6 +41,8 @@ optional `upcoming` list of planned episodes.
 | `src/fm.py`, `src/latent.py`, `src/video_toy.py`, `src/p2d.py` | flow matching, toy latent diffusion (PCA + GMM), toy videos, 2D plots |
 | `src/ep01_intro.py` … `src/ep09_dit.py` | Diffusion series, nine episodes (narration `SCENES`, renderers `RENDER`, asserted measurements) |
 | `src/tf01_tokens.py` … `src/tf08_scaling.py` | Transformer series, eight episodes (`--series transformer`) |
+| `src/dp01_intro.py` … `src/dp08_practice.py` | Differential Privacy series, eight episodes (`--series differential-privacy`) |
+| `src/dpx.py` | DP toolkit: Gaussian (ε, δ) curve, RDP accountant for subsampled Gaussian, DP-SGD on sklearn digits (JAX, cached via `DP_CACHE`), canaries + membership inference |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

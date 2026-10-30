@@ -1,0 +1,13 @@
+<h3>要点</h3>
+<ul>
+  <li>差分攻击：两个单独看无害的统计查询相减，得到某一个人的信息。</li>
+  <li>去标识化不够：Narayanan &amp; Shmatikov（2008）把匿名的 Netflix Prize 评分数据与 IMDb 公开评分对照，重新识别出部分用户。</li>
+  <li>定义（Dwork, McSherry, Nissim &amp; Smith, 2006）：对任意只相差一个人的数据集 \(D, D'\) 和任意输出集合 \(S\)，$$\Pr[M(D)\in S]\le e^{\varepsilon}\Pr[M(D')\in S].$$</li>
+  <li>贝叶斯解释：先验 50% 时，攻击者的后验最多为 \(e^\varepsilon/(1+e^\varepsilon)\)。</li>
+</ul>
+<h3>视频中的计算</h3>
+<ul>
+  <li>10 名员工的示例工资表；“月薪 &gt; 2 万”的人数：全体 2，入职满一年 1 → 小王月薪 &gt; 2 万。</li>
+  <li>计数结果加 \(\mathrm{Lap}(1)\)（\(\varepsilon=1\)）：两种情况的密度比最大为 \(e\approx2.72\)。</li>
+  <li>后验上限：\(\varepsilon=0.1, 1, 3\) 时分别为 52.5%、73.1%、95.3%。</li>
+</ul>

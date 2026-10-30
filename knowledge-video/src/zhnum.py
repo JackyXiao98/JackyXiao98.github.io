@@ -26,6 +26,18 @@ def int_zh(n):
     return out
 
 
+def big_zh(n):
+    """0..99,999,999 -> 汉字 with 万 (e.g. 15500 -> 一万五千五百, 1000000 -> 一百万)."""
+    n = int(n)
+    if n < 10000:
+        return int_zh(n)
+    hi, lo = divmod(n, 10000)
+    out = int_zh(hi) + "万"
+    if lo:
+        out += ("零" if lo < 1000 else "") + int_zh(lo)
+    return out
+
+
 def dec_zh(x, digits=2):
     """0.87 -> 零点八七."""
     s = f"{x:.{digits}f}"

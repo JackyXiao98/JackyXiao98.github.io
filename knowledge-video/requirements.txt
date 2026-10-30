@@ -5,3 +5,5 @@ soundfile
 sherpa-onnx
 jax[cpu]
 optax
+scipy
+scikit-learn

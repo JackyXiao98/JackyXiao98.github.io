@@ -1,0 +1,11 @@
+<h3>视频中的计算</h3>
+<ul>
+  <li>\(\varepsilon=1\)，统计 \(n\) 人中具有某属性的人数（真实比例 30%，各 200 次模拟）：中心化（拉普拉斯）标准差 1.4 人；本地（随机应答，以 \(e/(1+e)\) 概率如实回答）在 \(n=10^3,10^4,10^5,10^6\) 时为 33 / 97 / 286 / 922 人。</li>
+</ul>
+<h3>应用与参考文献</h3>
+<ul>
+  <li>美国 2020 年人口普查：Census Bureau 用 TopDown 算法发布 DP 保护的统计表（Abowd et al., 2022, <i>Harvard Data Science Review</i>）；动机之一是对 2010 年发布数据的重建攻击。</li>
+  <li>Google Chrome 的 RAPPOR（Erlingsson, Pihur &amp; Korolova, 2014）；Apple 自 2016 年起用本地 DP 统计表情、新词等（Apple, <i>Learning with Privacy at Scale</i>, 2017）。</li>
+  <li>训练数据提取：Carlini et al., 2021（GPT-2）；Carlini et al., 2023（扩散模型）。另见本站 Diffusion 系列的“隐私”一期。</li>
+  <li>大模型的 DP 微调：Yu et al., 2022；Li et al., 2022（<i>Large Language Models Can Be Strong Differentially Private Learners</i>）。DP 合成数据：生成模型的输出属于后处理。</li>
+</ul>

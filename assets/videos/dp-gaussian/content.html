@@ -1,0 +1,12 @@
+<h3>要点</h3>
+<ul>
+  <li>隐私损失 \(\mathcal L(o)=\ln\frac{\Pr[M(D)=o]}{\Pr[M(D')=o]}\)。拉普拉斯机制的 \(|\mathcal L|\le\varepsilon\)；高斯机制的 \(\mathcal L\) 是 \(o\) 的线性函数，没有上限。</li>
+  <li>\((\varepsilon,\delta)\)-DP：\(\Pr[M(D)\in S]\le e^\varepsilon\Pr[M(D')\in S]+\delta\)。“以概率 \(\delta\) 公开每条记录”也满足它，所以要求 \(\delta\ll1/n\)。</li>
+  <li>经典标定（Dwork &amp; Roth, 2014，\(\varepsilon&lt;1\)）：\(\sigma=\sqrt{2\ln(1.25/\delta)}\,\Delta_2/\varepsilon\)。精确曲线（Balle &amp; Wang, 2018）：$$\delta(\varepsilon)=\Phi\!\left(\tfrac{\Delta}{2\sigma}-\tfrac{\varepsilon\sigma}{\Delta}\right)-e^\varepsilon\Phi\!\left(-\tfrac{\Delta}{2\sigma}-\tfrac{\varepsilon\sigma}{\Delta}\right).$$</li>
+</ul>
+<h3>视频中的计算</h3>
+<ul>
+  <li>\(\varepsilon=1,\delta=10^{-5},\Delta_2=1\)：经典 \(\sigma=4.84\)，精确 \(\sigma=3.73\)（少 23%）。</li>
+  <li>\(n=10^6\)、\(\delta=10^{-3}\) 的反例：一次模拟公开了 1,039 条记录。</li>
+  <li>100 维查询（每人让每个坐标最多变 1）：\(\Delta_1=100,\Delta_2=10\)；每坐标噪声标准差：拉普拉斯 141.4，高斯 37.3。</li>
+</ul>
