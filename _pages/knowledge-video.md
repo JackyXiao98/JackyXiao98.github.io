@@ -2,22 +2,22 @@
 layout: default
 permalink: /blog/knowledge-video/
 title: Knowledge Video
-description: 用可视化例子和中文讲解，把机器学习知识点讲清楚。按系列整理：Diffusion Model、Transformer。
 nav: false
 ---
 
-<div class="tech-grid" aria-hidden="true"></div>
-
-<div class="tech-home tech-cv">
-  <header class="tech-cv-header">
-    <div class="tech-prompt"><span class="tech-prompt-user">guest@yingtai</span>:<span class="tech-prompt-path">~/blog</span>$ ls knowledge-video/</div>
-    <h1 class="tech-name"><span class="tech-gradient-text">Knowledge Video</span></h1>
-    <p class="tech-role">{{ page.description }}</p>
-  </header>
-
-  <section class="tech-section">
-    <div class="kv-library" data-base="{{ '/assets/videos/' | relative_url }}"></div>
-  </section>
-</div>
-
-<script defer src="{{ '/assets/js/knowledge-video.js' | relative_url | bust_file_cache }}"></script>
+<!-- Old address: forward to the series page (keeps #video-id deep links working). -->
+<p>页面已移动：<a href="{{ '/blog/' | relative_url }}">返回 Blog</a></p>
+<script>
+  (function () {
+    var id = location.hash.slice(1);
+    var base = "{{ '/' | relative_url }}";
+    if (!id) return location.replace(base + "blog/");
+    fetch(base + "assets/videos/catalog.json")
+      .then(function (r) { return r.json(); })
+      .then(function (c) {
+        var s = (c.series || []).find(function (s) { return s.videos.some(function (v) { return v.id === id; }); });
+        location.replace(base + "blog/" + (s ? s.id + "/#" + id : ""));
+      })
+      .catch(function () { location.replace(base + "blog/"); });
+  })();
+</script>

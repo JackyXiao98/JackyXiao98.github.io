@@ -64,7 +64,7 @@ PYTHON=.venv/bin/python ./render.sh src/ep07_flow.py out/ep07
 Add `--series <id>` (default `diffusion`; e.g. `transformer`). This writes
 `assets/videos/<id>/{video.mp4,thumb.jpg,content.html}` and adds the episode to that series in
 `assets/videos/catalog.json` (removing a matching planned entry from `upcoming`);
-`/blog/knowledge-video/` (`assets/js/knowledge-video.js`) renders one section per series.
+each series has its own page `_pages/<series>.md` (permalink `/blog/<series>/`, `data-series` on the `.kv-library` div) linked from a card on `_pages/blog.md`; `assets/js/knowledge-video.js` renders it. A new series needs such a page and card.
 Notes are HTML with MathJax (`\( \)`, `$$ $$`); escape `<` as `&lt;` inside formulas.
 
 ## 5. Build, test, deploy

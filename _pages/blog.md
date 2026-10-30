@@ -56,14 +56,24 @@ pagination:
   </div>
   {% endif %}
 
-<a class="kv-entry tech-card" href="{{ '/blog/knowledge-video/' | relative_url }}">
-  <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
-  <span class="kv-entry-text">
-    <strong>Knowledge Video</strong>
-    <span>Diffusion Model（9 期）· Transformer 基础架构（规划中）· 中文配音</span>
-  </span>
-  <i class="ti ti-arrow-right" aria-hidden="true"></i>
-</a>
+<div class="kv-entries">
+  <a class="kv-entry tech-card" href="{{ '/blog/diffusion/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-chart-dots-3" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Diffusion Model</strong>
+      <span>扩散模型视频讲解 · 中文配音</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/transformer/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-brain" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Transformer</strong>
+      <span>Transformer 基础架构视频讲解 · 中文配音</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+</div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
 {% if featured_posts.size > 0 %}

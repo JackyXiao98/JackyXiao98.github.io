@@ -1,7 +1,8 @@
 // Knowledge Video library (public): lists each series in catalog.json (its videos, or its
 // planned episodes) and plays <id>/video.mp4 with chapters and <id>/content.html as notes.
 // Routes: #<video-id> opens a video; anything else shows all series.
-// Markup: <div class="kv-library" data-base="/assets/videos/"></div>
+// Markup: <div class="kv-library" data-base="/assets/videos/" data-series="diffusion"></div>
+// (without data-series all series are shown).
 (function () {
   const esc = (s) =>
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -42,7 +43,9 @@
           </div>
         </a>`;
 
-    const series = catalog.series || [{ id: "all", title: "", videos: catalog.videos || [] }];
+    const allSeries = catalog.series || [{ id: "all", title: "", videos: catalog.videos || [] }];
+    const only = root.dataset.series;
+    const series = only ? allSeries.filter((s) => s.id === only) : allSeries;
     const allVideos = series.flatMap((s) => s.videos.map((v) => ({ ...v, series: s })));
 
     function listView() {
@@ -58,17 +61,17 @@
           const count = s.videos.length ? `${s.videos.length} 期` : "规划中";
           return `
           <section class="kv-series" id="series-${esc(s.id)}">
-            <div class="kv-series-head">
+            ${only ? "" : `<div class="kv-series-head">
               <h2>${esc(s.title)}<span class="kv-series-count">${count}</span></h2>
               ${s.subtitle ? `<div class="kv-series-sub">${esc(s.subtitle)}</div>` : ""}
               ${s.summary ? `<p>${esc(s.summary)}</p>` : ""}
-            </div>
+            </div>`}
             ${s.videos.length ? `<div class="kv-grid">${s.videos.map(card).join("")}</div>` : ""}
             ${plan ? `<h3 class="kv-section">${s.videos.length ? "制作计划" : "推荐的讲解顺序"}</h3><ol class="kv-upcoming">${plan}</ol>` : ""}
           </section>`;
         })
         .join("");
-      root.innerHTML = `<p class="kv-intro">${esc(catalog.intro || "")}</p>${sections}`;
+      root.innerHTML = only ? sections : `<p class="kv-intro">${esc(catalog.intro || "")}</p>${sections}`;
     }
 
     function detailView(v) {
@@ -76,7 +79,7 @@
         .map((c) => `<li><a href="#" data-seek="${c.t}">${fmtTime(c.t)}</a> ${esc(c.title)}</li>`)
         .join("");
       root.innerHTML = `
-        <a class="kv-back" href="#series-${esc(v.series.id)}"><i class="ti ti-arrow-left"></i> ${esc(v.series.title || "全部视频")}</a>
+        <a class="kv-back" href="#series-${esc(v.series.id)}"><i class="ti ti-arrow-left"></i> ${esc(only ? "全部视频" : v.series.title || "全部视频")}</a>
         <h2 class="kv-title">${esc(v.title)}</h2>
         <video controls playsinline preload="metadata" class="protected-video"
           src="${base}${esc(v.id)}/video.mp4" poster="${base}${esc(v.id)}/thumb.jpg"></video>

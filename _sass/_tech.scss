@@ -1096,6 +1096,17 @@ footer.fixed-bottom {
 
 // Knowledge Video
 
+.kv-entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0.5rem;
+
+  a.kv-entry {
+    margin: 0;
+  }
+}
+
 a.kv-entry {
   display: flex;
   align-items: center;

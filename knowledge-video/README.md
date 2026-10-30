@@ -27,8 +27,8 @@ PYTHON=.venv/bin/python ./render.sh src/ep07_flow.py out/ep07       # video + su
 ```
 
 `publish_episode.py` writes `assets/videos/<id>/` and adds the episode to a series
-(`--series diffusion`, `--series transformer`, …) in `assets/videos/catalog.json`, which the page
-`/blog/knowledge-video/` reads. Each series has `title`, `subtitle`, `summary`, `videos` and an
+(`--series diffusion`, `--series transformer`, …) in `assets/videos/catalog.json`. Each series has its own page `/blog/<series>/`
+(`_pages/<series>.md`, linked from a card on the blog page). Each series has `title`, `subtitle`, `summary`, `videos` and an
 optional `upcoming` list of planned episodes.
 
 ## Files
