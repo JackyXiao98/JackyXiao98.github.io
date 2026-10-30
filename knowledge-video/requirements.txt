@@ -3,3 +3,5 @@ matplotlib
 pillow
 soundfile
 sherpa-onnx
+jax[cpu]
+optax

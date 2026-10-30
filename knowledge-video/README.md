@@ -39,6 +39,8 @@ optional `upcoming` list of planned episodes.
 | `src/narrate.py` | offline TTS (Matcha / Kokoro / Melo via sherpa-onnx); per-scene paragraph synthesis + subtitle timing verified with ASR |
 | `src/diff2d.py` | exact 2D Gaussian-mixture diffusion: denoiser, score, DDPM / DDIM / DPM-Solver++(2M), metrics |
 | `src/fm.py`, `src/latent.py`, `src/video_toy.py`, `src/p2d.py` | flow matching, toy latent diffusion (PCA + GMM), toy videos, 2D plots |
-| `src/ep01_intro.py` … `src/ep09_dit.py` | the nine episodes (narration `SCENES`, renderers `RENDER`, asserted measurements) |
+| `src/ep01_intro.py` … `src/ep09_dit.py` | Diffusion series, nine episodes (narration `SCENES`, renderers `RENDER`, asserted measurements) |
+| `src/tf01_tokens.py` … `src/tf08_scaling.py` | Transformer series, eight episodes (`--series transformer`) |
+| `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

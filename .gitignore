@@ -6,7 +6,7 @@ _site
 Gemfile.lock
 
 # knowledge-video generator: local models, outputs, venv
-knowledge-video/models/
+knowledge-video/models
 knowledge-video/out/
 knowledge-video/.venv/
 __pycache__/

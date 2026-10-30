@@ -1,0 +1,11 @@
+<h3>要点</h3>
+<ul>
+  <li>词元化（tokenization）把文字切成模型词表里的单位。BPE（Sennrich et al., 2016）从单个字符出发，反复合并出现次数最多的相邻对。</li>
+  <li>嵌入（embedding）：每个词元查表得到一个向量 \(e_i = E[\text{id}_i]\)，\(E\in\mathbb{R}^{|V|\times d}\) 随模型一起训练。</li>
+  <li>语义相近的词，嵌入向量的余弦相似度更高：\(\cos(a,b)=\frac{a\cdot b}{\|a\|\|b\|}\)。</li>
+</ul>
+<h3>视频中的实验</h3>
+<ul>
+  <li>在 25 个英文单词的小语料上运行 10 次 BPE 合并：词元数从 149 个减少到 58 个。</li>
+  <li>嵌入用共现矩阵 → PPMI → SVD（16 维）得到，代替神经网络训练：cat–dog 余弦 0.83，rice–bread 0.36，cat–rice −0.01。</li>
+</ul>

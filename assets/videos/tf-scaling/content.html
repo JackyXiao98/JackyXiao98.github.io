@@ -1,0 +1,12 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li>加法模型 \(d=8,16,32,64,96\)（2 层 4 头），都训练 400 步：参数 1,840 / 6,752 / 25,792 / 100,736 / 224,832；测试损失 1.02 / 0.83 / 0.18 / 0.069 / 0.0022；准确率 8.5% / 14.8% / 90.2% / 97.7% / 100%。</li>
+</ul>
+<h3>规模定律与现代设计（参考文献）</h3>
+<ul>
+  <li>Kaplan et al., 2020, <i>Scaling Laws for Neural Language Models</i>：损失随参数量 \(N\)、数据量 \(D\)、计算量 \(C\) 呈幂律下降。图中曲线仅为示意。</li>
+  <li>Hoffmann et al., 2022（Chinchilla）：计算量固定时 \(N\) 与 \(D\) 应同比例增长，约 20 个训练词元 / 参数；Chinchilla 为 70B 参数、1.4T 词元。</li>
+  <li>LLaMA（Touvron et al., 2023）：RoPE、RMSNorm（Zhang &amp; Sennrich, 2019）前置归一化、SwiGLU（Shazeer, 2020）。</li>
+  <li>LLaMA-2 70B 使用 GQA：64 个查询头、8 组 K/V。</li>
+  <li>Mixtral 8×7B（Jiang et al., 2024）：每层 8 个专家、每个词元选 2 个，总参数约 47B，每词元激活约 13B。</li>
+</ul>
