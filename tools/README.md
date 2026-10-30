@@ -1,15 +1,18 @@
 # Password-protected posts
 
-Protected content is encrypted with AES-256-GCM. The Knowledge Video library
-(`/blog/knowledge-video/`, entry card on the blog page) lives in `assets/protected/videos/`:
+Protected content is encrypted with AES-256-GCM. A protected post puts
+`{% include protected.liquid id="<name>" %}` in its body; its files live in
+`assets/protected/<name>/`:
 
 - `key.json` – the content key, encrypted with the password (PBKDF2-SHA256)
-- `catalog.json.enc` – the list of videos (title, summary, chapters) and the production plan
-- `<video-id>/video.mp4.enc`, `content.html.enc` (notes), `thumb.jpg.enc` (cover)
+- `content.html.enc` – the encrypted post body (videos inside use `data-protected-src`)
 
-The browser decrypts everything after the reader types the password
-(`assets/js/protected.js`). Without the password the files are unreadable, even though
-the repository is public. Editable sources are kept encrypted in `_protected_src/`.
+The browser decrypts them after the reader types the password (`assets/js/protected.js`).
+Without the password the files are unreadable, even though the repository is public.
+
+The Knowledge Video library (`/blog/knowledge-video/`) is public: its files are plain in
+`assets/videos/` (`catalog.json`, and `<video-id>/video.mp4`, `content.html`, `thumb.jpg`).
+The video generator sources stay encrypted in `_protected_src/`.
 
 Default password: `checkpass`.
 
@@ -32,7 +35,7 @@ are used unchanged.
 
 ```sh
 OLD_PASSWORD=checkpass NEW_PASSWORD='new password' \
-  node tools/protect.mjs change-password assets/protected/videos/key.json
+  node tools/protect.mjs change-password assets/protected/<name>/key.json
 ```
 
 Commit and push `key.json`. If `BLOG_CONTENT_KEY` is set, also update the
@@ -41,26 +44,18 @@ Commit and push `key.json`. If `BLOG_CONTENT_KEY` is set, also update the
 ## Recover the content key (needs the current password)
 
 ```sh
-PROTECT_PASSWORD=checkpass node tools/protect.mjs show-key assets/protected/videos/key.json
+PROTECT_PASSWORD=checkpass node tools/protect.mjs show-key assets/protected/<name>/key.json
 ```
 
 ## Add a video to the library
 
-```sh
-export PROTECT_KEY='<content key>'
-D=assets/protected/videos
-node tools/protect.mjs decrypt $D/catalog.json.enc catalog.json      # add an entry to "videos"
-node tools/protect.mjs encrypt catalog.json $D/catalog.json.enc
-mkdir -p $D/<video-id>
-node tools/protect.mjs encrypt video.mp4    $D/<video-id>/video.mp4.enc
-node tools/protect.mjs encrypt notes.html   $D/<video-id>/content.html.enc
-node tools/protect.mjs encrypt thumb.jpg    $D/<video-id>/thumb.jpg.enc
-```
+Copy the files to `assets/videos/<video-id>/` (`video.mp4`, `content.html`, `thumb.jpg`) and
+add an entry (id, title, summary, duration, tags, chapters) to `assets/videos/catalog.json`.
 
-The video generator and narration sources are kept encrypted in `_protected_src/`
-(`node tools/protect.mjs decrypt _protected_src/knowledge-video-src.tar.gz.enc src.tgz`).
+Decrypt the generator sources with
+`PROTECT_KEY='<content key>' node tools/protect.mjs decrypt _protected_src/knowledge-video-src.tar.gz.enc src.tgz`.
 
-## Protect a single post instead
+## Protect a post
 
-Put `{% include protected.liquid id="<name>" %}` in the post, copy `key.json` into
-`assets/protected/<name>/` and encrypt the post body there as `content.html.enc`.
+Put `{% include protected.liquid id="<name>" %}` in the post, create `assets/protected/<name>/key.json`
+with `wrap` (or copy an existing one) and encrypt the post body there as `content.html.enc`.

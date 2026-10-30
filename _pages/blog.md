@@ -60,9 +60,8 @@ pagination:
   <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
   <span class="kv-entry-text">
     <strong>Knowledge Video</strong>
-    <span>机器学习知识点视频讲解 · 中文配音 · 需要密码</span>
+    <span>机器学习知识点视频讲解 · 中文配音 · 9 期</span>
   </span>
-  <i class="ti ti-lock kv-entry-lock" aria-hidden="true"></i>
   <i class="ti ti-arrow-right" aria-hidden="true"></i>
 </a>
 

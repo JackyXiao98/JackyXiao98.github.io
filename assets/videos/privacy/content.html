@@ -1,0 +1,11 @@
+<h3>关键公式</h3>
+<p><strong>差分隐私</strong>：对只相差一条记录的数据集 \(D,D'\) 和任意事件 \(S\)，\(\Pr[M(D)\in S]\le e^{\varepsilon}\Pr[M(D')\in S]+\delta\)。</p>
+<p><strong>DP-SGD</strong>（Abadi et al., 2016）：逐样本裁剪 \(g_i\leftarrow g_i\min(1,C/\|g_i\|)\)，加噪 \(\tilde g=\frac1B(\sum_i g_i+\mathcal N(0,\sigma^2C^2I))\)，用隐私核算累计 \((\varepsilon,\delta)\)。</p>
+<p><strong>对成员推断的限制</strong>：任何攻击满足 \(\mathrm{TPR}\le e^{\varepsilon}\mathrm{FPR}+\delta\)（以及对称的 \(1-\mathrm{FPR}\) 一侧）。</p>
+<h3>实验设置与结果</h3>
+<ul>
+  <li>训练集：圆环上的 20 个点。最优（经验分布）去噪器生成的样本 100% 落在训练点上（距离 &lt; 0.05）。</li>
+  <li>平滑模型（每个训练点换成 \(\mathcal N(x_i,h^2I)\)）：复制比例 h=0.1 时 15%，h=0.2 时 4%；h=0.5 时样本明显偏离圆环。</li>
+  <li>成员推断（t = 0.1 的去噪误差阈值攻击，成员 20 个、非成员 200 个）：AUC 从 0.88（h=0）到 0.73（h=0.5）。h=0 的 ROC 曲线最多超出 ε=1 的 DP 边界约 0.35。</li>
+  <li>参考：Carlini et al., <em>Extracting Training Data from Diffusion Models</em>, USENIX Security 2023；Dockhorn et al., <em>Differentially Private Diffusion Models</em>, TMLR 2023；Ghalebikesabi et al., 2023（公开预训练 + DP 微调生成合成数据）。</li>
+</ul>

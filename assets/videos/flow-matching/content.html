@@ -1,0 +1,11 @@
+<h3>关键公式</h3>
+<p><strong>直线路径与目标速度</strong>：\(x_t=(1-t)x_0+t\,x_1\)，\(x_0\sim\mathcal N(0,I)\)，\(x_1\sim p_{\text{data}}\)，</p>
+<p>$$\mathcal{L}=\mathbb{E}_{t,x_0,x_1}\,\|v_\theta(x_t,t)-(x_1-x_0)\|^2,\qquad v^*(x,t)=\mathbb{E}[x_1-x_0\mid x_t=x]$$</p>
+<p><strong>整流流（reflow）</strong>：用训练好的流得到新配对 \((x_0,\Phi(x_0))\)，在新配对上再训练，路径更直。</p>
+<h3>实验设置与结果</h3>
+<ul>
+  <li>数据与第 04 期相同（8 个峰的圆环）；速度场 \(v^*\) 精确计算；与扩散概率流 ODE（DDIM，时间均匀）都用一阶方法比较，每个设置 2 万个样本。</li>
+  <li>坏样本比例：3 步 57% vs 99%；5 步 11% vs 75%；10 步 0.4% vs 19%（流匹配 vs 扩散 ODE）。这只是一个玩具例子。</li>
+  <li>400 对样本连线两两相交的比例：随机配对 23.8%，按流配对 0.5%；平均平方搬运距离 6.0 → 1.0。</li>
+  <li>参考：Lipman et al., ICLR 2023（Flow Matching）；Liu, Gong &amp; Liu, ICLR 2023（Rectified Flow）；Esser et al., 2024（Stable Diffusion 3）。</li>
+</ul>

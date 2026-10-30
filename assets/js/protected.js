@@ -1,16 +1,12 @@
 // Unlocks password-protected content encrypted with tools/protect.mjs.
 //
-// Markup: <div class="protected-post" data-protected-base="/assets/protected/<id>/" data-protected-app="post|videos">
-// containing a password form and an empty .protected-body.
-//   post   – decrypts content.html.enc into the body (videos inside use data-protected-src).
-//   videos – the Knowledge Video library: decrypts catalog.json.enc, lists the videos and plays
-//            <video-id>/video.mp4.enc with <video-id>/content.html.enc as notes (route: #<video-id>).
+// Markup: <div class="protected-post" data-protected-base="/assets/protected/<id>/" data-protected-app="post">
+// containing a password form and an empty .protected-body; decrypts content.html.enc into the body
+// (videos inside use data-protected-src).
 (function () {
   const subtle = window.crypto && window.crypto.subtle;
   const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
   const b64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
-  const esc = (s) =>
-    String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
   async function fetchBytes(url) {
     const res = await fetch(url, { cache: "no-cache" });
@@ -40,7 +36,6 @@
   const typeset = (el) => {
     if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(() => {});
   };
-  const fmtTime = (t) => Math.floor(t / 60) + ":" + String(Math.floor(t % 60)).padStart(2, "0");
 
   function seekHandler(body) {
     body.addEventListener("click", (e) => {
@@ -67,88 +62,7 @@
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // Knowledge Video library
-  // ---------------------------------------------------------------------------
-  async function renderVideos(body, base, key) {
-    const catalog = JSON.parse(await decryptText(key, base + "catalog.json.enc"));
-    const blobs = {};
-    const blobUrl = async (path, type) => {
-      if (!blobs[path]) blobs[path] = URL.createObjectURL(new Blob([await decryptBytes(key, base + path)], { type }));
-      return blobs[path];
-    };
-    seekHandler(body);
-
-    function listView() {
-      const cards = catalog.videos
-        .map(
-          (v) => `
-        <a class="kv-card tech-card" href="#${esc(v.id)}">
-          <div class="kv-thumb" data-thumb="${esc(v.id)}/thumb.jpg.enc"><span class="kv-play"><i class="ti ti-player-play"></i></span>
-            <span class="kv-duration">${esc(v.duration)}</span></div>
-          <div class="kv-card-body">
-            <h3>${esc(v.title)}</h3>
-            <p>${esc(v.summary)}</p>
-            <div class="kv-tags">${(v.tags || []).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
-          </div>
-        </a>`
-        )
-        .join("");
-      const upcoming = (catalog.upcoming || [])
-        .map(
-          (u, i) => `
-        <li><span class="kv-num">${String(catalog.videos.length + i + 1).padStart(2, "0")}</span>
-          <div><strong>${esc(u.title)}</strong><p>${esc(u.summary)}</p></div></li>`
-        )
-        .join("");
-      body.innerHTML = `
-        <p class="kv-intro">${esc(catalog.intro || "")}</p>
-        <div class="kv-grid">${cards}</div>
-        ${upcoming ? `<h2 class="kv-section">制作计划</h2><ol class="kv-upcoming">${upcoming}</ol>` : ""}`;
-      body.querySelectorAll("[data-thumb]").forEach(async (el) => {
-        try {
-          el.style.backgroundImage = `url(${await blobUrl(el.dataset.thumb, "image/jpeg")})`;
-        } catch (e) {}
-      });
-    }
-
-    async function detailView(v) {
-      const chapters = (v.chapters || [])
-        .map((c) => `<li><a href="#" data-seek="${c.t}">${fmtTime(c.t)}</a> ${esc(c.title)}</li>`)
-        .join("");
-      body.innerHTML = `
-        <a class="kv-back" href="#"><i class="ti ti-arrow-left"></i> 全部视频</a>
-        <h2 class="kv-title">${esc(v.title)}</h2>
-        <video controls playsinline class="protected-video"></video>
-        <p class="protected-status">视频解密中…</p>
-        ${chapters ? `<h3>章节</h3><ol class="protected-chapters">${chapters}</ol>` : ""}
-        <div class="kv-notes"></div>`;
-      window.scrollTo({ top: 0 });
-      const notes = body.querySelector(".kv-notes");
-      decryptText(key, base + v.id + "/content.html.enc")
-        .then((html) => {
-          notes.innerHTML = html;
-          typeset(notes);
-        })
-        .catch(() => {});
-      const video = body.querySelector("video");
-      video.src = await blobUrl(v.id + "/video.mp4.enc", "video/mp4");
-      const status = body.querySelector(".protected-status");
-      if (status) status.remove();
-    }
-
-    function route() {
-      const id = decodeURIComponent(location.hash.slice(1));
-      const v = catalog.videos.find((x) => x.id === id);
-      (v ? detailView(v) : Promise.resolve(listView())).catch((e) => {
-        body.innerHTML = `<p class="protected-error">加载失败：${esc(e.message)}</p>`;
-      });
-    }
-    window.addEventListener("hashchange", route);
-    route();
-  }
-
-  const APPS = { post: renderPost, videos: renderVideos };
+  const APPS = { post: renderPost };
 
   function init(root) {
     const base = root.dataset.protectedBase;

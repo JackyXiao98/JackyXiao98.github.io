@@ -1,6 +1,6 @@
 {% comment %}
-  Password-protected content. Usage: {% include protected.liquid id="videos" app="videos" %}
-  app: "post" (default, decrypts content.html.enc) or "videos" (Knowledge Video library).
+  Password-protected content. Usage: {% include protected.liquid id="<name>" %}
+  Decrypts assets/protected/<name>/content.html.enc after the password is entered.
   Encrypted files live in assets/protected/<id>/ (see tools/protect.mjs).
 {% endcomment %}
 <div class="protected-post" data-protected-base="{{ '/assets/protected/' | append: include.id | append: '/' | relative_url }}" data-protected-app="{{ include.app | default: 'post' }}">

@@ -16,6 +16,8 @@ nav: false
   </header>
 
   <section class="tech-section">
-    {% include protected.liquid id="videos" app="videos" title="Knowledge Video 需要密码" hint="输入密码后可以浏览全部知识点视频。视频在你的浏览器中解密播放。" %}
+    <div class="kv-library" data-base="{{ '/assets/videos/' | relative_url }}"></div>
   </section>
 </div>
+
+<script defer src="{{ '/assets/js/knowledge-video.js' | relative_url | bust_file_cache }}"></script>

@@ -1,0 +1,14 @@
+<h3>关键公式</h3>
+<p><strong>前向过程</strong>：任意时刻的带噪样本可以一步算出，其中 \(\bar\alpha_t\) 由噪声日程决定，从 1 逐渐减小到接近 0：</p>
+<p>$$x_t = \sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\epsilon,\qquad \epsilon\sim\mathcal{N}(0, I)$$</p>
+<p><strong>训练目标</strong>：随机取样本 \(x_0\)、时刻 \(t\) 和噪声 \(\epsilon\)，让网络预测加入的噪声：</p>
+<p>$$\mathcal{L} = \mathbb{E}_{x_0,t,\epsilon}\,\big\|\epsilon-\epsilon_\theta(x_t, t)\big\|^2$$</p>
+<p><strong>生成（DDIM 一步）</strong>：先由预测的噪声估计干净样本，再走到更小的时刻 \(s &lt; t\)：</p>
+<p>$$\hat x_0 = \frac{x_t-\sqrt{1-\bar\alpha_t}\,\hat\epsilon}{\sqrt{\bar\alpha_t}},\qquad x_s = \sqrt{\bar\alpha_s}\,\hat x_0+\sqrt{1-\bar\alpha_s}\,\hat\epsilon$$</p>
+
+<h3>关于视频里的例子</h3>
+<ul>
+  <li>三个例子都是真实计算的，不是手绘动画：加噪使用上面的闭式公式，采用余弦噪声日程。</li>
+  <li>例子二和例子三的反向过程使用 DDIM 采样，去噪器是这些玩具数据分布下<strong>可以精确计算的最优去噪器</strong> \(\mathbb{E}[x_0\mid x_t]\)，代替了神经网络。</li>
+  <li>例子三的数据集只有 4 张图，最优去噪器会准确“记住”训练图片，所以生成结果和训练集一致；真实模型用神经网络近似去噪器，才能泛化出新的图片。</li>
+</ul>

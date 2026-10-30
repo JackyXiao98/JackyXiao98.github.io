@@ -1,0 +1,20 @@
+<h3>关键公式</h3>
+<p><strong>分数函数</strong>：\(s(x)=\nabla_x\log p(x)\)，与归一化常数无关。</p>
+<p><strong>朗之万动力学</strong>（步长 \(\eta\) 足够小、步数足够多时收敛到 \(p\)）：</p>
+<p>$$x_{k+1}=x_k+\frac{\eta}{2}\nabla_x\log p(x_k)+\sqrt{\eta}\,z_k,\qquad z_k\sim\mathcal{N}(0,I)$$</p>
+<p><strong>退火朗之万</strong>：对一组递减的噪声 \(\sigma_1>\dots>\sigma_L\)，依次用加噪分布 \(p_{\sigma_i}=p*\mathcal{N}(0,\sigma_i^2 I)\) 的分数采样，步长 \(\eta_i=\epsilon\,\sigma_i^2/\sigma_L^2\)。</p>
+<p><strong>去噪分数匹配</strong>：</p>
+<p>$$\nabla_{x_t}\log q(x_t\mid x_0)=-\frac{\epsilon}{\sqrt{1-\bar\alpha_t}},\qquad s_\theta(x_t,t)=-\frac{\epsilon_\theta(x_t,t)}{\sqrt{1-\bar\alpha_t}}$$</p>
+<p><strong>连续时间（VP SDE）</strong>：</p>
+<p>$$\mathrm{d}x=-\tfrac12\beta(t)x\,\mathrm{d}t+\sqrt{\beta(t)}\,\mathrm{d}w,\qquad \mathrm{d}x=\big[-\tfrac12\beta(t)x-\beta(t)\nabla_x\log p_t(x)\big]\mathrm{d}t+\sqrt{\beta(t)}\,\mathrm{d}\bar w$$</p>
+<p><strong>概率流 ODE</strong>（每个时刻的边缘分布与 SDE 相同）：</p>
+<p>$$\mathrm{d}x=\big[-\tfrac12\beta(t)x-\tfrac12\beta(t)\nabla_x\log p_t(x)\big]\mathrm{d}t$$</p>
+
+<h3>关于视频里的例子</h3>
+<ul>
+  <li>数据是三个各向同性高斯（标准差 0.3），权重 0.6 / 0.3 / 0.1。所有分数都是精确计算的。</li>
+  <li>普通朗之万：从均匀分布出发、步长 0.01、2000 步，6000 个样本测得比例约 32 : 32 : 36。</li>
+  <li>退火朗之万：10 个噪声水平（4 到 0.01），每级 100 步，测得约 59 : 30 : 11。</li>
+  <li>反向 SDE 与概率流 ODE：\(\beta(t)=0.1+19.9t\)，各 500 步，测得约 59 : 31 : 10 与 61 : 30 : 9。</li>
+  <li>参考：Song &amp; Ermon, NeurIPS 2019（NCSN）；Song et al., ICLR 2021（Score SDE）。</li>
+</ul>

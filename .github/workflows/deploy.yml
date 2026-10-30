@@ -61,6 +61,7 @@ jobs:
           fi
           export PROTECT_PASSWORD="${PROTECT_PASSWORD:-checkpass}"
           for f in assets/protected/*/key.json; do
+            [ -f "$f" ] || continue
             node tools/protect.mjs wrap "$f"
             echo "re-wrapped $f"
           done

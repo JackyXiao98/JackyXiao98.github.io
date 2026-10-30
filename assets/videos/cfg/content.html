@@ -1,0 +1,11 @@
+<h3>关键公式</h3>
+<p><strong>分类器引导</strong>（Dhariwal &amp; Nichol, 2021）：\(\tilde s(x)=\nabla_x\log p(x)+\gamma\,\nabla_x\log p_\phi(c\mid x)\)，\(\gamma>1\)。</p>
+<p><strong>无分类器引导</strong>（Ho &amp; Salimans, 2022）：训练时以一定概率把条件换成空条件 \(\varnothing\)；采样时</p>
+<p>$$\tilde\epsilon=(1+w)\,\epsilon_\theta(x_t,c)-w\,\epsilon_\theta(x_t,\varnothing)$$</p>
+<p>其中 \(\epsilon_\theta(x_t,c)-\epsilon_\theta(x_t,\varnothing)\approx-\sqrt{1-\bar\alpha_t}\,\nabla_{x_t}\log p(c\mid x_t)\)，即隐式分类器 \(p(c\mid x)\propto p(x\mid c)/p(x)\)。</p>
+<p>注：Stable Diffusion 等实现常写成 \(\tilde\epsilon=\epsilon_\varnothing+s(\epsilon_c-\epsilon_\varnothing)\)，\(s=1+w\)；默认 \(s=7.5\) 对应 \(w=6.5\)。</p>
+<h3>实验设置与结果</h3>
+<ul>
+  <li>六个高斯（标准差 0.45）排成半径 2 的圆，甲类 = 第 0、2、4 个，乙类 = 第 1、3、5 个；条件与无条件去噪器都精确计算，DDIM 50 步，每个设置 2 万个样本。</li>
+  <li>w = 0：模糊样本（更像乙类）3.0%；w = 1：0%，沿圆周的横向散布从 0.44 降到 0.23；w = 7：横向散布 0.04（真实值 0.45），平均半径 2.52（真实 2.05），约外移一个标准差。</li>
+</ul>

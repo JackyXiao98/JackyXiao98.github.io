@@ -1,0 +1,18 @@
+<h3>关键公式</h3>
+<p><strong>前向一步</strong>（\(\beta_t\) 从 \(10^{-4}\) 线性增大到 \(0.02\)，共 \(T=1000\) 步）：</p>
+<p>$$q(x_t\mid x_{t-1})=\mathcal{N}\!\left(\sqrt{1-\beta_t}\,x_{t-1},\ \beta_t I\right)$$</p>
+<p><strong>任意时刻的闭式分布</strong>，其中 \(\alpha_t=1-\beta_t\)，\(\bar\alpha_t=\prod_{s=1}^{t}\alpha_s\)：</p>
+<p>$$q(x_t\mid x_0)=\mathcal{N}\!\left(\sqrt{\bar\alpha_t}\,x_0,\ (1-\bar\alpha_t) I\right)$$</p>
+<p><strong>真实后验</strong>（已知 \(x_0\) 时反向一步是高斯分布）：</p>
+<p>$$q(x_{t-1}\mid x_t,x_0)=\mathcal{N}(\tilde\mu_t,\tilde\beta_t I),\quad \tilde\mu_t=\frac{\sqrt{\bar\alpha_{t-1}}\,\beta_t}{1-\bar\alpha_t}x_0+\frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}x_t,\quad \tilde\beta_t=\frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t$$</p>
+<p><strong>训练目标</strong>：变分上界的每一项是两个高斯分布的 KL 散度；把均值写成 \(\mu_\theta=\frac{1}{\sqrt{\alpha_t}}\big(x_t-\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\epsilon_\theta\big)\) 后，每一项正比于 \(\|\epsilon-\epsilon_\theta\|^2\)。去掉权重得到</p>
+<p>$$\mathcal{L}_{\text{simple}}=\mathbb{E}_{x_0,t,\epsilon}\,\|\epsilon-\epsilon_\theta(x_t,t)\|^2$$</p>
+<p><strong>采样</strong>：\(x_T\sim\mathcal{N}(0,I)\)，对 \(t=T,\dots,1\)：</p>
+<p>$$x_{t-1}=\frac{1}{\sqrt{\alpha_t}}\Big(x_t-\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\,\epsilon_\theta(x_t,t)\Big)+\sigma_t z,\qquad \sigma_t^2=\tilde\beta_t$$</p>
+
+<h3>关于视频里的例子</h3>
+<ul>
+  <li>数据分布是一维的两个高斯混合：均值 \(\pm 2\)，标准差 0.35，各占一半。所有分布曲线都是精确计算的。</li>
+  <li>采样轨迹和直方图来自真实的 DDPM 祖先采样（1000 步），其中 \(\epsilon_\theta\) 用这个分布下可以精确计算的最优噪声预测代替。</li>
+  <li>参考：Ho, Jain, Abbeel. <em>Denoising Diffusion Probabilistic Models</em>. NeurIPS 2020.</li>
+</ul>
