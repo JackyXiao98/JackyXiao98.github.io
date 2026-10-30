@@ -73,6 +73,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/differential-privacy/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Differential Privacy</strong>
+      <span>差分隐私视频讲解 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
