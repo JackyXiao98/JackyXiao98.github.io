@@ -50,6 +50,10 @@ PYTHON=.venv/bin/python ./render.sh src/ep07_flow.py out/ep07
   `\big`), use `F_SMALL`/`F_BODY` for Chinese text.
 - `render.sh` checks every subtitle span with ASR. Lines marked `??` are usually homophones
   (噪→造, 它→他, 词元→词源); a wrong boundary shows as text from the neighbouring sentence.
+- Transformer series lessons: a single Latin letter in narration ("根号 d") is silently dropped
+  by the TTS (`OOV word skipped` in the log) — say 维度的平方根; mathtext has no `pmatrix`/`cases`;
+  write narration text as plain strings, not inside non-raw `'''` blocks (`\t`, `\f` get eaten);
+  wall-clock timings are noisy on a busy machine — narrate deterministic counts, time best-of-3.
 - Renderer signature: `f(canvas, u, seg, su)` — `u` scene progress, `seg` current sentence,
   `su` progress within that sentence (sync animations to the narration with `seg`/`su`).
 
