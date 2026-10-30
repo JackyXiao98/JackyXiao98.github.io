@@ -1275,6 +1275,30 @@ a.kv-entry {
   color: var(--tech-accent-2);
 }
 
+.kv-notes table {
+  margin: 0.5rem 0 1rem;
+  border-collapse: collapse;
+  font-family: $tech-font-mono;
+  font-size: 0.9rem;
+
+  th,
+  td {
+    padding: 0.35rem 0.9rem;
+    border-bottom: 1px solid var(--tech-border);
+    text-align: right;
+  }
+
+  th:first-child,
+  td:first-child {
+    text-align: left;
+  }
+
+  th {
+    color: var(--tech-accent);
+    font-weight: 600;
+  }
+}
+
 .kv-back {
   font-family: $tech-font-mono;
   font-size: 0.9rem;
