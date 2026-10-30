@@ -41,7 +41,7 @@ optional `upcoming` list of planned episodes.
 | `src/fm.py`, `src/latent.py`, `src/video_toy.py`, `src/p2d.py` | flow matching, toy latent diffusion (PCA + GMM), toy videos, 2D plots |
 | `src/ep01_intro.py` … `src/ep09_dit.py` | Diffusion series, nine episodes (narration `SCENES`, renderers `RENDER`, asserted measurements) |
 | `src/tf01_tokens.py` … `src/tf08_scaling.py` | Transformer series, eight episodes (`--series transformer`) |
-| `src/dp01_intro.py` … `src/dp08_practice.py` | Differential Privacy series, eight episodes (`--series differential-privacy`) |
+| `src/dp01_intro.py` … `src/dp09_resplan.py` | Differential Privacy series, nine episodes (`--series differential-privacy`); `dp09` mirrors ResidualPlanner from [resplan_journal](https://github.com/JackyXiao98/resplan_journal) |
 | `src/dpx.py` | DP toolkit: Gaussian (ε, δ) curve, RDP accountant for subsampled Gaussian, DP-SGD on sklearn digits (JAX, cached via `DP_CACHE`), canaries + membership inference |
 | `src/vg01_overview.py` … `src/vg08_sla.py` | Video Generation series, eight episodes (`--series video-generation`) |
 | `src/vgx.py` | video-generation toys: ring teacher, one-step regression and DMD distillation, Self-Forcing toy, INT8 attention with K smoothing, sparse + linear attention (cached via `VG_CACHE`) |

@@ -1,0 +1,23 @@
+<h3>视频中的计算</h3>
+<ul>
+  <li>数据：性别（男/女）× 收入（低/中/高）六个格子，人数 \(x=(200,300,100,220,260,80)\)，共 1160 人。工作负载是这张表的全部边际：总数、性别、收入、性别 × 收入。</li>
+  <li>残差查询：对属性集合 \(A\) 的每个子集 \(S\)，\(R_S=\bigotimes_{i\in S}C_i\otimes\bigotimes_{i\notin S}\mathbf{1}^{\top}\)，其中 \(C_k\) 的第 \(j\) 行是 \(e_j-e_{j+1}\)（与全 1 向量正交）。不同子集的残差满足 \(R_S R_{S'}^{\top}=0\)。</li>
+  <li>基本机制：\(y_S=R_S x+\big(\bigotimes_{i\in S}C_i\big)z\)，\(z\sim\mathcal N(0,\sigma_S^2 I)\)。隐私代价 \(\max\operatorname{diag}\big(\sum_S R_S^{\top}\Sigma_S^{+}R_S\big)\)；对增删一条记录的相邻数据集，它等于 \(\rho\)-zCDP 中的 \(2\rho\)。</li>
+  <li>每个残差的系数（隐私代价 \(p_S\)，方差 \(v_S\)）：总数 (1, 2)，性别 (0.50, 1.33)，收入 (0.67, 3)，性别 × 收入 (0.33, 2)。
+    $$\min_{\sigma^2}\sum_S v_S\sigma_S^2\ \ \text{s.t.}\ \ \sum_S \frac{p_S}{\sigma_S^2}=1
+      \ \Rightarrow\ \sigma_S^2=T\sqrt{p_S/v_S}\Big/\textstyle\sum_{S'}\sqrt{v_{S'}p_{S'}},\quad T=\Big(\sum_S\sqrt{v_S p_S}\Big)^2 .$$</li>
+  <li>总方差（隐私代价 1）：残差规划器 19.90；对每个边际分别加噪并最优分配预算 \((\sum_A\sqrt{n_A})^2=43.50\)；每个格子加一次噪声再求和 24.00；在 6 个格子上用 L-BFGS 直接优化策略矩阵（HDMM 式，\(\operatorname{diag}(A^{\top}A)=1\)）得到 19.90。</li>
+  <li>一次发布（随机种子 0）：六个格子的误差 +0.9、−0.3、−1.2、−0.6、−0.4、+1.8，每格标准差的精确值 1.09。</li>
+  <li>规模：14 个属性、每个 10 个取值、所有 ≤3 维边际。完整的表有 \(10^{14}\) 个格子；残差答案共 \(\sum_{j\le 3}\binom{14}{j}9^j=272{,}854\) 个；分别加噪的总方差是残差规划器的 1.70 倍（\(d=2\) 时 1.30 倍）。这些值与仓库中 <code>ResPlan.py</code> 的输出一致。</li>
+</ul>
+<h3>代码</h3>
+<ul>
+  <li><a href="https://github.com/JackyXiao98/resplan_journal">github.com/JackyXiao98/resplan_journal</a>：<code>ResPlan.py</code>（实现），<code>visualize.py</code>（本期的四张图），<code>test_resplan_core.py</code>（精确检查隐私代价 = 1、预测方差 = 实际方差、无噪声时重建精确、闭式解 = 数值最优）。</li>
+  <li>本期视频的生成脚本：<code>knowledge-video/src/dp09_resplan.py</code>，所有口播数字都有 <code>assert</code>。</li>
+</ul>
+<h3>参考文献</h3>
+<ul>
+  <li>Y. Xiao, G. He, D. Zhang, D. Kifer. <i>An Optimal and Scalable Matrix Mechanism for Noisy Marginals under Convex Loss Functions</i>. NeurIPS 2023（ResidualPlanner；证明了对边际工作负载、关于方差的凸损失，它在高斯线性机制中最优）。</li>
+  <li>R. McKenna, G. Miklau, M. Hay, A. Machanavajjhala. <i>Optimizing Error of High-Dimensional Statistical Queries under Differential Privacy</i>. VLDB 2018（HDMM，通用的矩阵机制策略优化）。</li>
+  <li>M. Bun, T. Steinke. <i>Concentrated Differential Privacy</i>. TCC 2016（\(\rho\)-zCDP）。</li>
+</ul>
