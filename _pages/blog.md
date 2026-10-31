@@ -97,6 +97,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/llm-rl/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-target-arrow" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>RL for LLMs</strong>
+      <span>大模型强化学习 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
