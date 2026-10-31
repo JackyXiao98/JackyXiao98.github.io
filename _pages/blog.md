@@ -93,7 +93,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-refresh" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Recursive Self-Improvement</strong>
-      <span>递归自我改进 · 制作中</span>
+      <span>递归自我改进</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

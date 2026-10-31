@@ -45,6 +45,8 @@ optional `upcoming` list of planned episodes.
 | `src/dpx.py` | DP toolkit: Gaussian (ε, δ) curve, RDP accountant for subsampled Gaussian, DP-SGD on sklearn digits (JAX, cached via `DP_CACHE`), canaries + membership inference |
 | `src/vg01_overview.py` … `src/vg08_sla.py` | Video Generation series, eight episodes (`--series video-generation`) |
 | `src/vgx.py` | video-generation toys: ring teacher, one-step regression and DMD distillation, Self-Forcing toy, INT8 attention with K smoothing, sparse + linear attention (cached via `VG_CACHE`) |
+| `src/rsi01_explosion.py` … `src/rsi09_safety.py` | Recursive Self-Improvement series, nine episodes (`--series recursive-self-improvement`) |
+| `src/rsix.py` | RSI toys: STaR self-training of the addition model, tic-tac-toe self-play, verifier best-of-n, model collapse, Goodhart, evolved bin-packing heuristics (cached via `RSI_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

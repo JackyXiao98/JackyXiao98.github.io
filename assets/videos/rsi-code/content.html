@@ -1,0 +1,13 @@
+<h3>参考</h3>
+<ul>
+  <li>STOP：Zelikman et al., 2023（“Self-Taught Optimizer: Recursively Self-Improving Code Generation”）。</li>
+  <li>AlphaEvolve（Google DeepMind, 2025）：Gemini 驱动的进化式编码智能体；4×4 复数矩阵乘法 48 次标量乘法；数据中心调度启发式平均回收约 0.7% 的全球算力；Gemini 训练中的一个计算核加速 23%（训练时间减少约 1%）。</li>
+  <li>Darwin Gödel Machine：Zhang et al., 2025；编程智能体反复改写自身代码并保留一个变体档案；SWE-bench 20.0% → 50.0%，Polyglot 14.2% → 30.7%。</li>
+  <li>FunSearch（Romera-Paredes et al., <i>Nature</i> 2024）也用进化搜索为在线装箱问题找到了更好的启发式。</li>
+</ul>
+<h3>视频中的实验（<code>rsix.binpack_search</code>）</h3>
+<ul>
+  <li>每个实例 300 个物品（Weibull(3)×45 取整，1–100），箱子容量 100；打分函数为 6 个特征的线性组合（剩余空间及其区间指示），从最佳适配出发，(1+8) 进化搜索 150 代。指标：比下界 ⌈Σ/100⌉ 多用的箱子比例。</li>
+  <li>50 个测试实例：首次适配 6.07%，最佳适配 5.53%；在 30 个训练实例上搜索后为 4.90%（训练 5.04% → 4.46%）。</li>
+  <li>只用 3 个训练实例：训练 6.08% → 5.25%，测试 5.53% → 5.96%；最后一次被接受的修改使训练只下降 0.007 个百分点，测试上升 0.79 个百分点。</li>
+</ul>
