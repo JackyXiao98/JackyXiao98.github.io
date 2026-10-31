@@ -47,6 +47,8 @@ optional `upcoming` list of planned episodes.
 | `src/vgx.py` | video-generation toys: ring teacher, one-step regression and DMD distillation, Self-Forcing toy, INT8 attention with K smoothing, sparse + linear attention (cached via `VG_CACHE`) |
 | `src/rsi01_explosion.py` … `src/rsi09_safety.py` | Recursive Self-Improvement series, nine episodes (`--series recursive-self-improvement`) |
 | `src/rsix.py` | RSI toys: STaR self-training of the addition model, tic-tac-toe self-play, verifier best-of-n, model collapse, Goodhart, evolved bin-packing heuristics (cached via `RSI_CACHE`) |
+| `src/rl01_bandit.py` … `src/rl08_frontier.py` | RL for LLMs series, eight episodes (`--series llm-rl`) |
+| `src/rlx.py` | RL toys: bandits, Bradley–Terry reward model, KL-regularised RLHF optimum, DPO, length-biased reward, GRPO on the addition model, chain of thought, process vs outcome reward (cached via `RL_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

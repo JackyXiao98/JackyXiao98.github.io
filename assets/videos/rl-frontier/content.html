@@ -1,0 +1,11 @@
+<h3>参考</h3>
+<ul>
+  <li>过程监督：Lightman et al., 2023（“Let's Verify Step by Step”，PRM800K）。</li>
+  <li>宪法式 AI / RLAIF：Bai et al., 2022（“Constitutional AI: Harmlessness from AI Feedback”）；Lee et al., 2023（RLAIF）。</li>
+  <li>智能体强化学习：多轮工具调用、代码执行与网页浏览中的稀疏奖励与长程信用分配。</li>
+</ul>
+<h3>视频中的玩具（<code>rlx.process_vs_outcome</code>）</h3>
+<ul>
+  <li>8 步、每步 4 个动作（1 个正确）；每步一个 softmax 策略，REINFORCE（步长 0.2，滑动平均基线）；200 次实验平均。随机全对概率 1/65536，3,000 次中预期成功 0.046 次。</li>
+  <li>完成任务的概率：结果奖励始终约 0；过程奖励（正确步数比例）1,000 次 68%，3,000 次 91%。</li>
+</ul>

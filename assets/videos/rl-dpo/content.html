@@ -1,0 +1,10 @@
+<h3>要点</h3>
+<ul>
+  <li>DPO（Rafailov et al., 2023）：由 \(r=\beta\log\frac{\pi^*}{\pi_{\mathrm{ref}}}+\beta\log Z\) 代入 Bradley–Terry，得到 \(\mathcal L=-\log\sigma\big(\beta\log\frac{\pi(y_w)}{\pi_{\mathrm{ref}}(y_w)}-\beta\log\frac{\pi(y_l)}{\pi_{\mathrm{ref}}(y_l)}\big)\)。</li>
+</ul>
+<h3>视频中的实验（<code>rlx.dpo</code>）</h3>
+<ul>
+  <li>第 3 期的 200 个回答；从参考策略抽 5,000 对（去掉相同的后 4,756 对），按真实奖励的 Bradley–Terry 给出偏好；β = 0.3。</li>
+  <li>路线 (a)：每个回答一个自由分数的奖励模型（L2 正则）→ KL 最优策略：真实奖励 1.839，KL 1.939。路线 (b)：DPO：真实奖励 1.834，KL 1.927。两策略的总变差距离 0.009；参考策略 0.202。</li>
+  <li>在这个“每个回答一个参数”的设定下两者理论上等价；真实大模型中两者因函数近似和数据覆盖不同而有差别。</li>
+</ul>

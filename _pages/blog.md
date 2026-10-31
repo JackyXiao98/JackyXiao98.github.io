@@ -101,7 +101,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-target-arrow" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>RL for LLMs</strong>
-      <span>大模型强化学习 · 制作中</span>
+      <span>大模型强化学习</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
