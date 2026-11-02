@@ -105,6 +105,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/distillation/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-flask" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Distillation</strong>
+      <span>知识蒸馏 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
