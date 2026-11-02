@@ -109,7 +109,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-flask" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Distillation</strong>
-      <span>知识蒸馏 · 制作中</span>
+      <span>知识蒸馏</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
