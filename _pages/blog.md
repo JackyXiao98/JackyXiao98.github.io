@@ -121,6 +121,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/optimization/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-trending-down" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Optimization</strong>
+      <span>深度学习优化 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
