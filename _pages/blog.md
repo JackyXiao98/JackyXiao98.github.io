@@ -129,6 +129,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/video-lora-edit/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-wand" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Video LoRA Edit</strong>
+      <span>视频 LoRA 编辑 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
