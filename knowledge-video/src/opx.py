@@ -360,6 +360,12 @@ def clipping(lr=3e-2, steps=600, clip=1.0):
     return {c: train_tf(opt="adam", lr=lr, steps=steps, clip=c, eval_every=10) for c in (None, clip)}
 
 
+def stability(lrs=(3e-3, 1e-2, 3e-2), steps=1000, clip=1.0, batch=64):
+    """Adam on the Markov language, with and without global-norm clipping: per-step train loss and gradient norm."""
+    return {(lr, c): train_tf(opt="adam", lr=lr, steps=steps, clip=c, eval_every=50, batch=batch, data="markov")
+            for lr in lrs for c in (None, clip)}
+
+
 # ---------------------------------------------------------------- batch size (MLP on digits)
 def _mlp_sgd_steps(B, lr, Xtr, ytr, target, max_steps, seed=0):
     import jax
@@ -412,8 +418,8 @@ def batch_size(batches=(4, 8, 16, 32, 64, 128, 256, 512, 1024), lrs=(0.01, 0.03,
 def mup(widths=(64, 256, 1024), lrs=tuple(2.0 ** np.arange(-16, 1)), steps=100, base=64, n=2000, seed=0):
     """MLP [24, w, w, 12] predicting the next token of the 12-token second-order Markov language from the
     one-hot of the previous two tokens; Adam (manual, b1 0.9, b2 0.999), full batch of 2,000 examples,
-    train loss after `steps`. SP: every layer uses lr, init N(0, 1/fan_in). muP (Adam): hidden and output
-    layers use lr / m (m = w / base) and the logits are multiplied by 1/m. Floor = the teacher's entropy."""
+    train loss after `steps`. SP: every layer uses lr, init N(0, 1/fan_in). muP (Adam): the hidden layer uses
+    lr / m (m = w / base), the logits are multiplied by 1/m (input and output layers keep lr)."""
     import jax
     import jax.numpy as jnp
     s, floor = _markov_data(n // 8 + 1, seed + 5)
@@ -428,7 +434,7 @@ def mup(widths=(64, 256, 1024), lrs=tuple(2.0 ** np.arange(-16, 1)), steps=100, 
         p0 = [(jax.random.normal(ks[i], (a, b)) / np.sqrt(a), jnp.zeros(b)) for i, (a, b) in enumerate(zip(sizes[:-1], sizes[1:]))]
         for par in ("sp", "mup"):
             mult = 1 / m if par == "mup" else 1.0
-            scale = [1.0, 1 / m, 1 / m] if par == "mup" else [1.0, 1.0, 1.0]
+            scale = [1.0, 1 / m, 1.0] if par == "mup" else [1.0, 1.0, 1.0]
 
             def lf(p):
                 h = jnp.maximum(0, X @ p[0][0] + p[0][1])
