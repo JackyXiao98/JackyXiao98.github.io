@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>kdx.addition_seqkd</code>）</h3>
+<ul>
+  <li>任务：Transformer 系列的 0–99 两数加法，8,000 道训练题、2,000 道测试题；假设只有 300 道训练题有答案。</li>
+  <li>老师：该系列训练好的加法模型（测试 100%），贪心生成剩下 7,700 道题的答案（全部正确）。</li>
+  <li>学生（宽度 16 / 32 / 64，各训练 600 步），测试完全正确率：只用 300 道 5.2 / 4.8 / 6.5%；+ 老师的 7,700 个答案 94.5 / 99.0 / 100%；+ 弱老师（120 步检查点，27.7%）的答案 31.0 / 31.0 / 29.8%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Kim &amp; Rush. <em>Sequence-Level Knowledge Distillation</em>. EMNLP 2016.</li>
+  <li>DeepSeek-AI. <em>DeepSeek-R1</em>. 2025：用 DeepSeek-R1 整理的约 80 万条样本，对 Qwen2.5-Math-1.5B/7B、Qwen2.5-14B/32B、Llama-3.1-8B、Llama-3.3-70B-Instruct 做 2–3 个 epoch 的监督微调。</li>
+  <li>Taori et al. <em>Alpaca</em>. 2023；Mukherjee et al. <em>Orca</em>. 2023（用强模型输出做指令微调）。</li>
+</ul>

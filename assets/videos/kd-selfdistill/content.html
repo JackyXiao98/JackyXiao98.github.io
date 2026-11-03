@@ -1,0 +1,12 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li><code>kdx.born_again</code>：网络 [64, 64, 10]，300 张带标签的训练图片；第 k+1 代 = 硬标签 + 第 k 代的软标签（T = 2，α = 0.5）。5 个种子的平均：93.2% → 93.3% → 93.2% → 93.4%。标签平滑（ε = 0.1）：94.7%。</li>
+  <li><code>kdx.addition_seqkd</code>：Transformer 系列的加法模型只训练 120 步时的检查点作为弱老师（2,000 道测试题上 27.7%）；它给 7,700 道题写答案，其中 29.2% 正确。学生（宽度 16 / 32 / 64）用这些答案 + 300 道正确题训练 600 步：31.0 / 31.0 / 29.8%；只用 300 道正确题：5.2 / 4.8 / 6.5%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Furlanello et al. <em>Born-Again Neural Networks</em>. ICML 2018.</li>
+  <li>Yuan et al. <em>Revisiting Knowledge Distillation via Label Smoothing Regularization</em>. CVPR 2020.</li>
+  <li>Mobahi, Farajtabar, Bartlett. <em>Self-Distillation Amplifies Regularization in Hilbert Space</em>. NeurIPS 2020.</li>
+  <li>Müller, Kornblith, Hinton. <em>When Does Label Smoothing Help?</em> NeurIPS 2019.</li>
+</ul>

@@ -1,0 +1,13 @@
+<h3>视频中的计算（<code>kdx.kl_fits</code>）</h3>
+<ul>
+  <li>老师：\(p=0.6\,\mathcal N(-2,0.5^2)+0.4\,\mathcal N(2,0.5^2)\)；学生：一个高斯 \(\mathcal N(\mu,s^2)\)。在 \(\mu\in[-3,3]\)、\(s\in[0.2,3]\) 的网格上数值积分，精确求最小值。</li>
+  <li>前向 \(\mathrm{KL}(p\|q)\)：\(\mu=-0.40,\ s=2.02\)，等于 \(p\) 的均值与标准差（矩匹配）。</li>
+  <li>反向 \(\mathrm{KL}(q\|p)\)：\(\mu=-2,\ s=0.5\)，只抓住较大的峰。</li>
+  <li>\(|x|&lt;0.5\) 的概率：老师 0.13%，前向拟合 19.1%，反向拟合 0.13%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Gu et al. <em>MiniLLM: Knowledge Distillation of Large Language Models</em>. ICLR 2024（arXiv 2023）。</li>
+  <li>Agarwal et al. <em>On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</em>（GKD，广义 JSD）. ICLR 2024.</li>
+  <li>Minka. <em>Divergence measures and message passing</em>. 2005（前向 / 反向 KL 的 mode-covering / mode-seeking 行为）。</li>
+</ul>

@@ -1,0 +1,18 @@
+<h3>视频中的实验（<code>kdx.digits_kd</code>）</h3>
+<ul>
+  <li>数据：scikit-learn 的 8×8 手写数字（1,797 张），597 张测试，1,197 张训练。</li>
+  <li>老师：MLP [64, 512, 512, 10]，301,066 个参数，在全部训练图片上训练，测试准确率 97.2%。</li>
+  <li>学生：MLP [64, 16, 10]，1,210 个参数（约小 249 倍），只能看到前 100 张训练图片。</li>
+  <li>5 个随机种子：只用硬标签 88.9 / 87.3 / 87.1 / 88.8 / 87.1%（平均 87.8%）；老师软标签（T = 4，α = 0.1）92.3 / 91.3 / 91.0 / 92.0 / 91.0%（平均 91.5%）。</li>
+  <li>示例：一张测试图片 3，老师在 T = 1 时给 3 的概率几乎是 100%；T = 4 时 3 → 89%，9 → 6%，2 → 2%。</li>
+</ul>
+<h3>要点</h3>
+<ul>
+  <li>温度 softmax：\(p_i=\exp(z_i/T)/\sum_j\exp(z_j/T)\)。</li>
+  <li>蒸馏损失：\(\mathcal L=\alpha\,\mathrm{CE}(y,q^{(1)})+(1-\alpha)\,T^2\,\mathrm{KL}(p^{(T)}\|q^{(T)})\)；软项的梯度按 \(1/T^2\) 缩小，所以要乘 \(T^2\)。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Hinton, Vinyals, Dean. <em>Distilling the Knowledge in a Neural Network</em>. 2015.</li>
+  <li>Buciluǎ, Caruana, Niculescu-Mizil. <em>Model Compression</em>. KDD 2006（更早的“用大模型给数据打标签训练小模型”）。</li>
+</ul>

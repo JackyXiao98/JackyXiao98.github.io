@@ -1,0 +1,15 @@
+<h3>视频中的实验（<code>kdx.onpolicy_vs_offpolicy</code>）</h3>
+<ul>
+  <li>12 个词元的“语言”，老师的下一个词元分布 = softmax(A[前一个] + B[前两个, 前一个])；学生只看前一个词元（二元模型），无法完全匹配老师。</li>
+  <li>离策略：在 4,000 条长度 30 的老师序列上做最大似然。在策略：从离策略学生出发，600 步，每步在学生自己采样的 256 条序列上计算逐词元反向 KL \(\mathrm{KL}(q\|p)\) 的精确梯度。</li>
+  <li>评价：学生自己写 4,000 条序列，看老师给每个词元的概率。<br>
+    老师自己：平均对数概率 −1.07，概率 &lt; 2% 的词元 2.9%；离策略学生：−2.02，15.7%；在策略学生：−1.88，14.1%。</li>
+  <li>代价：在老师文本上的负对数似然，离策略 1.44，在策略 1.52。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Agarwal et al. <em>On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</em>（GKD）. ICLR 2024.</li>
+  <li>Qwen Team. <em>Qwen3 Technical Report</em>. 2025：轻量模型的 Strong-to-Weak Distillation 分两阶段——先离策略（老师在 /think 和 /no_think 模式下的回答），再在策略（学生生成，与 Qwen3-32B 或 Qwen3-235B-A22B 的 logits 对齐，最小化 KL）。</li>
+  <li>Thinking Machines Lab. <em>On-Policy Distillation</em>（博客）. 2025.</li>
+  <li>Ross, Gordon, Bagnell. <em>DAgger</em>. AISTATS 2011（模仿学习中的暴露偏差与在策略数据）。</li>
+</ul>

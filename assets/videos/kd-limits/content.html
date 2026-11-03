@@ -1,0 +1,13 @@
+<h3>视频中的实验（<code>kdx.ood_imitation</code>）</h3>
+<ul>
+  <li>老师：Transformer 系列的加法模型，在第一个加数 &lt; 50 和 ≥ 50 的测试题上都是 100%。</li>
+  <li>学生（宽度 32，600 步）只学老师在第一个加数 &lt; 50 的 3,988 道训练题上写的答案。</li>
+  <li>测试：第一个加数 &lt; 50 的新题 99.4%；第一个加数 ≥ 50 的题 10.6%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Cho &amp; Hariharan. <em>On the Efficacy of Knowledge Distillation</em>. ICCV 2019（更大的老师不一定教出更好的学生）。</li>
+  <li>Mirzadeh et al. <em>Improved Knowledge Distillation via Teacher Assistant</em>. AAAI 2020.</li>
+  <li>Gudibande et al. <em>The False Promise of Imitating Proprietary LLMs</em>. 2023：模仿模型在人类评审中接近 ChatGPT，但在针对性的基准上几乎没有缩小差距，主要学到了风格。</li>
+  <li>Stanton et al. <em>Does Knowledge Distillation Really Work?</em> NeurIPS 2021（学生与老师的一致性往往远低于预期）。</li>
+</ul>

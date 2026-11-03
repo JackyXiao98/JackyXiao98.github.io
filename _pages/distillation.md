@@ -2,7 +2,7 @@
 layout: default
 permalink: /blog/distillation/
 title: Knowledge Distillation
-description: 从软标签与“暗知识”出发，讲中间层蒸馏、自蒸馏、大语言模型的逐词元与序列级蒸馏，以及模型压缩的全景与边界。
+description: 从软标签与“暗知识”出发，讲中间层蒸馏、自蒸馏，大语言模型的前向 / 反向 KL、离策略与在策略蒸馏、序列级蒸馏与合成数据，以及模型压缩的全景与蒸馏的边界。
 nav: false
 ---
 

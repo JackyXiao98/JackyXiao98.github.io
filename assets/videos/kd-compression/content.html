@@ -1,0 +1,15 @@
+<h3>视频中的实验（<code>kdx.compression</code>）</h3>
+<ul>
+  <li>老师同第 01 期（301,066 个参数，97.2%）。以下都<strong>不做重新训练</strong>。</li>
+  <li>全局按绝对值剪枝：50% → 97.0%，80% → 94.0%，90% → 82.6%，95% → 58.1%，98% → 13.6%。</li>
+  <li>对称量化，每个输出通道一个缩放系数 \(s=\max|w|/(2^{b-1}-1)\)：8 位 97.2%，4 位 97.2%，3 位 96.5%，2 位 86.8%。</li>
+  <li>蒸馏学生 [64, 32, 10]（2,410 个参数，T = 4，α = 0.1，全部训练图片）：96.3%；int8 96.5%；int4 96.8%。</li>
+  <li>存储：老师 fp32 = 1,204,264 字节；int4 学生 = 2,368 个权重 × 0.5 字节 + 42 个 fp32 偏置 = 1,352 字节，约小 890 倍。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Han, Mao, Dally. <em>Deep Compression</em>. ICLR 2016.</li>
+  <li>Sanh et al. <em>DistilBERT</em>. 2019：参数少 40%，保留约 97% 的语言理解能力，推理快 60%。</li>
+  <li>Muralidharan et al. <em>Compact Language Models via Pruning and Knowledge Distillation</em>（Minitron）. NVIDIA, 2024.</li>
+  <li>Frantar et al. <em>GPTQ</em>. 2022；Lin et al. <em>AWQ</em>. 2023（大模型 4 位权重量化）。</li>
+</ul>
