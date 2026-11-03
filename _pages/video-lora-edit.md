@@ -2,7 +2,7 @@
 layout: default
 permalink: /blog/video-lora-edit/
 title: Video LoRA Editing
-description: 从 LoRA 的低秩原理出发，讲视频扩散模型里 LoRA 放在哪里、单视频与运动定制、反演与首帧传播式编辑、掩码感知 LoRA、指令编辑模型，以及 LoRA 的组合、加速与评估。
+description: 从 LoRA 的低秩原理出发，讲视频扩散模型里 LoRA 放在哪里、单视频与运动定制、反演与首帧传播式编辑、掩码感知 LoRA、LTX-2 的上下文 LoRA（IC-LoRA / AVControl）训练、指令编辑模型，以及 LoRA 的组合、加速与评估。
 nav: false
 ---
 

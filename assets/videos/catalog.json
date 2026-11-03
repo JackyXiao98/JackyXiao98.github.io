@@ -3035,7 +3035,7 @@
    "id": "video-lora-edit",
    "title": "Video LoRA Editing",
    "subtitle": "视频 LoRA 编辑",
-   "summary": "从 LoRA 的低秩原理出发，讲视频扩散模型里 LoRA 放在哪里、单视频与运动定制、反演与首帧传播式编辑、掩码感知 LoRA、指令编辑模型，以及 LoRA 的组合、加速与评估。",
+   "summary": "从 LoRA 的低秩原理出发，讲视频扩散模型里 LoRA 放在哪里、单视频与运动定制、反演与首帧传播式编辑、掩码感知 LoRA、LTX-2 的上下文 LoRA（IC-LoRA / AVControl）训练、指令编辑模型，以及 LoRA 的组合、加速与评估。",
    "videos": [],
    "upcoming": [
     {
@@ -3061,6 +3061,10 @@
     {
      "title": "掩码感知的 LoRA：保留哪里、重画哪里",
      "summary": "LoRA-Edit：用时空掩码告诉模型哪些区域照抄原视频、哪些区域重新生成，再用参考帧控制后续帧的外观；在玩具视频上实测掩码损失的作用。"
+    },
+    {
+     "title": "上下文 LoRA：LTX-2 的 IC-LoRA 训练（AVControl）",
+     "summary": "AVControl（arXiv 2603.24793）在 LTX-2 上为深度、姿态、相机、音频等每种控制各训练一个 LoRA：参考视频编码后作为额外的 token 拼进注意力，不加噪、不算损失；每种控制 200–15,000 步。拆解 LTX 训练器的配方（秩 32、学习率 1e-4、注意力与前馈层、降采样参考），并在玩具视频模型上复现“参考 token 拼接”的训练方式。"
     },
     {
      "title": "指令编辑：把生成模型变成编辑器",
