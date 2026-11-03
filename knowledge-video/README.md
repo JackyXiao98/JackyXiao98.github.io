@@ -53,6 +53,8 @@ optional `upcoming` list of planned episodes.
 | `src/kdx.py` | distillation toys: soft labels on 8×8 digits, dark knowledge with a held-out class, FitNets hints, born-again networks, forward vs reverse KL, off- vs on-policy distillation, sequence-level KD and out-of-distribution imitation on the addition model, pruning and quantisation (cached via `KD_CACHE`) |
 | `src/mi01_intro.py` … `src/mi09_steering.py` | Mechanistic Interpretability series, nine episodes (`--series interpretability`) |
 | `src/mix.py` | interpretability toys: hooked forward pass of the addition model (probes, activation patching, ablation, steering), induction heads in an attention-only model, toy models of superposition, sparse autoencoders, modular addition and grokking (cached via `MI_CACHE`) |
+| `src/op01_gd.py` … `src/op09_stability.py` | Optimization for Deep Learning series, nine episodes (`--series optimization`) |
+| `src/opx.py` | optimization toys: quadratic bowls (learning-rate threshold, condition number, momentum), batch size vs steps, a generic Transformer trainer (SGD / momentum / Adam / Muon, schedules, warmup, Pre-/Post-LN, clipping) on the addition task and a Markov language, signal propagation, muP vs SP, bf16 updates (cached via `OP_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |
