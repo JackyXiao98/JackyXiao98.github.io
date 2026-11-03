@@ -1,0 +1,11 @@
+<h3>视频中的计算（<code>opx.valley_paths</code>, <code>opx.condition</code>）</h3>
+<ul>
+  <li>\(f=\tfrac12(x^2/50+y^2)\)，从 (10, 1) 出发：梯度下降（η = 2/(L+μ)）60 步损失 1.50 → 0.0123；重球动量（最优 \(\alpha=4/(\sqrt L+\sqrt\mu)^2\)，\(\beta=((\sqrt L-\sqrt\mu)/(\sqrt L+\sqrt\mu))^2\approx0.566\)）38 步下降 10<sup>6</sup> 倍。</li>
+  <li>损失下降 10<sup>6</sup> 倍所需步数，κ = 10 / 100 / 1,000 / 10,000：GD 35 / 346 / 3,454 / 34,539；重球 16 / 58 / 204 / 708；Nesterov（η = 1/L，β = (√κ−1)/(√κ+1)）21 / 63 / 165 / 387。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Polyak. <em>Some methods of speeding up the convergence of iteration methods</em>. 1964.</li>
+  <li>Nesterov. <em>A method for solving the convex programming problem with convergence rate O(1/k²)</em>. 1983.</li>
+  <li>Sutskever et al. <em>On the importance of initialization and momentum in deep learning</em>. ICML 2013；Goh. <em>Why Momentum Really Works</em>. Distill 2017.</li>
+</ul>

@@ -1,0 +1,12 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li>Newton–Schulz：64×256 随机矩阵，奇异值从 1 几何下降到 0.01；5 次五次多项式迭代（系数 3.4445, −4.7750, 2.0315）后奇异值在 0.68–1.20 之间。</li>
+  <li><code>opx.optimizers</code>：加法模型 600 步。Adam（1e-3 / 3e-3 / 1e-2 / 3e-2）最快第 340 步到 99%，第 100 步 11%。Muon（动量 0.95 + Nesterov + Newton–Schulz，只用于 qkv / o / w1 / w2；其余参数 AdamW 3e-3；学习率 0.005 / 0.01 / 0.02 / 0.05）：第 220 / 160 / 140 / 160 步到 99%；η = 0.02 时第 100 步 91%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Gupta, Koren, Singer. <em>Shampoo: Preconditioned Stochastic Tensor Optimization</em>. ICML 2018；Vyas et al. <em>SOAP</em>. 2024.</li>
+  <li>Jordan et al. <em>Muon: An optimizer for hidden layers in neural networks</em>（博客）. 2024.</li>
+  <li>Liu et al. <em>Muon is Scalable for LLM Training</em>（Moonlight，3B/16B MoE，5.7T tokens；计算最优训练中约 2 倍于 AdamW 的效率）. Moonshot AI, 2025.</li>
+  <li>Kimi Team. <em>Kimi K2</em>（1.04T 参数 MoE，MuonClip = Muon + QK-Clip）. 2025.</li>
+</ul>

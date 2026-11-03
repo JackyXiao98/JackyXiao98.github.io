@@ -1,0 +1,11 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li><code>opx.signal</code>：50 层 MLP（宽度 256，无偏置），输入 N(0, 1)，权重 N(0, g²/256)。ReLU：g = 1 时第 10 层标准差 0.0233、第 50 层 2×10<sup>−8</sup>；g = √2（He）第 50 层 0.66；g = 2 时第 10 层 23.9、第 50 层 2.2×10<sup>7</sup>。</li>
+  <li><code>opx.postln</code>：6 层加法模型，Adam 学习率 0.01，800 步。第 800 步测试准确率：Post-LN 无预热 1.0%（损失停在 2.125）；Post-LN 预热 200 步 80.3%；Pre-LN 无预热 43.5%（不稳定）；Pre-LN 预热 200 步 100%（第 340 步到 99%）。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Glorot &amp; Bengio. <em>Understanding the difficulty of training deep feedforward neural networks</em>. AISTATS 2010.</li>
+  <li>He et al. <em>Delving Deep into Rectifiers</em>. ICCV 2015.</li>
+  <li>Ba, Kiros, Hinton. <em>Layer Normalization</em>. 2016；Xiong et al. <em>On Layer Normalization in the Transformer Architecture</em>. ICML 2020.</li>
+</ul>

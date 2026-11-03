@@ -1,0 +1,12 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li><code>opx.schedules</code>：12 个词元的二阶马尔可夫语言（老师 = softmax(A[前一个] + B[前两个, 前一个])），长度 10 的序列，位置 2–9 的损失；下限 = 老师在测试序列上的熵 1.053。2 层 Transformer（d = 64），Adam 峰值学习率 0.01，批量 64，1,000 步，预热 50 步。</li>
+  <li>第 1,000 步测试损失：恒定 1.097；余弦（到 0）1.067；WSD（最后 20% 线性降到 0）第 800 步 1.101（与恒定相同），第 1,000 步 1.071。</li>
+  <li><code>opx.postln</code>：6 层 Pre-LN 加法模型，Adam 3e-3，800 步：无预热第 440 步到 99%，预热 200 步第 280 步到 99%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Loshchilov &amp; Hutter. <em>SGDR: Stochastic Gradient Descent with Warm Restarts</em>（余弦退火）. ICLR 2017.</li>
+  <li>Hu et al. <em>MiniCPM</em>（WSD 调度）. 2024；Hägele et al. <em>Scaling Laws and Compute-Optimal Training Beyond Fixed Training Durations</em>. 2024.</li>
+  <li>Liu et al. <em>On the Variance of the Adaptive Learning Rate and Beyond</em>（预热与 Adam 二阶矩）. ICLR 2020.</li>
+</ul>

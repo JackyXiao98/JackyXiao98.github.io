@@ -1,0 +1,12 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li><code>opx.stability</code>：马尔可夫语言上的 2 层 Transformer，Adam（无预热），批量 64，1,000 步。梯度范数（裁剪前）超过中位数 5 倍的步数：η = 0.003 时 4 次（都在开头）；η = 0.03 时 22 次，最大 18.3（第 624 步，中位数 0.35）。</li>
+  <li>最终测试损失（不裁剪 / 全局范数裁剪到 1.0）：η = 0.003：1.094 / 1.090；η = 0.01：1.113 / 1.103；η = 0.03：1.516 / 1.458。</li>
+  <li><code>opx.bf16_updates</code>：线性回归（16 个权重，512 个样本），全批量 GD，η = 1e-3，2,000 步。fp32 权重：损失 14.76 → 0.017；bf16 权重：第 1,000 步起停在 3.60；bf16 梯度 + fp32 主权重：0.017。bf16 中 1.0 + 0.001 = 1.0（1 附近间隔 2<sup>−7</sup>）。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Chowdhery et al. <em>PaLM</em>（z-loss，遇到损失尖峰时回退检查点并跳过数据批次）. 2022.</li>
+  <li>Dehghani et al. <em>Scaling Vision Transformers to 22 Billion Parameters</em>（QK-norm）. 2023；Wortsman et al. <em>Small-scale proxies for large-scale Transformer training instabilities</em>. 2023.</li>
+  <li>Micikevicius et al. <em>Mixed Precision Training</em>. ICLR 2018；DeepSeek-AI. <em>DeepSeek-V3</em>（FP8 混合精度训练）. 2024.</li>
+</ul>

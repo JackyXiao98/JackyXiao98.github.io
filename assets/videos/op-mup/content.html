@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>opx.mup</code>）</h3>
+<ul>
+  <li>MLP [24, w, w, 12]：用前两个词元的 one-hot 预测马尔可夫语言的下一个词元，2,000 个样本全批量，手写 Adam（β = 0.9, 0.999）100 步；学习率 2<sup>−16</sup> … 2<sup>0</sup>；宽度 64 / 256 / 1,024。</li>
+  <li>SP：所有层同一学习率，初始化 N(0, 1/fan_in)。μP（Adam）：中间层学习率 ÷ m（m = w/64），logits × 1/m，输入层和输出层学习率不变。</li>
+  <li>损失 ≤ 1.2 的最小学习率：SP 2<sup>−9</sup> / 2<sup>−11</sup> / 2<sup>−13</sup>；μP 都是 2<sup>−9</sup>。学习率 2<sup>−9</sup> 时 μP 的损失 1.135 / 1.134 / 1.140。</li>
+  <li>注：第一版实现把输出层学习率也除以 m，曲线反而向右移；按 μP 的推导修正（输出已有 1/m 缩放）后曲线重合。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Yang &amp; Hu. <em>Tensor Programs IV: Feature Learning in Infinite-Width Neural Networks</em>. ICML 2021.</li>
+  <li>Yang et al. <em>Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer</em>（μTransfer，67 亿参数 GPT-3）. 2022.</li>
+</ul>
