@@ -1,0 +1,13 @@
+<h3>视频中的实验（<code>mix.steering</code>）</h3>
+<ul>
+  <li>进位方向 v = 第 1 层后、b 的个位处残差流：有进位题的平均 − 无进位题的平均（8,000 道训练题）；‖v‖ ≈ 6.5，该处残差流平均范数 ≈ 5.3。</li>
+  <li>加到无进位的测试题上（α = 0 / 0.5 / 1 / 1.5 / 2）：十位 +1 的比例 0 / 24 / 75 / 80 / 80%，个位不变 100 / 95 / 79 / 75 / 74%。从有进位的题上减去：十位 −1 的比例 0 / 28 / 83 / 86 / 86%，个位不变 100 / 98 / 98.5 / 98 / 98%。</li>
+  <li>示例：32 + 45，模型输出 077；加上 v（α = 1）后输出 087。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Turner et al. <em>Activation Addition: Steering Language Models Without Optimization</em>. 2023；Zou et al. <em>Representation Engineering</em>. 2023.</li>
+  <li>Anthropic. <em>Golden Gate Claude</em>. 2024（基于 Scaling Monosemanticity 的特征引导演示）。</li>
+  <li>Marks et al. <em>Auditing Language Models for Hidden Objectives</em>. Anthropic, 2025.</li>
+  <li>Lindsey et al. <em>On the Biology of a Large Language Model</em>. 2025：模型对 36 + 59 的“解释”是标准的列竖式进位，与内部的并行路径不同；作者指出方法只对一部分提示有满意的结果。</li>
+</ul>

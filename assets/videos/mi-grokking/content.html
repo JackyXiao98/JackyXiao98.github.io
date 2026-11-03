@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>mix.grokking</code>）</h3>
+<ul>
+  <li>(a + b) mod 59；logits = W<sub>out</sub> ReLU(W<sub>in</sub>(E[a] + E[b]))，d = 128，256 个隐藏神经元；30% 的题（1,044 道）训练，其余 2,437 道测试；全批量 AdamW（学习率 1e-3，β = (0.9, 0.98)，权重衰减 0.3），40,000 步。</li>
+  <li>训练准确率第 250 步 100%，此时测试 29.4%；到第 5,000 步测试最高 31.8%；第 29,000 步测试首次 ≥ 99%；最终 99.5%。</li>
+  <li>每个神经元的输入 \((EW_{in})[a,h]\) 作为 a 的函数做 DFT（频率 1–29）：最强单一频率的能量占比，中位数从 0.13（初始化）升到 0.74（结束），最好的神经元 &gt; 0.98。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Power et al. <em>Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets</em>. 2022.</li>
+  <li>Nanda et al. <em>Progress measures for grokking via mechanistic interpretability</em>. ICLR 2023.</li>
+  <li>Gromov. <em>Grokking modular arithmetic</em>. 2023（MLP 上的解析解）。</li>
+</ul>

@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>mix.patching</code>）</h3>
+<ul>
+  <li>1,577 道测试题，每道配一个损坏版本：只改 b 的个位，使进位翻转，且答案的百位不变（如 37+45=082 vs 37+42=079）。干净与损坏输入，模型的十位数字都 100% 正确。</li>
+  <li>把干净运行在（层，位置）处的残差流复制进损坏运行；分数 = (LD<sub>patched</sub> − LD<sub>corrupt</sub>) / (LD<sub>clean</sub> − LD<sub>corrupt</sub>)，LD = 十位数字处 logit(干净答案) − logit(损坏答案)，取平均（LD<sub>clean</sub> ≈ 6.71，LD<sub>corrupt</sub> ≈ −6.56）。</li>
+  <li>嵌入：b 的个位处 1.00，其他 0。第 1 层后：b 的个位 0.87，“=” 0.03，答案百位 0.09。第 2 层后：答案百位（预测十位的位置）1.00，其他 0。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Meng et al. <em>Locating and Editing Factual Associations in GPT</em>（因果追踪）. NeurIPS 2022.</li>
+  <li>Heimersheim &amp; Nanda. <em>How to use and interpret activation patching</em>. 2024.</li>
+  <li>Zhang &amp; Nanda. <em>Towards Best Practices of Activation Patching</em>. ICLR 2024.</li>
+</ul>

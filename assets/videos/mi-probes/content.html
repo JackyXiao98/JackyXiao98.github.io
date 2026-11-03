@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>mix.probes</code>）</h3>
+<ul>
+  <li>随机网络：同一次训练第 0 步（随机初始化）的参数，同样的进位探针，最高 87.2%（第 1 层后，答案百位处）；训练好的模型最高 100%。</li>
+  <li>输入本身：嵌入层只看 a 的个位数字就有 76.3%。</li>
+  <li>打乱标签（第 2 层后、答案百位处，C = 100 的弱正则化逻辑回归）：训练集 55.8%，测试集 53.0%；真实标签：训练 100%，测试 100%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Hewitt &amp; Liang. <em>Designing and Interpreting Probes with Control Tasks</em>. EMNLP 2019.</li>
+  <li>Belinkov. <em>Probing Classifiers: Promises, Shortcomings, and Advances</em>. Computational Linguistics, 2022.</li>
+  <li>Ravichander et al. <em>Probing the Probing Paradigm</em>. EACL 2021（读得出来 ≠ 被使用）。</li>
+</ul>

@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>mix.probes</code>）</h3>
+<ul>
+  <li>模型：Transformer 系列的加法模型（"ab+cd=sss"，2 层，4 个头，d = 64，600 步训练，2,000 道测试题全对）。</li>
+  <li>“进位” = a 的个位 + b 的个位 ≥ 10。在每一层（0 = 嵌入，1、2 = 第 1、2 层之后）、每个位置的残差流上训练逻辑回归（标准化特征），8,000 道训练题训练，2,000 道测试题检验。</li>
+  <li>全部猜多数类：54.4%。嵌入层：a 的个位 76.3%，b 的个位 75.2%，其他位置 54.4%。第 1 层之后：b 的个位处 100%。第 2 层之后：b 的个位、“=”、答案百位、答案十位处都 ≥ 99.8%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Elhage et al. <em>A Mathematical Framework for Transformer Circuits</em>. 2021（残差流视角）。</li>
+  <li>Olah et al. <em>Zoom In: An Introduction to Circuits</em>. Distill, 2020（特征与电路）。</li>
+  <li>Alain &amp; Bengio. <em>Understanding intermediate layers using linear classifier probes</em>. 2016.</li>
+</ul>
