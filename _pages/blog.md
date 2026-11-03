@@ -117,7 +117,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-microscope" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Interpretability</strong>
-      <span>机制可解释性 · 制作中</span>
+      <span>机制可解释性</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

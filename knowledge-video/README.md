@@ -51,6 +51,8 @@ optional `upcoming` list of planned episodes.
 | `src/rlx.py` | RL toys: bandits, Bradley–Terry reward model, KL-regularised RLHF optimum, DPO, length-biased reward, GRPO on the addition model, chain of thought, process vs outcome reward (cached via `RL_CACHE`) |
 | `src/kd01_intro.py` … `src/kd09_limits.py` | Knowledge Distillation series, nine episodes (`--series distillation`) |
 | `src/kdx.py` | distillation toys: soft labels on 8×8 digits, dark knowledge with a held-out class, FitNets hints, born-again networks, forward vs reverse KL, off- vs on-policy distillation, sequence-level KD and out-of-distribution imitation on the addition model, pruning and quantisation (cached via `KD_CACHE`) |
+| `src/mi01_intro.py` … `src/mi09_steering.py` | Mechanistic Interpretability series, nine episodes (`--series interpretability`) |
+| `src/mix.py` | interpretability toys: hooked forward pass of the addition model (probes, activation patching, ablation, steering), induction heads in an attention-only model, toy models of superposition, sparse autoencoders, modular addition and grokking (cached via `MI_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |
