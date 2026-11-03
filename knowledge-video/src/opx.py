@@ -238,13 +238,34 @@ def _muon(lr, beta=0.95, ns_steps=5, adam_lr=3e-3, wd=0.0):
     return optax.GradientTransformation(init, update)
 
 
+def _markov_data(n, seed, V=12, T=10):
+    import kdx
+    P = kdx.markov_teacher(V=V, seed=0)
+    rng = np.random.default_rng(seed)
+    s = np.zeros((n, T), np.int32)
+    s[:, :2] = rng.integers(0, V, (n, 2))
+    for t in range(2, T):
+        pr = P[s[:, t - 2], s[:, t - 1]]
+        s[:, t] = (pr.cumsum(1) > rng.random((n, 1))).argmax(1)
+    floor = float(-np.mean(np.log(P[s[:, :-2], s[:, 1:-1], s[:, 2:]])))
+    return s, floor
+
+
 def train_tf(opt="adam", lr=3e-3, steps=600, sched="constant", warmup=0, layers=2, d=64, heads=4, post_ln=False,
-             batch=256, clip=None, seed=0, eval_every=20, wd=0.0, momentum=0.9):
-    """Train the addition Transformer; returns history of (step, train_loss, test_loss, test_acc)."""
+             batch=256, clip=None, seed=0, eval_every=20, wd=0.0, momentum=0.9, data="add"):
+    """Train the addition Transformer (data="add") or a next-token model on a 12-token second-order Markov
+    language (data="markov", loss on positions 2..9, floor = the teacher's own conditional entropy);
+    returns history of (step, test_loss, test_acc) plus per-step train loss and gradient norm."""
     import jax
     import jax.numpy as jnp
     import optax
-    tr, te, _, _ = tfm.dataset()
+    if data == "add":
+        tr, te, _, _ = tfm.dataset()
+        first = tfm.ANS
+    else:
+        tr, _ = _markov_data(200000, seed + 1)
+        te, floor = _markov_data(4000, 999)
+        first = 2
     p = tfm.init(jax.random.PRNGKey(seed), d, heads, layers)
     p.pop("heads")
     if sched == "constant":
@@ -269,8 +290,8 @@ def train_tf(opt="adam", lr=3e-3, steps=600, sched="constant", warmup=0, layers=
 
     def lf(p, b):
         lg = _forward(p, b[:, :-1], heads, post_ln)
-        lp = jax.nn.log_softmax(lg[:, tfm.ANS - 1:], -1)
-        return -jnp.take_along_axis(lp, b[:, tfm.ANS:, None], -1).mean()
+        lp = jax.nn.log_softmax(lg[:, first - 1:], -1)
+        return -jnp.take_along_axis(lp, b[:, first:, None], -1).mean()
 
     @jax.jit
     def step(p, st, b):
@@ -282,10 +303,10 @@ def train_tf(opt="adam", lr=3e-3, steps=600, sched="constant", warmup=0, layers=
     @jax.jit
     def evaluate(p):
         lg = _forward(p, te[:, :-1], heads, post_ln)
-        pred = lg[:, tfm.ANS - 1:].argmax(-1)
-        lp = jax.nn.log_softmax(lg[:, tfm.ANS - 1:], -1)
-        loss = -jnp.take_along_axis(lp, te[:, tfm.ANS:, None], -1).mean()
-        return loss, (pred == te[:, tfm.ANS:]).all(1).mean()
+        pred = lg[:, first - 1:].argmax(-1)
+        lp = jax.nn.log_softmax(lg[:, first - 1:], -1)
+        loss = -jnp.take_along_axis(lp, te[:, first:, None], -1).mean()
+        return loss, (pred == te[:, first:]).all(1).mean()
 
     rng = np.random.default_rng(seed)
     hist, losses, gns = [], [], []
@@ -298,7 +319,7 @@ def train_tf(opt="adam", lr=3e-3, steps=600, sched="constant", warmup=0, layers=
             p, st, l, gn = step(p, st, jnp.array(tr[rng.choice(len(tr), batch)]))
             losses.append(float(l))
             gns.append(float(gn))
-    return dict(hist=np.array(hist), train=np.array(losses), gnorm=np.array(gns))
+    return dict(hist=np.array(hist), train=np.array(losses), gnorm=np.array(gns), floor=None if data == "add" else floor)
 
 
 def _first(hist, thr=0.99):
@@ -316,9 +337,11 @@ def optimizers(steps=600):
     return out
 
 
-def schedules(lr=3e-3, steps=1000, warmup=50):
-    out = {s: train_tf(opt="adam", lr=lr, steps=steps, sched=s, warmup=warmup, eval_every=10) for s in ("constant", "cosine", "wsd")}
-    return out
+def schedules(lr=1e-2, steps=1000, warmup=50, batch=64, data="markov"):
+    """Adam on the 12-token Markov language with constant (after warmup), cosine and WSD (last 20% linear
+    decay to 0) learning rates; test loss every 10 steps, floor = teacher entropy."""
+    return {s: train_tf(opt="adam", lr=lr, steps=steps, sched=s, warmup=warmup, eval_every=10, batch=batch, data=data)
+            for s in ("constant", "cosine", "wsd")}
 
 
 def warmup_test(lr=3e-2, steps=600):
@@ -386,50 +409,48 @@ def batch_size(batches=(4, 8, 16, 32, 64, 128, 256, 512, 1024), lrs=(0.01, 0.03,
 
 
 # ---------------------------------------------------------------- muP vs standard parametrisation
-def mup(widths=(64, 128, 256, 512, 1024, 2048), lrs=tuple(2.0 ** np.arange(-14, -1)), steps=300, base=64, seed=0):
-    """MLP [64, w, w, 10] on the digits, Adam, full batch, train loss after `steps`. SP: every layer lr, init
-    N(0, 1/fan_in). muP (Adam): hidden and output layers use lr / m (m = w / base) and the logits are
-    multiplied by 1/m."""
-    import dpx
+def mup(widths=(64, 256, 1024), lrs=tuple(2.0 ** np.arange(-16, 1)), steps=100, base=64, n=2000, seed=0):
+    """MLP [24, w, w, 12] predicting the next token of the 12-token second-order Markov language from the
+    one-hot of the previous two tokens; Adam (manual, b1 0.9, b2 0.999), full batch of 2,000 examples,
+    train loss after `steps`. SP: every layer uses lr, init N(0, 1/fan_in). muP (Adam): hidden and output
+    layers use lr / m (m = w / base) and the logits are multiplied by 1/m. Floor = the teacher's entropy."""
     import jax
     import jax.numpy as jnp
-    import optax
-    Xtr, ytr, _, _ = dpx.digits()
-    X, y = jnp.array(Xtr), jnp.array(ytr)
-    out = {"sp": {}, "mup": {}}
+    s, floor = _markov_data(n // 8 + 1, seed + 5)
+    prev2, prev1, nxt = s[:, :-2].ravel()[:n], s[:, 1:-1].ravel()[:n], s[:, 2:].ravel()[:n]
+    X = jnp.array(np.concatenate([np.eye(12)[prev2], np.eye(12)[prev1]], 1), jnp.float32)
+    y = jnp.array(nxt)
+    out = {"sp": {}, "mup": {}, "floor": floor}
     for w in widths:
         m = w / base
-        sizes = [64, w, w, 10]
+        sizes = [24, w, w, 12]
         ks = jax.random.split(jax.random.PRNGKey(seed), 3)
         p0 = [(jax.random.normal(ks[i], (a, b)) / np.sqrt(a), jnp.zeros(b)) for i, (a, b) in enumerate(zip(sizes[:-1], sizes[1:]))]
         for par in ("sp", "mup"):
             mult = 1 / m if par == "mup" else 1.0
+            scale = [1.0, 1 / m, 1 / m] if par == "mup" else [1.0, 1.0, 1.0]
 
-            def f(p):
+            def lf(p):
                 h = jnp.maximum(0, X @ p[0][0] + p[0][1])
                 h = jnp.maximum(0, h @ p[1][0] + p[1][1])
-                return (h @ p[2][0] + p[2][1]) * mult
+                z = (h @ p[2][0] + p[2][1]) * mult
+                return -jnp.take_along_axis(jax.nn.log_softmax(z), y[:, None], 1).mean()
 
-            lf = lambda p: -jnp.take_along_axis(jax.nn.log_softmax(f(p)), y[:, None], 1).mean()
-            res = []
-            for lr in lrs:
-                if par == "mup":
-                    tx = optax.multi_transform({"in": optax.adam(lr), "rest": optax.adam(lr / m)}, ["in", "rest", "rest"])
-                else:
-                    tx = optax.adam(lr)
-                st = tx.init(p0)
-
-                @jax.jit
-                def run(p, st):
-                    def body(c, _):
-                        p, st = c
-                        g = jax.grad(lf)(p)
-                        u, st = tx.update(g, st, p)
-                        return (optax.apply_updates(p, u), st), None
-                    (p, st), _ = jax.lax.scan(body, (p, st), None, steps)
-                    return lf(p)
-                v = float(run(p0, st))
-                res.append(v if np.isfinite(v) else np.nan)
-            out[par][w] = np.array(res)
+            @jax.jit
+            def run(lr):
+                zeros = jax.tree_util.tree_map(jnp.zeros_like, p0)
+                def body(c, t):
+                    p, mm, vv = c
+                    g = jax.grad(lf)(p)
+                    mm = jax.tree_util.tree_map(lambda a, b: 0.9 * a + 0.1 * b, mm, g)
+                    vv = jax.tree_util.tree_map(lambda a, b: 0.999 * a + 0.001 * b * b, vv, g)
+                    c1, c2 = 1 - 0.9 ** t, 1 - 0.999 ** t
+                    p = [tuple(pi - lr * sc * (mi / c1) / (jnp.sqrt(vi / c2) + 1e-8) for pi, mi, vi in zip(P, M, Vv))
+                         for P, M, Vv, sc in zip(p, mm, vv, scale)]
+                    return (p, mm, vv), None
+                (p, _, _), _ = jax.lax.scan(body, (p0, zeros, zeros), jnp.arange(1, steps + 1, dtype=jnp.float32))
+                return lf(p)
+            res = [float(run(lr)) for lr in lrs]
+            out[par][w] = np.array([v if np.isfinite(v) and v < 10 else np.nan for v in res])
     out["lrs"] = np.array(lrs)
     return out
