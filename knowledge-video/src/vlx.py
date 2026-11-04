@@ -481,9 +481,24 @@ def ref_clip(seed=5, shape=0, color=0, motion=5, bg_kind="dark"):
 GROUPS = {"temporal": ("t_qkv", "t_o"), "spatial": ("s_qkv", "s_o", "mlp1", "mlp2"), "all": MODULES}
 
 
-def motion_lora(cache_dir, steps=300, rank=8, n_eval=48, seed=0):
+def diag_ref():
+    """Reference clip with a motion the base model never saw: red square moving diagonally (+1, +1) px per frame."""
+    _, _, bg = ref_clip(motion=4)
+    tr = trajectory(4, 4.5, 4.5)
+    return render(0, 0, tr, bg), np.array(tr), bg
+
+
+def diag_rate(m):
+    d = np.array([np.nanmean(np.diff(x["cent"], axis=0), 0) for x in m])
+    return float(np.mean((d[:, 0] > 0.4) & (d[:, 1] > 0.4)))
+
+
+def motion_lora(cache_dir, steps=1000, rank=8, n_eval=32, lr=2e-3, seed=0):
+    """One-shot LoRA on the diagonal reference clip (labels: square, red, motion = none); LoRA on temporal attention only,
+    on spatial attention + MLP only, or on everything. Generate with other shapes / colours (motion = none): share of
+    videos moving diagonally, colour follows the label, colour copied from the reference (red)."""
     p = base_model(cache_dir)
-    v, tr, bg = ref_clip()
+    v, tr, bg = diag_ref()
     lab = np.array([[0, 0, NONE[2]]] * 8, np.int32)
     x0 = np.repeat(to_tokens(v[None]), 8, 0)
 
@@ -495,21 +510,19 @@ def motion_lora(cache_dir, steps=300, rank=8, n_eval=48, seed=0):
 
     def stats(vid):
         m = measure(vid)
-        te = [traj_err(x["cent"], tr) for x in m]
-        return dict(traj=float(np.nanmean(te)), color_acc=float(np.mean([color_id(x["color"]) == l[1] for x, l in zip(m, elab)])),
-                    copy=float(np.mean([color_id(x["color"]) == 0 for x in m])), traj_all=np.array(te))
+        return dict(diag=diag_rate(m), color_acc=float(np.mean([color_id(x["color"]) == l[1] for x, l in zip(m, elab)])),
+                    copy=float(np.mean([color_id(x["color"]) == 0 for x in m])))
 
-    out = dict(ref=v, ref_traj=tr, base=stats(_gen_eval(p, None, elab)), runs={}, params={})
+    base = _gen_eval(p, None, elab)
+    out = dict(ref=v, ref_traj=tr, base=stats(base), runs={}, params={}, elab=elab[:4], base_samples=base[:4])
     for name, mods in GROUPS.items():
-        trn, _ = finetune(p, data, steps, 1e-3, rank=rank, modules=mods, seed=seed)
+        trn, _ = finetune(p, data, steps, lr, rank=rank, modules=mods, seed=seed)
         vid = _gen_eval(p, trn["lora"], elab)
         out["runs"][name] = stats(vid)
         out["runs"][name]["samples"] = vid[:4]
         out["params"][name] = lora_params(trn["lora"])
         if name == "temporal":
             out["lora_temporal"] = trn["lora"]
-    out["elab"] = elab[:4]
-    out["base_samples"] = _gen_eval(p, None, elab[:4])
     return out
 
 
@@ -785,7 +798,6 @@ def merge_loras(cache_dir, scales=(0.5, 1.0, 1.5), n_eval=48):
     R1 = cached(cache_dir, "rank", rank_sweep, cache_dir=cache_dir)
     R3 = cached(cache_dir, "motion", motion_lora, cache_dir=cache_dir)
     bgL, mvL = R1["lora8"], R3["lora_temporal"]
-    _, ref_tr, _ = ref_clip()
     rng = np.random.default_rng(13)
     elab = np.stack([rng.choice([0, 1, 2], n_eval), rng.choice([1, 2, 3], n_eval), np.full(n_eval, NONE[2])], 1).astype(np.int32)
 
@@ -793,8 +805,7 @@ def merge_loras(cache_dir, scales=(0.5, 1.0, 1.5), n_eval=48):
         v = _gen_eval(p, lo, elab)
         m = measure(v)
         sat = v.max(-1) - v.min(-1)
-        return dict(bg=float(np.mean([v[i][sat[i] < 0.2].mean() for i in range(n_eval)])),
-                    traj=float(np.nanmean([traj_err(x["cent"], ref_tr) for x in m])),
+        return dict(bg=float(np.mean([v[i][sat[i] < 0.2].mean() for i in range(n_eval)])), diag=diag_rate(m),
                     color_acc=float(np.mean([color_id(x["color"]) == l[1] for x, l in zip(m, elab)])), samples=v[:4])
 
     out = {"base": stats(None), "bg": stats(bgL), "motion": stats(mvL), "both": {}}
