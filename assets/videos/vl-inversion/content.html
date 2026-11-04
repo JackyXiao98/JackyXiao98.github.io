@@ -1,0 +1,12 @@
+<h3>视频中的实验（<code>vlx.inversion_edit</code>）</h3>
+<ul>
+  <li>48 个源视频，目标是换成另一种颜色。用源标签把 flow ODE（Euler）从 t = 0 积分到 t_end，再用目标颜色标签采样回 t = 0（步数相同）。</li>
+  <li>强度 t_end = 0.2 / 0.4 / 0.6 / 0.8 / 1.0：成功率 2% / 12.5% / 46% / 100% / 100%；背景 PSNR 37.9 / 33.6 / 30.1 / 24.5 / 22.5 dB；轨迹偏差 0.05 / 0.30 / 0.73 / 1.56 / 1.75 像素；用源标签采样回来的重建 PSNR 42.4 / 40.8 / 37.5 / 29.6 / 25.8 dB。</li>
+  <li>从纯噪声按目标标签生成：成功率 100%，轨迹偏差 3.43 像素，背景 PSNR 17.3 dB。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Song et al. <em>DDIM</em>. ICLR 2021；Meng et al. <em>SDEdit</em>. ICLR 2022.</li>
+  <li>Qi et al. <em>FateZero: Fusing Attentions for Zero-shot Text-based Video Editing</em>. ICCV 2023.</li>
+  <li>Geyer et al. <em>TokenFlow: Consistent Diffusion Features for Consistent Video Editing</em>. ICLR 2024.</li>
+</ul>

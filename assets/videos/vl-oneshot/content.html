@@ -1,0 +1,11 @@
+<h3>视频中的实验（<code>vlx.motion_lora</code>）</h3>
+<ul>
+  <li>参考视频：红色方块沿对角线移动（每帧 +1, +1 像素），原模型从未见过斜向运动。标签（方块、红、运动 = 无），在这一个视频上训练秩 8 的 LoRA，Adam 2e-3，1,000 步。</li>
+  <li>生成 32 个其他形状、蓝 / 绿 / 黄色的视频（运动 = 无）：斜向运动比例 / 颜色听标签 / 复读红色：原模型 6% / 100% / 0%；只在时间注意力 19% / 100% / 0%；空间注意力 + MLP 25% / 22% / 56%；全部 38% / 0% / 81%。</li>
+  <li>小模型较弱，运动只学到一部分；之字形（上下 2 像素交替）运动在我们的设置里几乎学不到，因此改用斜向运动。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Wu et al. <em>Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation</em>. ICCV 2023.</li>
+  <li>Zhao et al. <em>MotionDirector: Motion Customization of Text-to-Video Diffusion Models</em>（双路 LoRA：空间外观 / 时间运动）. ECCV 2024.</li>
+</ul>

@@ -1,0 +1,9 @@
+<h3>视频中的实验（<code>vlx.mask_lora_edit</code>）</h3>
+<ul>
+  <li>12 个之字形运动的源视频；掩码 = 物体经过的 4×4 块（重画），其余块在所有帧作为干净词元照抄，改好颜色的第一帧也给出。</li>
+  <li>(a) 不加 LoRA：颜色成功 92%，轨迹偏差 1.49 像素。(b) 每个视频训练一个 LoRA（秩 8，全部模块，200 步，Adam 1e-3，训练时使用同样的掩码，一半样本给出首帧）：颜色成功 0%（复读原颜色），轨迹偏差 1.45 像素。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Gao, Ding, Cai, Huang, Wang, Xue. <em>LoRA-Edit: Controllable First-Frame-Guided Video Editing via Mask-Aware LoRA Fine-Tuning</em>. arXiv 2506.10082（2025），ICLR 2026 poster：时空掩码让模型区分“照抄原视频”与“生成新内容”，并可用参考帧指导后续帧外观；与 Kling 1.6、VACE、I2VEdit、Go-with-the-Flow、AnyV2V 比较。代码基于 diffusion-pipe。</li>
+</ul>

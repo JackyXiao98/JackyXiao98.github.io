@@ -1,0 +1,11 @@
+<h3>视频中的实验（<code>vlx.first_frame_edit</code>）</h3>
+<ul>
+  <li>同第 04 期的 48 个视频；把第一帧里的物体像素直接改成目标颜色，作为干净条件（图生视频），标签给源形状与源运动，颜色 = 无。</li>
+  <li>每帧仍是目标颜色的比例：第 1–8 帧 100% / 98% / 88% / 75% / 58% / 40% / 31% / 38%；整体成功率 73%，轨迹偏差 1.83 像素（从噪声生成 3.43）。描述里写上目标颜色时每帧都是 100%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Ku et al. <em>AnyV2V: A Tuning-Free Framework for Any Video-to-Video Editing Tasks</em>. TMLR 2024.</li>
+  <li>Ouyang et al. <em>I2VEdit: First-Frame-Guided Video Editing via Image-to-Video Diffusion Models</em>. SIGGRAPH Asia 2024.</li>
+  <li>Gao et al. <em>LoRA-Edit</em>（arXiv 2506.10082）：指出首帧引导编辑对后续帧缺乏控制。</li>
+</ul>

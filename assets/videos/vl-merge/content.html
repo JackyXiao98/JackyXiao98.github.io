@@ -1,0 +1,10 @@
+<h3>视频中的实验（<code>vlx.merge_loras</code>）</h3>
+<ul>
+  <li>第 01 期的浅色背景 LoRA（秩 8，全部模块）+ 第 03 期的斜向运动 LoRA（秩 8，时间注意力），改变量相加，系数 0.5 / 1 / 1.5；每种设置 48 个视频。</li>
+  <li>背景亮度 / 斜向运动 / 颜色听标签：原模型 0.19 / 2.1% / 100%；只背景 0.84 / 0% / 100%；只运动 0.17 / 12.5% / 98%；相加 (1, 1) 0.74 / 4.2% / 100%；(1.5, 1) 0.94 / 2.1% / 94%；(1, 1.5) 0.70 / 0% / 73%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Shah et al. <em>ZipLoRA: Any Subject in Any Style by Effectively Merging LoRAs</em>. 2023.</li>
+  <li>Luo et al. <em>LCM-LoRA: A Universal Stable-Diffusion Acceleration Module</em>. 2023.</li>
+</ul>

@@ -1,0 +1,10 @@
+<h3>视频中的实验（<code>vlx.instruct_lora</code>）</h3>
+<ul>
+  <li>一个上下文 LoRA（秩 16）+ 可学习的指令嵌入，四种编辑均匀混合训练 2,500 步（批量 16）：改颜色、改形状（方块→圆盘→十字→方块）、倒放、移除物体。</li>
+  <li>每种 32 个测试视频的成功率：改颜色 50%、改形状 19%、倒放 6%（轨迹与倒放后的源相差 &lt; 1 像素）、移除物体 94%。对比第 07 期只学改颜色：1,500 步 100%。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Bai et al. <em>Scaling Instruction-Based Video Editing with a High-Quality Synthetic Dataset</em>（Ditto / Editto，arXiv 2510.15742，CVPR 2026 Highlight）：Ditto-1M 超过 100 万条三元组，构建耗时超过 12,000 GPU 日；基础模型 Wan2.1-T2V-14B 与 Wan2.1-VACE-14B；只微调上下文模块的线性投影层；模态课程学习。</li>
+  <li>Jiang et al. <em>VACE: All-in-One Video Creation and Editing</em>. 2025.</li>
+</ul>

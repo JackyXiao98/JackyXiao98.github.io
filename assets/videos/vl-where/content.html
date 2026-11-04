@@ -1,0 +1,12 @@
+<h3>视频中的计算</h3>
+<ul>
+  <li>Wan2.1-14B 的公开配置：隐藏维度 5,120，FFN 13,824，40 个块，40 个头。每块自注意力与交叉注意力各 4 个 5,120×5,120 矩阵 + 2 个 FFN 矩阵：8·5120² + 2·5120·13824 = 351,272,960；40 块共 14,050,918,400 参数。</li>
+  <li>10 个矩阵都加秩 r 的 LoRA：40·(8·(5120+5120) + 2·(5120+13824))·r = 4,792,320·r；r = 32 时 153,354,240 参数（1.09%）。bf16 存储：模型 28.1 GB，LoRA 0.31 GB。全量 Adam 训练状态约 16 字节 / 参数 ≈ 225 GB（不含激活值）。</li>
+  <li>本系列小模型：616,800 参数；秩 8 LoRA：时间注意力 18,432，空间注意力 + MLP 49,152，全部 67,584。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Wan Team. <em>Wan: Open and Advanced Large-Scale Video Generative Models</em>. 2025（14B 配置见官方仓库的 config）。</li>
+  <li>Lightricks LTX-2 训练器文档（configuration-reference）：推荐 target_modules 为 attn1 / attn2 的 to_q、to_k、to_v、to_out.0 以及 ff.net.0.proj、ff.net.2。</li>
+  <li>Guo et al. <em>AnimateDiff</em>（在图像模型中插入时间运动模块）. 2023.</li>
+</ul>

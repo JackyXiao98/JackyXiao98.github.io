@@ -1,0 +1,11 @@
+<h3>视频中的实验（<code>vlx.ic_lora</code>）</h3>
+<ul>
+  <li>训练对：目标 = 源视频的物体换色（红→蓝、绿→黄、蓝→红、黄→绿）。源视频词元作为干净参考词元接在目标前（不加噪、时间步 0、不算损失，时间位置 0–7 与目标相同），标签全为“无”。LoRA 秩 16（135,168 参数），Adam 1e-3，批量 16，1,500 步。</li>
+  <li>48 个测试视频：每 100 步评估，颜色改对一直是 100%；轨迹偏差 0.59 → 0.20 像素；背景 PSNR 24.5 → 28.7 dB。对照：参考词元不加 LoRA 0% 改对；只用标签从噪声生成 100% 改对，但轨迹偏差 3.16、背景 17.7 dB；反演（强度 0.8）轨迹偏差 1.56。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li><em>AVControl: Efficient Framework for Training Audio-Visual Controls</em>. arXiv 2603.24793（2026）：在 LTX-2 上为深度、姿态、相机轨迹、音频变换等每种控制训练独立 LoRA；参考信号作为注意力中的额外词元，除 LoRA 外不改结构；每种控制 200–15,000 步；深度图由 Video Depth Anything 生成；音频质量受 LTX-2 声码器限制。（本文正文在本环境中无法直接访问，以上来自摘要与搜索结果。）</li>
+  <li>Lightricks LTX-2 训练器（packages/ltx-trainer/docs/training-modes.md、configuration-reference.md）：IC-LoRA 的参考 latent 拼接到目标序列，参与双向自注意力，不加噪、不算损失；参考与目标帧数相同，可用降采样参考（位置编码相应调整）；推荐 rank 32、alpha 32、学习率 1e-4、2,000 步、批量 1、梯度裁剪 1.0；推荐 80 GB 显存，32 GB 用 INT8 低显存配置。</li>
+  <li>Lightricks 在 Hugging Face 发布的 IC-LoRA（如 LTX-2-19b-IC-LoRA-Pose-Control、LTX-2.3-22b-IC-LoRA-Union-Control）。</li>
+</ul>
