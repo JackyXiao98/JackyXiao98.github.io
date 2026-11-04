@@ -1,0 +1,15 @@
+<p>本系列的小实验（<code>moex</code>）：数据来自 8 种隐藏的“语言”，词表 32，每种语言是一条一阶马尔可夫链（各自的随机尖锐转移矩阵）；每段序列长 32，来自其中一种，模型需要从上下文推断语言再预测下一个词元。最好可能的损失是给定语言时的真实条件熵 ≈ 1.557。模型是两层因果变换器（d = 64，4 头），只改前馈层：稠密（宽度 h）或混合专家（E 个宽度 h<sub>e</sub> 的专家，top-k 路由）。默认训练 2,000 步，批量 32，Adam 3e-3（100 步预热 + 余弦衰减），在 256 段留出序列上评估。专家用“稠密计算再掩码”的方式实现，只适合玩具规模。</p>
+<h3>视频中的实验（<code>moex.exp_scale</code>）</h3>
+<ul>
+  <li>稠密，前馈宽度 128：损失 1.794，71,680 参数。</li>
+  <li>稠密，前馈宽度 1,024（前馈计算 8 倍）：损失 1.686，301,056 参数。</li>
+  <li>混合专家，8 个宽度 128 的专家，top-1，Switch 辅助损失 0.01：损失 1.686，总参数 302,080，每个词元激活 72,704（多出的 1,024 是路由器）。</li>
+</ul>
+<p>注意这是一个对混合专家有利的任务：数据由 8 种互不相同的语言混合而成，正好适合分给不同专家。真实大模型中的收益没有这么整齐，见最后一期。</p>
+<h3>参考</h3>
+<ul>
+  <li>Jacobs, Jordan, Nowlan, Hinton. <em>Adaptive Mixtures of Local Experts</em>. Neural Computation 1991：最早的混合专家。</li>
+  <li>Shazeer et al. <em>Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer</em>. ICLR 2017：稀疏门控的 MoE 层，在 LSTM 之间插入数千个专家。</li>
+  <li>Lepikhin et al. <em>GShard</em>. ICLR 2021；Fedus, Zoph, Shazeer. <em>Switch Transformers</em>. JMLR 2022：把 MoE 放进变换器的前馈层，Switch 每个词元只选 1 个专家。</li>
+  <li>Jiang et al. <em>Mixtral of Experts</em>. 2024；DeepSeek-AI. <em>DeepSeek-V3 Technical Report</em>. 2024。</li>
+</ul>

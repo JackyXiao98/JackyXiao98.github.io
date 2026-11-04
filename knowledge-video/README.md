@@ -57,6 +57,8 @@ optional `upcoming` list of planned episodes.
 | `src/opx.py` | optimization toys: quadratic bowls (learning-rate threshold, condition number, momentum), batch size vs steps, a generic Transformer trainer (SGD / momentum / Adam / Muon, schedules, warmup, Pre-/Post-LN, clipping) on the addition task and a Markov language, signal propagation, muP vs SP, bf16 updates (cached via `OP_CACHE`) |
 | `src/vl01_lora.py` … `src/vl10_eval.py` | Video LoRA Editing series, ten episodes (`--series video-lora-edit`) |
 | `src/vlx.py`, `src/vlviz.py` | video LoRA toys: sprite videos, a factorised spatial / temporal video DiT trained with flow matching (clean-token conditioning), LoRA rank sweep, one-shot motion LoRA, inversion / first-frame / mask editing, in-context LoRA, instruction LoRA, LoRA merging (cached via `VL_CACHE`) |
+| `src/moe01_intro.py` … `src/moe09_tradeoffs.py` | Mixture of Experts series, nine episodes (`--series moe`) |
+| `src/moex.py` | MoE toys: a mixture of 8 hidden Markov languages, a 2-layer Transformer with a dense or MoE FFN (top-k routing, Switch auxiliary loss, auxiliary-loss-free bias balancing, expert capacity / token dropping, router z-loss, shared experts, upcycling) (cached via `MOE_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

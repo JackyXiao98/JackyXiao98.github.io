@@ -141,7 +141,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-affiliate" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Mixture of Experts</strong>
-      <span>混合专家模型 · 制作中</span>
+      <span>混合专家模型</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
