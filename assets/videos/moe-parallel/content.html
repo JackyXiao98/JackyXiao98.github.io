@@ -1,0 +1,16 @@
+<p>这一期不用小模型，计算都基于公开模型的报告与模型卡。</p>
+<h3>视频中的计算</h3>
+<ul>
+  <li>激活比例 = 每个词元激活的参数 / 总参数：Mixtral 8x7B 12.9B / 46.7B ≈ 27.6%；Qwen3-235B-A22B 22B / 235B ≈ 9.4%；DeepSeek-V3 37B / 671B ≈ 5.5%；Kimi K2 32B / 1.04T ≈ 3.1%（官方为 32.6B 激活）。</li>
+  <li>权重显存（只算权重，bf16 每个参数 2 字节）：671B × 2 B ≈ 1,342 GB，至少 ⌈1342 / 80⌉ = 17 张 80 GB 显卡；不含 KV 缓存与激活。</li>
+  <li>一批 B 个词元、每个词元从 E 个专家中随机选 k 个（独立、均匀），被用到的不同专家数的期望为 \( E\,(1-(1-k/E)^B) \)。E = 256、k = 8：B = 1 / 8 / 32 / 128 / 512 → 8 / 57 / 163 / 252 / 256。真实路由并不均匀，同一批里的词元也相关，所以这只是一个示意。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Jiang et al. <em>Mixtral of Experts</em>. arXiv 2024：8 个专家选 2 个，总参数 46.7B，每个词元激活 12.9B。</li>
+  <li>DeepSeek-AI. <em>DeepSeek-V3 Technical Report</em>. arXiv 2024：671B 总参数、37B 激活；每层 1 个共享专家 + 256 个路由专家，每个词元激活 8 个；每个词元最多发往 4 个节点（节点受限路由），DualPipe 让全对全通信与计算重叠。</li>
+  <li>Kimi Team. <em>Kimi K2: Open Agentic Intelligence</em>. 2025：约 1.04T 总参数、32B 激活；384 个专家选 8 个，外加 1 个共享专家。</li>
+  <li>Qwen Team. <em>Qwen3 Technical Report</em>. 2025：Qwen3-235B-A22B 总参数 235B、激活 22B，128 个专家选 8 个。</li>
+  <li>Lepikhin et al. <em>GShard</em>. ICLR 2021；Fedus et al. <em>Switch Transformers</em>. JMLR 2022：专家并行与全对全通信。</li>
+  <li>Rajbhandari et al. <em>DeepSpeed-MoE</em>. ICML 2022：MoE 推理与服务的系统设计。</li>
+</ul>
