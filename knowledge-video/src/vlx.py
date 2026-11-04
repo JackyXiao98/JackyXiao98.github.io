@@ -24,13 +24,13 @@ MOTIONS = ["向右", "向左", "向下", "向上", "斜向", "之字"]
 VEL = {0: (1, 0), 1: (-1, 0), 2: (0, 1), 3: (0, -1), 4: (1, 1)}
 
 
-def cached(cache_dir, name, fn, **kw):
+def cached(cdir, name, fn, **kw):
     key = "_".join(f"{k}{v}" for k, v in sorted(kw.items()) if k != "cache_dir")
-    path = os.path.join(cache_dir, f"{name}_{key}.pkl")
+    path = os.path.join(cdir, f"{name}_{key}.pkl")
     if os.path.exists(path):
         return pickle.load(open(path, "rb"))
     res = fn(**kw)
-    os.makedirs(cache_dir, exist_ok=True)
+    os.makedirs(cdir, exist_ok=True)
     pickle.dump(res, open(path, "wb"))
     return res
 
@@ -172,7 +172,9 @@ def forward(p, x, t, labels, clean, tpos=None, lora=None, lora_scale=1.0, inst=N
     """x: (B, Tn, NP, PD) noisy tokens; t: (B,) noise level; clean: (B, Tn, NP) 1 = clean token (time 0);
     tpos: (Tn,) temporal position ids; labels: (B, 3) ints (use the last index = 'none'); inst: (B,) ints or None.
     Returns predicted velocity (B, Tn, NP, PD)."""
+    import jax
     import jax.numpy as jnp
+    p = jax.tree_util.tree_map(jnp.asarray, p)
     B, Tn = x.shape[:2]
     tpos = jnp.arange(Tn) if tpos is None else tpos
     W_ = lambda l, name: p["layers"][l][name] + (lora_scale * lora[f"{l}.{name}"][0] @ lora[f"{l}.{name}"][1]
@@ -218,7 +220,7 @@ def fm_loss(p, x0, labels, clean, key, lora=None, tpos=None, inst=None, ref=None
 
 
 def sample(p, labels, key, steps=20, clean_x=None, clean=None, lora=None, ref=None, inst=None, x_init=None, t_start=1.0,
-           lora_scale=1.0):
+           lora_scale=1.0, cfg=1.0):
     """Euler sampler from t = t_start to 0. clean_x / clean: tokens kept fixed (first frame, preserved region).
     x_init: start point at t_start (for inversion-based editing); otherwise Gaussian noise."""
     import jax
@@ -237,6 +239,9 @@ def sample(p, labels, key, steps=20, clean_x=None, clean=None, lora=None, ref=No
                         jnp.concatenate([jnp.arange(Tr), jnp.arange(T)]), lora, lora_scale, inst)[:, Tr:]
         else:
             v = forward(p, xin, tvec, labels, cl, None, lora, lora_scale, inst)
+            if cfg != 1.0:
+                vu = forward(p, xin, tvec, jnp.broadcast_to(jnp.array(NONE), labels.shape), cl, None, lora, lora_scale, inst)
+                v = vu + cfg * (v - vu)
         x = x + (ts[i + 1] - ts[i]) * v
     return jnp.where(cl[..., None] > 0, cx, x)
 
@@ -333,7 +338,8 @@ def motion_id(cent):
 # ---------------------------------------------------------------- LoRA / full fine-tuning
 def base_model(cache_dir):
     import jax
-    return jax.tree_util.tree_map(lambda a: a, cached(cache_dir, "base", train_base)["p"])
+    import jax.numpy as jnp
+    return jax.tree_util.tree_map(jnp.asarray, cached(cache_dir, "base", train_base)["p"])
 
 
 def finetune(p, data_fn, steps, lr, rank=None, modules=MODULES, seed=0, full=False, train_inst=False, log_every=None,
