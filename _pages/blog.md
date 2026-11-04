@@ -145,6 +145,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/llm-inference/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-bolt" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>LLM Inference</strong>
+      <span>大模型推理加速 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
