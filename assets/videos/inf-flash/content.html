@@ -1,0 +1,12 @@
+<h3>视频中的计算（<code>infx.attention_tiled</code>）</h3>
+<ul>
+  <li>因果注意力，随机 Q、K、V（T = 512，d = 64，float64）：普通实现与分块（64 × 64）+ 在线 softmax 的最大差别 7.8e-16。</li>
+  <li>在线 softmax 的递推：维护每行的运行最大值 \(m\)、指数和 \(\ell\) 与未归一化输出 \(o\)；看到新块 \(S_j\) 时 \( m' = \max(m, \max S_j) \)，\( \ell' = \ell\,e^{m-m'} + \sum e^{S_j - m'} \)，\( o' = o\,e^{m-m'} + e^{S_j-m'}V_j \)，最后输出 \( o/\ell \)。示例 [1, 3, 2 | 5, 0.5, 4]：第 1 块后 \(m=3,\ \ell=1.5032\)；第 2 块后 \(m=5,\ \ell=1.5032\,e^{-2}+\ldots=1.5824\)，与一次算完整行相同。</li>
+  <li>大小：T = 8,192、d = 128、2 字节时，一个头的分数矩阵 128 MB，Q、K、V、O 合计 8 MB；我们的一块 64 × 64 为 8 KB。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Dao et al. <em>FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness</em>. NeurIPS 2022：GPT-2 上注意力最多快 7.6 倍，显存随序列长度线性增长。</li>
+  <li>Milakov, Gimelshein. <em>Online normalizer calculation for softmax</em>. arXiv 2018：在线 softmax。</li>
+  <li>Dao. <em>FlashAttention-2</em>. ICLR 2024（arXiv 2023）；Shah et al. <em>FlashAttention-3</em>. NeurIPS 2024：面向 Hopper 显卡的异步与低精度优化。</li>
+</ul>

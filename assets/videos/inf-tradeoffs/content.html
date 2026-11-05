@@ -1,0 +1,12 @@
+<h3>本系列回顾</h3>
+<ul>
+  <li>02：KV 缓存与逐步重算输出一致，注意力计算少 43 倍。03：GQA / MQA 缓存缩到 1/2、1/4 损失几乎不变；MLA 缩到 1/8 损失 +0.011。04：分块 + 在线 softmax 与普通注意力差 7.8e-16。05：4 位按列量化损失 1.660 → 1.702。06：投机解码分布不变，估计快约 1.6 倍。07：连续批处理利用率 32% → 93%，分页缓存 13% → 97%（模拟）。08：缓存只留 8 个时重要性驱逐 1.656（完整 1.591）。</li>
+</ul>
+<h3>延迟与吞吐示意</h3>
+<p>每步时间 = (16 GB 权重 + 批量 × 2,048 × 128 KB 缓存) ÷ 3.35 TB/s，只计显存读取、忽略计算与调度，是一个上界示意：批量 1 / 4 / 16 / 64 / 128 → 4.9 / 5.1 / 6.1 / 9.9 / 15.0 ms，吞吐 206 / 785 / 2,641 / 6,462 / 8,515 词元每秒。</p>
+<h3>参考</h3>
+<ul>
+  <li>Zhong et al. <em>DistServe</em>. OSDI 2024；Patel et al. <em>Splitwise</em>. ISCA 2024：预填充与解码分离。</li>
+  <li>Gloeckle et al. <em>Better &amp; Faster Large Language Models via Multi-token Prediction</em>. ICML 2024；DeepSeek-V3 也使用多词元预测（MTP）模块。</li>
+  <li>Snell et al. <em>Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters</em>. arXiv 2024。</li>
+</ul>

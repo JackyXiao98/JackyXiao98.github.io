@@ -134,7 +134,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-bolt" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>LLM Inference</strong>
-      <span>大模型推理加速 · 制作中</span>
+      <span>大模型推理加速</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

@@ -1,0 +1,11 @@
+<h3>视频中的实验</h3>
+<ul>
+  <li>小模型（4 头多头注意力）对 16 段 64 个词元的序列逐个解码：用 KV 缓存（<code>infx.Cache</code>）与每步重新计算整段前文，logits 的最大差别 3.4e-6（float32 舍入）。</li>
+  <li>注意力部分的乘加次数（只算分数与加权求和）：64 步累计，不用缓存是用缓存的 43 倍（\(\sum t^2 / \sum t\)）。不用缓存时还要重算所有投影和前馈层，实际差距更大。</li>
+  <li>每个词元的 KV 缓存 = 2 × 层数 × KV 头数 × 头维度 × 2 字节。Llama-2-7B（32 层，32 个 KV 头，128 维）：512 KB，4,096 个词元为 2 GB。Llama-3-8B（32 层，8 个 KV 头，128 维）：128 KB，8,192 个词元为 1 GB；32 个这样的请求为 32 GB。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Touvron et al. <em>Llama 2</em>. 2023；Meta. <em>The Llama 3 Herd of Models</em>. 2024：模型配置。</li>
+  <li>Pope et al. <em>Efficiently Scaling Transformer Inference</em>. MLSys 2023：KV 缓存的显存与带宽分析。</li>
+</ul>

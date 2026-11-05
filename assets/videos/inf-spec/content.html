@@ -1,0 +1,15 @@
+<p>本系列的小模型（<code>infx</code>）：数据沿用混合专家系列的 8 种隐藏马尔可夫“语言”（词表 32），序列长 64。模型是两层 pre-LN 因果变换器，带可学习的绝对位置编码（d = 64，4 个查询头、每头 16 维，前馈宽度 256）；注意力可以是多头（4 个 KV 头）、分组查询（2）、多查询（1），或多头潜在注意力（只缓存 16 维潜变量，键和值由它重建）。用 JAX 训练 3,000 步（批量 32，Adam 3e-3）。所有推理实验（KV 缓存、分块注意力、量化、投机解码、缓存驱逐）都在显式的 numpy 前向里运行。</p>
+<h3>视频中的实验（<code>infx.exp_spec</code>）</h3>
+<ul>
+  <li>目标模型：两层小模型（106,496 参数）；草稿模型：一层、d = 32（12,288 参数），在同样的数据上训练。</li>
+  <li>单步精确性：600 个位置上，\( \min(p,q) + (1-\sum\min(p,q))\,\mathrm{norm}(\max(p-q,0)) \) 与 \(p\) 的最大差别 3.3e-16。</li>
+  <li>40 个开头 × 生成 40 个词元：每次猜 γ = 1 / 2 / 4 / 8 个，目标模型每次前向平均得到 1.60 / 1.94 / 2.27 / 2.56 个词元；平均接受率 0.63，理论值 \( (1-a^{\gamma+1})/(1-a) \) 为 1.63 / 2.02 / 2.42 / 2.64。</li>
+  <li>分布检验：从同一开头各采样 3,000 次两个词元，与精确分布的总变差距离：直接采样 0.083 与 0.079，投机采样 0.076（同为抽样误差水平）。</li>
+  <li>加速估计 = 每次前向的词元数 ÷ (1 + γ × 草稿开销)，草稿开销按参数比 0.115 估计（真实开销还取决于实现与硬件）：1.44 / 1.58 / 1.56 / 1.33 倍。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Leviathan, Kalman, Matias. <em>Fast Inference from Transformers via Speculative Decoding</em>. ICML 2023（arXiv 2022）。</li>
+  <li>Chen et al. <em>Accelerating Large Language Model Decoding with Speculative Sampling</em>. arXiv 2023（DeepMind，Chinchilla 上 2–2.5 倍）。</li>
+  <li>Cai et al. <em>Medusa</em>. ICML 2024；Li et al. <em>EAGLE</em>. ICML 2024。</li>
+</ul>

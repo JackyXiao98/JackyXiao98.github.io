@@ -1,0 +1,14 @@
+<p>本系列的小模型（<code>infx</code>）：数据沿用混合专家系列的 8 种隐藏马尔可夫“语言”（词表 32），序列长 64。模型是两层 pre-LN 因果变换器，带可学习的绝对位置编码（d = 64，4 个查询头、每头 16 维，前馈宽度 256）；注意力可以是多头（4 个 KV 头）、分组查询（2）、多查询（1），或多头潜在注意力（只缓存 16 维潜变量，键和值由它重建）。用 JAX 训练 3,000 步（批量 32，Adam 3e-3）。所有推理实验（KV 缓存、分块注意力、量化、投机解码、缓存驱逐）都在显式的 numpy 前向里运行。</p>
+<h3>视频中的实验（<code>infx.exp_quant</code>）</h3>
+<ul>
+  <li>对两层中所有权重矩阵做对称的四舍五入量化（嵌入与输出层保持 float32）：\( s=\max|w|/(2^{b-1}-1) \)，\( \hat w = s\cdot\mathrm{clip}(\mathrm{round}(w/s)) \)；每个矩阵一个缩放因子，或每个输出列一个。</li>
+  <li>原始损失 1.660。8 / 6 / 4 / 3 / 2 位：每矩阵一个因子 1.661 / 1.663 / 1.749 / 2.531 / 4.267；每列一个因子 1.660 / 1.661 / 1.702 / 1.939 / 3.946。</li>
+  <li>离群值：每层前馈网络第 0 个神经元的输入权重 × 30、输出权重 ÷ 30（ReLU 正齐次，模型输出不变，损失仍是 1.660）。再量化：8 位每矩阵 1.706，每列 1.660；4 位每矩阵 3.932，每列 1.708。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Dettmers et al. <em>LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale</em>. NeurIPS 2022：激活中的离群特征维度。</li>
+  <li>Frantar et al. <em>GPTQ</em>. ICLR 2023（arXiv 2022）：基于二阶信息逐列量化并补偿误差。</li>
+  <li>Lin et al. <em>AWQ: Activation-aware Weight Quantization</em>. MLSys 2024（arXiv 2023）。</li>
+  <li>Xiao et al. <em>SmoothQuant</em>. ICML 2023：把激活的离群值“搬”到权重上。</li>
+</ul>

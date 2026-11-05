@@ -1,0 +1,12 @@
+<p>本系列的小模型（<code>infx</code>）：数据沿用混合专家系列的 8 种隐藏马尔可夫“语言”（词表 32），序列长 64。模型是两层 pre-LN 因果变换器，带可学习的绝对位置编码（d = 64，4 个查询头、每头 16 维，前馈宽度 256）；注意力可以是多头（4 个 KV 头）、分组查询（2）、多查询（1），或多头潜在注意力（只缓存 16 维潜变量，键和值由它重建）。用 JAX 训练 3,000 步（批量 32，Adam 3e-3）。所有推理实验（KV 缓存、分块注意力、量化、投机解码、缓存驱逐）都在显式的 numpy 前向里运行。</p>
+<h3>视频中的实验（<code>infx.exp_evict</code>）</h3>
+<ul>
+  <li>48 段留出序列，每步解码后把每层缓存裁到 4 / 8 / 16 个，位置 16–63 的平均损失（完整缓存 1.591）：滑动窗口 2.042 / 1.870 / 1.711；开头 4 个 + 窗口 2.255 / 1.753 / 1.658；重要性驱逐（最近一半 + 累计注意力最大的，类似 H2O）1.854 / 1.656 / 1.608。</li>
+  <li>完整缓存时，位置 16–63 上第一个词元平均得到 0.44% 的注意力，平均分配时为 2.84%：这个小模型没有注意力汇聚点。模型使用绝对位置编码、只在长度 64 上训练，结论不能直接推广到大模型。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Xiao et al. <em>Efficient Streaming Language Models with Attention Sinks</em>. ICLR 2024（arXiv 2023，StreamingLLM）。</li>
+  <li>Zhang et al. <em>H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models</em>. NeurIPS 2023。</li>
+  <li>Beltagy et al. <em>Longformer</em>. 2020；Gemma 2 / Mistral 等模型交替使用局部滑动窗口与全局注意力。</li>
+</ul>

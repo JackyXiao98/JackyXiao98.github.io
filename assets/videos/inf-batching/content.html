@@ -1,0 +1,12 @@
+<h3>视频中的模拟（<code>infx.exp_batching</code>，种子 0）</h3>
+<ul>
+  <li>400 个请求，回答长度服从对数正态分布（中位数 192，99% 分位 1,270，截断在 8–2,048）；16 个批处理位置，每步每个位置生成一个词元；忽略预填充与请求到达时间。</li>
+  <li>静态批处理（每 16 个一组，等最长的结束）：20,639 步，位置利用率 32%。连续批处理（结束即补位）：7,131 步，利用率 93%。</li>
+  <li>KV 缓存：每个请求预留 2,048 个连续位置，真正用上的 13%；按 16 个位置一页按需分配，97%。真实系统的浪费还包括内部与外部碎片，数字会不同。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Yu et al. <em>Orca: A Distributed Serving System for Transformer-Based Generative Models</em>. OSDI 2022：迭代级调度（连续批处理）。</li>
+  <li>Kwon et al. <em>Efficient Memory Management for Large Language Model Serving with PagedAttention</em>. SOSP 2023（vLLM）：报告已有系统只有 20%–38% 的 KV 缓存显存真正存了词元，vLLM 的浪费低于 4%，吞吐提高 2–4 倍。</li>
+  <li>Zheng et al. <em>SGLang</em>（RadixAttention）. 2024：用基数树在请求间自动复用相同前缀的缓存。</li>
+</ul>

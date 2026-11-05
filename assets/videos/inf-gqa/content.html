@@ -1,0 +1,12 @@
+<p>本系列的小模型（<code>infx</code>）：数据沿用混合专家系列的 8 种隐藏马尔可夫“语言”（词表 32），序列长 64。模型是两层 pre-LN 因果变换器，带可学习的绝对位置编码（d = 64，4 个查询头、每头 16 维，前馈宽度 256）；注意力可以是多头（4 个 KV 头）、分组查询（2）、多查询（1），或多头潜在注意力（只缓存 16 维潜变量，键和值由它重建）。用 JAX 训练 3,000 步（批量 32，Adam 3e-3）。所有推理实验（KV 缓存、分块注意力、量化、投机解码、缓存驱逐）都在显式的 numpy 前向里运行。</p>
+<h3>视频中的实验（<code>infx.exp_models</code>）</h3>
+<ul>
+  <li>只改注意力，其余相同，各训练 3,000 步；256 段留出序列上的损失与每个词元缓存的数（两层合计）：MHA（4 个 KV 头）1.660 / 256；GQA（2 个）1.659 / 128；MQA（1 个）1.661 / 64；MLA（缓存 16 维潜变量，键和值由线性层还原）1.671 / 32。</li>
+  <li>我们的 MLA 没有实现 DeepSeek 的解耦旋转位置编码（模型用绝对位置编码），也没有把还原矩阵吸收进查询和输出投影。单一随机种子，0.001 级的差别不显著。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Shazeer. <em>Fast Transformer Decoding: One Write-Head is All You Need</em>. arXiv 2019（MQA）。</li>
+  <li>Ainslie et al. <em>GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints</em>. EMNLP 2023。</li>
+  <li>DeepSeek-AI. <em>DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model</em>. 2024：MLA，KV 缓存比 DeepSeek 67B 减少 93.3%。</li>
+</ul>
