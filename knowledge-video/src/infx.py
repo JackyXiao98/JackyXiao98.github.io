@@ -21,7 +21,7 @@ D, H, HD, F = 64, 4, 16, 256
 
 
 def cached(cdir, name, fn, **kw):
-    key = "_".join(f"{k}{v}" for k, v in sorted(kw.items()))
+    key = "_".join(f"{k}{v}" for k, v in sorted(kw.items()) if k != "cache_dir")
     path = os.path.join(cdir, f"{name}_{key}.pkl")
     if os.path.exists(path):
         return pickle.load(open(path, "rb"))
@@ -312,13 +312,18 @@ def spec_one_step_dist(p, q):
 STEPS = 3000
 
 
-def exp_models():
-    out = {}
-    for name, kw in [("mha", dict(kv=4)), ("gqa", dict(kv=2)), ("mqa", dict(kv=1)), ("mla", dict(mla=16)),
-                     ("draft", dict(layers=1, d=32, heads=2, ffn=64))]:
-        p = train(steps=STEPS, **kw)
-        out[name] = dict(p=p, loss=eval_loss(p), params=n_params(p), cache=cache_floats_per_token(p))
-    return out
+def _one_model(**kw):
+    p = train(steps=STEPS, **kw)
+    return dict(p=p, loss=eval_loss(p), params=n_params(p), cache=cache_floats_per_token(p))
+
+
+MODEL_CFGS = [("mha", dict(kv=4)), ("gqa", dict(kv=2)), ("mqa", dict(kv=1)), ("mla", dict(mla=16)),
+              ("draft", dict(layers=1, d=32, heads=2, kv=2, ffn=64))]
+
+
+def exp_models(cache_dir=None):
+    cdir = cache_dir or os.environ.get("INF_CACHE", os.path.join(os.path.dirname(__file__), "..", "out", "infcache"))
+    return {name: cached(cdir, "model_" + name, _one_model, **kw) for name, kw in MODEL_CFGS}
 
 
 def exp_timing():
@@ -339,7 +344,7 @@ def exp_timing():
 
 
 def _models(cdir):
-    return cached(cdir, "models", exp_models)
+    return exp_models(cdir)
 
 
 def exp_spec(cache_dir):

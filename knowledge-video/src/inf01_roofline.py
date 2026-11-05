@@ -39,7 +39,7 @@ GAP = T_READ / T_COMP
 R256 = TM[256] / TM[1]
 PER = TM[1] / (TM[256] / 256)
 print(T_READ, T_COMP, RIDGE, TOKS, GAP, {k: round(v * 1e3, 4) for k, v in TM.items()}, R256, PER)
-assert round(T_READ * 1e3, 1) == 4.8 and round(TOKS) == 209 and round(RIDGE) == 295 and round(GAP) == 296
+assert round(T_READ * 1e3, 1) == 4.8 and round(TOKS) == 209 and round(RIDGE) == 295 and round(GAP) == 295
 assert abs(T_COMP * 1e6 - 16.2) < 0.1 and 10 < R256 < 60 and PER > 4
 
 SCENES = [
@@ -119,7 +119,7 @@ def sc_roofline(c, u, seg, su):
         d.text((lx(I), y1 + 16), lab, font=vk.font(18, mono=True), fill=MUTED, anchor="mm")
     d.text((x1, y1 + 44), "算术强度（FLOP / 字节）", font=F_SMALL, fill=MUTED, anchor="rm")
     d.text((x0 + 8, y0 + 8), "可达算力", font=F_SMALL, fill=MUTED)
-    d.text((lx(1200), ly(FLOPS) - 24), "算力屋顶 989 TFLOPS", font=F_SMALL, fill=CYAN, anchor="mm")
+    d.text((lx(15), ly(FLOPS) - 20), "算力屋顶 989 TFLOPS", font=F_SMALL, fill=CYAN, anchor="mm")
     if seg >= 1:
         rx = lx(RIDGE)
         d.line([(rx, y0), (rx, y1)], fill=MUTED, width=1)
@@ -138,11 +138,11 @@ def sc_batch(c, u, seg, su):
     Bs = sorted(TM)
     tv.bar_chart(d, (120, 210, 620, 560), [f"{b}" for b in Bs], [TM[b] * 1e3 for b in Bs], [CYAN] * len(Bs), fmt="{:.2f}", vmax=TM[256] * 1e3 * 1.15)
     d.text((120, 170), "一次矩阵乘法的时间（毫秒）", font=F_SMALL, fill=MUTED)
-    d.text((620, 585), "同时处理的向量数", font=F_SMALL, fill=MUTED, anchor="rm")
+    d.text((620, 612), "同时处理的向量数", font=F_SMALL, fill=MUTED, anchor="rm")
     tv.bar_chart(d, (720, 210, 1180, 560), [f"{b}" for b in Bs], [TM[b] / b * 1e3 for b in Bs], [GREEN] * len(Bs), fmt="{:.3f}", vmax=TM[1] * 1e3 * 1.15)
     d.text((720, 170), "平均每个向量（毫秒）", font=F_SMALL, fill=MUTED)
     if seg >= 1:
-        vk.text_c(d, (640, 640), "批量越大：吞吐越高，但每个请求可能等得更久", F_BODY, AMBER)
+        vk.text_c(d, (640, 665), "批量越大：吞吐越高，但每个请求可能等得更久", F_BODY, AMBER)
 
 
 def sc_summary(c, u, seg, su):

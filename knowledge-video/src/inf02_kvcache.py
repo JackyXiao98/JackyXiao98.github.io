@@ -29,7 +29,7 @@ AMBER, RED = tv.AMBER, tv.RED
 SERIES = "LLM Inference"
 CACHE = os.environ.get("INF_CACHE", os.path.join(os.path.dirname(__file__), "..", "out", "infcache"))
 
-M = infx.cached(CACHE, "models", infx.exp_models)
+M = infx.exp_models(CACHE)
 P = M["mha"]["p"]
 xs, _ = infx.sample(np.random.default_rng(21), 16)
 diff = 0.0
