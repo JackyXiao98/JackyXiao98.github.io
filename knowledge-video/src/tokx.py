@@ -393,13 +393,13 @@ def exp_vocab():
     return out
 
 
-def exp_arith(steps=3000):
-    """a + b = c with a, b < 100000. Digit-level tokens vs BPE number tokens (learned on random numbers)."""
+def exp_arith(steps=3000, hi=1000):
+    """a + b = c with a, b < hi. Digit-level tokens vs BPE number tokens (learned on random numbers)."""
     import jax
     import jax.numpy as jnp
     import sclx
     rng = np.random.default_rng(0)
-    nums = [str(int(x)) for x in rng.integers(0, 100000, 20000)]
+    nums = [str(int(x)) for x in rng.integers(0, hi, 20000)]
     btok = bpe_train(collections.Counter(nums), 600)
     pieces = sorted(set(btok["base"] + [a + b for a, b in btok["merges"]]) | {"+", "=", ";"})
     pid = {p_: i for i, p_ in enumerate(pieces)}
@@ -410,7 +410,7 @@ def exp_arith(steps=3000):
     def make(r, n, mode):
         seqs, ans = [], []
         for _ in range(n):
-            a, b = int(r.integers(0, 100000)), int(r.integers(0, 100000))
+            a, b = int(r.integers(0, hi)), int(r.integers(0, hi))
             q = enc_num(str(a), mode) + ["+"] + enc_num(str(b), mode) + ["="]
             c = enc_num(str(a + b), mode) + [";"]
             seqs.append(q + c)
@@ -429,7 +429,7 @@ def exp_arith(steps=3000):
         _, p = train_lm(ids[:-50000], ids[-50000:], len(pieces), steps=steps)
         fwd = jax.jit(sclx.forward)
         test, info = make(np.random.default_rng(7), 300, mode)
-        correct, lens = 0, []
+        correct, lens, dig_ok, dig_n = 0, [], 0, 0
         for x, (qn, cn) in zip(test, info):
             ctx_ids = [pid[t] for t in x[:qn]]
             out = []
@@ -440,7 +440,10 @@ def exp_arith(steps=3000):
                     break
                 out.append(pieces[t])
                 ctx_ids.append(t)
-            correct += "".join(out) == "".join(x[qn:qn + cn - 1])
+            pred, true = "".join(out), "".join(x[qn:qn + cn - 1])
+            correct += pred == true
+            dig_ok += sum(p_ == t_ for p_, t_ in zip(pred.rjust(len(true)), true))
+            dig_n += len(true)
             lens.append(cn - 1)
-        res[mode] = dict(acc=correct / len(test), ans_tokens=float(np.mean(lens)))
+        res[mode] = dict(acc=correct / len(test), ans_tokens=float(np.mean(lens)), digit_acc=dig_ok / dig_n, seg_examples=[("".join(t), t) for t in test[:4]])
     return res
