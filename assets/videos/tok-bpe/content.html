@@ -1,0 +1,12 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的实验</h3>
+<ul>
+  <li>经典小例子（<code>tokx.exp_toy_bpe</code>）：语料 {low: 5, lower: 2, newest: 6, widest: 3}，词尾加“_”。次数并列时取字典序较大的一对：t+_（9）、s+t_（9）、e+st_（9）、o+w（7）、l+ow（7）、w+est_（6）。</li>
+  <li>莎士比亚前 90%（<code>tokx.exp_units</code>）：前几次合并为 ␣+t（21,589）、h+e（16,418）、␣+a（12,054）、o+u、␣+s、␣+m……第 11 次为 ␣t+he。训练文本的片段数：65 个字符时 1,003,854；词表 1,065 时 387,537；4,065 时 305,042。</li>
+  <li>编码时按合并的先后顺序（rank）反复合并相邻对，直到没有可用规则。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Gage. <em>A New Algorithm for Data Compression</em>. C Users Journal 1994：最早的字节对编码（用于压缩）。</li>
+  <li>Sennrich et al. ACL 2016：BPE 子词分词（小例子即出自该文）。</li>
+</ul>

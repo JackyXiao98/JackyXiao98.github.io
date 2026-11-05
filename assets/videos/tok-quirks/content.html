@@ -1,0 +1,13 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的实验（<code>tokx.exp_numbers</code>）</h3>
+<ul>
+  <li>在 20,000 个小于 100,000 的随机整数（带前导空格）上学 600 次 BPE 合并：12345 → [␣123, 45]，12346 → [␣123, 46]，31415 → [␣3, 14, 15]，99999 → [␣999, 99]，2025 → [␣20, 25]，1000 → [␣1, 00, 0]，777 → [␣7, 77]。</li>
+  <li>莎士比亚上 2,000 次合并的 BPE：strawberry → [␣stra, w, ber, ry]；Mississippi → [␣M, iss, iss, i, pp, i]；bookkeeper → [␣book, ke, ep, er]。</li>
+  <li>我们也尝试在玩具规模上比较按位与 BPE 两种数字切分对加法的影响，但两层的小模型训练 3,000 步后两种切分都学不会多位数加法（完全正确率为 0），所以没有放进视频。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Singh, Strouse. <em>Tokenization counts: the impact of tokenization on arithmetic in frontier LLMs</em>. arXiv 2024：数字从右往左每三位分组时，GPT-3.5 / GPT-4 的加法准确率明显更高。</li>
+  <li>Touvron et al. <em>Llama 2</em>. 2023：分词器把数字拆成单个数位。</li>
+  <li>Nogueira et al. <em>Investigating the Limitations of Transformers with Simple Arithmetic Tasks</em>. 2021：数字的表示方式对算术能力影响很大。</li>
+</ul>

@@ -1,0 +1,18 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的实验（<code>tokx.exp_multi</code>）</h3>
+<p>字节级 BPE（2,000 次合并，只在英文莎士比亚与中文唐诗上学习）。同一句话的七种译文（由我们翻译）：</p>
+<ul>
+  <li>English: The weather is nice today, so let's go for a walk in the park. — 24 个词元</li>
+  <li>中文：今天天气很好，我们去公园散步吧。— 21</li>
+  <li>Español: Hoy hace buen tiempo, así que vamos a dar un paseo por el parque. — 37</li>
+  <li>日本語：今日は天気がいいので、公園を散歩しましょう。— 49</li>
+  <li>العربية: الطقس جميل اليوم، فلنذهب للتنزه في الحديقة. — 79（等于 UTF-8 字节数）</li>
+  <li>Русский: Сегодня хорошая погода, давай погуляем в парке. — 86（等于字节数）</li>
+  <li>हिन्दी: आज मौसम अच्छा है, चलो पार्क में टहलने चलते हैं। — 121（等于字节数），为英语的 5.0 倍。</li>
+</ul>
+<p>这个分词器只见过两种语言，差距被放大了；但真实分词器也有同样的倾向。</p>
+<h3>参考</h3>
+<ul>
+  <li>Petrov et al. <em>Language Model Tokenizers Introduce Unfairness Between Languages</em>. NeurIPS 2023：同样内容的词元数在语言之间最多相差约 15 倍。</li>
+  <li>Ahia et al. <em>Do All Languages Cost the Same? Tokenization in the Era of Commercial Language Models</em>. EMNLP 2023。</li>
+</ul>

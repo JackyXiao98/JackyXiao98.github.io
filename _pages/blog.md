@@ -70,7 +70,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-scissors" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Tokenization</strong>
-      <span>分词 · 制作中</span>
+      <span>分词</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

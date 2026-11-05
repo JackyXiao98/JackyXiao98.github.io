@@ -1,0 +1,13 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的统计（<code>tokx.exp_units</code>）</h3>
+<ul>
+  <li>字符：1,115,394 个，65 种。按词（预切分后的单词连同前导空格）：294,763 个，15,057 种。</li>
+  <li>用前 90% 的文本建立词级词表，后 10% 中有 4.7% 的词出现时不在词表里（例：affability、petitioners、Rheims）。</li>
+  <li>在前 90% 上学字节对编码：1,000 / 4,000 个片段时，后 10%（111,540 个字符）分别为 47,573 / 38,072 个词元，即每个字符 0.43 / 0.34 个；没有未知词元（后 10% 中没有新字符）。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Sennrich, Haddow, Birch. <em>Neural Machine Translation of Rare Words with Subword Units</em>. ACL 2016：把 BPE 用于分词。</li>
+  <li>Radford et al. <em>Language Models are Unsupervised Multitask Learners</em>（GPT-2）. 2019：字节级 BPE，50,257 个词元。</li>
+  <li>Meta. <em>The Llama 3 Herd of Models</em>. 2024：128K 词表；Gemma 等模型的词表约 25 万。</li>
+</ul>

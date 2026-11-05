@@ -1,0 +1,13 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的实验（<code>tokx.exp_wp_unigram</code>）</h3>
+<ul>
+  <li>相邻对按出现次数排序（BPE 的选择）：␣t（23,835）、th、he、␣a、ou……；按 WordPiece 式分数 count(ab)/(count(a)count(b)) 排序（只看出现 ≥ 20 次的对）：QU（216）、--、JU、XE、ZA、NG……，主要来自剧本中的大写角色名。</li>
+  <li>简化的 Unigram：用最常见 3,000 个词中长度 ≤ 8 的最常见 6,000 个子串（加全部单字符）作为初始词表；每轮用维特比切分统计次数（硬 EM）、更新概率，再按使用次数删掉 20%；6 轮后得到 1,063 个片段（单字符始终保留）。真实的 SentencePiece 用前向—后向算法（软 EM）和按损失增量删减。</li>
+  <li>对比同为约 1,000 个片段的 BPE：kingdom → BPE [␣king, d, om]，Unigram [␣king, dom]；understanding → BPE [␣u, nder, st, and, ing]，Unigram [␣under, st, and, ing]。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Schuster, Nakajima. <em>Japanese and Korean Voice Search</em>. ICASSP 2012；Wu et al. <em>Google's Neural Machine Translation System</em>. 2016：WordPiece。</li>
+  <li>Kudo. <em>Subword Regularization</em>. ACL 2018：Unigram 语言模型分词与采样。</li>
+  <li>Kudo, Richardson. <em>SentencePiece</em>. EMNLP 2018（演示）。</li>
+</ul>

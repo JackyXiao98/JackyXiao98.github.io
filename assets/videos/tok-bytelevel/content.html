@@ -1,0 +1,12 @@
+<p>本系列的实验（<code>tokx</code>）全部从零实现：语料为 Tiny Shakespeare（Karpathy char-rnn，约 111.5 万字符，英文）与 chinese-poetry 项目《全唐诗》中的 4 个文件（poet.tang.0 / 1000 / 2000 / 3000，繁体中文，约 24 万字符）。预切分沿用 GPT-2 的思路：单词连同前面的空格作为一块，数字逐位分开，中文按标点切成最长 8 个字的片段。</p>
+<h3>视频中的数字（沿用 <code>tokx.exp_vocab</code>）</h3>
+<ul>
+  <li>莎士比亚是 ASCII 英文，一个字节就是一个字符。字节级序列长度约为 4,000 词表 BPE 的 2.9 倍；注意力代价按平方估计约 8.6 倍。</li>
+  <li>同样的小模型训练 2,000 步：直接读字符 2.51 比特 / 字符，BPE 4,000 为 2.25。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Xue et al. <em>ByT5: Towards a Token-Free Future with Pre-trained Byte-to-Byte Models</em>. TACL 2022。</li>
+  <li>Yu et al. <em>MEGABYTE: Predicting Million-byte Sequences with Multiscale Transformers</em>. NeurIPS 2023。</li>
+  <li>Pagnoni et al. <em>Byte Latent Transformer: Patches Scale Better Than Tokens</em>. arXiv 2024（Meta）：按下一字节的熵动态分块，在 8B 规模上与 Llama 3 相当，推理计算最多可减少约一半。</li>
+</ul>
