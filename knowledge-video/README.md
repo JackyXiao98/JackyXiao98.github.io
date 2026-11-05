@@ -63,6 +63,8 @@ optional `upcoming` list of planned episodes.
 | `src/infx.py` | inference toys: a small Transformer with MHA / GQA / MQA / MLA attention, explicit numpy KV-cache decoding with eviction policies, tiled online-softmax attention, weight quantisation, speculative sampling, a batching / paged-memory simulation (cached via `INF_CACHE`) |
 | `src/tok01_why.py` … `src/tok08_bytelevel.py` | Tokenization series, eight episodes (`--series tokenization`) |
 | `src/tokx.py` | tokenization toys from scratch: character- and byte-level BPE, WordPiece-style scores, a small Unigram tokenizer, vocabulary-size language models, number and multilingual token counts (Tiny Shakespeare + Tang poems via `TOK_DATA`, cached via `TOK_CACHE`) |
+| `src/scl01_powerlaw.py` … `src/scl09_testtime.py` | Scaling Laws series, nine episodes (`--series scaling-laws`) |
+| `src/sclx.py` | scaling-law toys: character-level Transformers on Tiny Shakespeare (`SHAKESPEARE`) - width sweep, data-size and repeated-data runs, learning-rate sweep, IsoFLOP runs, greedy exact-match and pass@k evaluation (cached via `SCL_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

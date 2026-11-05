@@ -1,0 +1,13 @@
+<p>本系列的小实验（<code>sclx</code>）：Tiny Shakespeare（约 111.5 万字符，65 种字符）字符级语言建模，后 10% 作验证集。模型为两层 pre-LN 因果变换器，宽度 d（每 16 维一个头，前馈宽度 4d），上下文 64 个字符；参数量 N 按 Kaplan 等人的约定只计非嵌入参数（每层 12 d²）；训练计算 C ≈ 6 N D，D 为训练过的字符数。默认 AdamW（无权重衰减），学习率 3e-3·sqrt(64/d)，100 步预热 + 余弦衰减，批量 32，梯度裁剪 1.0。</p>
+<h3>视频中的实验（<code>sclx.exp_emerge</code>）</h3>
+<ul>
+  <li>第二期中宽度 16 / 32 / 64 / 128 的模型，300 个 64 字符的验证集提示。</li>
+  <li>每个字符的正确率（教师强制，连续指标）：41% / 47% / 51% / 53%。</li>
+  <li>贪心续写 6 个字符全对（全有或全无）：0% / 1.0% / 1.7% / 2.3%；3 个字符全对：7.3% / 9.0% / 11.0% / 11.3%。300 个提示的统计误差约 ±1 个百分点。</li>
+  <li>示例：若每个字符独立地以概率 p 正确，8 个全对为 p^8：p = 0.6 时 0.017，p = 0.9 时 0.43。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Wei et al. <em>Emergent Abilities of Large Language Models</em>. TMLR 2022。</li>
+  <li>Schaeffer, Miranda, Koyejo. <em>Are Emergent Abilities of Large Language Models a Mirage?</em> NeurIPS 2023。</li>
+</ul>

@@ -1,0 +1,12 @@
+<p>本系列的小实验（<code>sclx</code>）：Tiny Shakespeare（约 111.5 万字符，65 种字符）字符级语言建模，后 10% 作验证集。模型为两层 pre-LN 因果变换器，宽度 d（每 16 维一个头，前馈宽度 4d），上下文 64 个字符；参数量 N 按 Kaplan 等人的约定只计非嵌入参数（每层 12 d²）；训练计算 C ≈ 6 N D，D 为训练过的字符数。默认 AdamW（无权重衰减），学习率 3e-3·sqrt(64/d)，100 步预热 + 余弦衰减，批量 32，梯度裁剪 1.0。</p>
+<h3>视频中的实验（<code>sclx.exp_repeat</code>）</h3>
+<ul>
+  <li>宽度 64，训练 3,000 步（读 6,144,000 个字符），从训练集开头取不重复的部分约 101 万 / 51.2 万 / 25.6 万 / 12.8 万个字符（6.1 / 12 / 24 / 48 遍）。</li>
+  <li>最终验证损失 1.703 / 1.908 / 2.025 / 2.286；最终训练损失 1.517 / 1.466 / 1.381 / 1.254。</li>
+  <li>即使最多的情形也已重复 6 遍，所以我们的实验处在“重复较多”的区间；单一随机种子。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Muennighoff et al. <em>Scaling Data-Constrained Language Models</em>. NeurIPS 2023：重复至多约 4 遍与使用全新数据几乎没有差别，此后重复数据的价值迅速衰减。</li>
+  <li>Villalobos et al. <em>Will we run out of data? Limits of LLM scaling based on human-generated data</em>. 2024：估计公开人类文本可能在 2026–2032 年间被用尽。</li>
+</ul>

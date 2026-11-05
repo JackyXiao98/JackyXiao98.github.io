@@ -78,7 +78,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-chart-line" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Scaling Laws</strong>
-      <span>缩放定律 · 制作中</span>
+      <span>缩放定律</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

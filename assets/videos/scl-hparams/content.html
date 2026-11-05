@@ -1,0 +1,13 @@
+<p>本系列的小实验（<code>sclx</code>）：Tiny Shakespeare（约 111.5 万字符，65 种字符）字符级语言建模，后 10% 作验证集。模型为两层 pre-LN 因果变换器，宽度 d（每 16 维一个头，前馈宽度 4d），上下文 64 个字符；参数量 N 按 Kaplan 等人的约定只计非嵌入参数（每层 12 d²）；训练计算 C ≈ 6 N D，D 为训练过的字符数。默认 AdamW（无权重衰减），学习率 3e-3·sqrt(64/d)，100 步预热 + 余弦衰减，批量 32，梯度裁剪 1.0。</p>
+<h3>视频中的实验（<code>sclx.exp_lr</code>）</h3>
+<ul>
+  <li>宽度 32 / 64 / 128，峰值学习率 1e-3 / 3e-3 / 1e-2 / 3e-2，各训练 1,500 步（标准参数化，AdamW 无权重衰减，100 步预热 + 余弦）。</li>
+  <li>验证损失：宽度 32：2.303 / 2.017 / 1.886 / 1.870；宽度 64：2.083 / 1.811 / 1.754 / 1.922；宽度 128：1.871 / 1.690 / 1.740 / 2.454。</li>
+  <li>最好的学习率：0.03（扫描上限，真实最优可能更大）/ 0.01 / 0.003。只有四个格点、单一随机种子。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Yang et al. <em>Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer</em>（μP）. 2022。</li>
+  <li>DeepSeek-AI. <em>DeepSeek LLM: Scaling Open-Source Language Models with Longtermism</em>. 2024：最优学习率与批量随计算预算的幂律。</li>
+  <li>McCandlish et al. <em>An Empirical Model of Large-Batch Training</em>. 2018：临界批量（梯度噪声尺度）。</li>
+</ul>

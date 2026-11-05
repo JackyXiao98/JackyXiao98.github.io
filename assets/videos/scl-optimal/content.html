@@ -1,0 +1,15 @@
+<p>本系列的小实验（<code>sclx</code>）：Tiny Shakespeare（约 111.5 万字符，65 种字符）字符级语言建模，后 10% 作验证集。模型为两层 pre-LN 因果变换器，宽度 d（每 16 维一个头，前馈宽度 4d），上下文 64 个字符；参数量 N 按 Kaplan 等人的约定只计非嵌入参数（每层 12 d²）；训练计算 C ≈ 6 N D，D 为训练过的字符数。默认 AdamW（无权重衰减），学习率 3e-3·sqrt(64/d)，100 步预热 + 余弦衰减，批量 32，梯度裁剪 1.0。</p>
+<h3>视频中的实验（<code>sclx.exp_isoflop</code>）</h3>
+<ul>
+  <li>三个训练计算预算 C = 6ND = 6e11 / 1.8e12 / 5.4e12；每个宽度训练 C / (6N × 2,048) 步，每个运行有自己完整的余弦学习率计划，只保留 250 – 18,000 步的组合。</li>
+  <li>验证损失：C = 6e11：宽度 16 / 24 / 32 / 48 / 64 → 2.010 / 1.927 / 1.913 / 2.041 / 2.223；C = 1.8e12：24 / 32 / 48 / 64 / 96 / 128 → 1.851 / 1.791 / 1.772 / 1.818 / 2.009 / 2.209；C = 5.4e12：32 / 48 / 64 / 96 / 128 → 1.741 / 1.684 / 1.656 / 1.703 / 1.790。</li>
+  <li>对每个预算在 log N 上拟合抛物线：N_opt ≈ 17k / 40k / 86k，D_opt ≈ 5.8M / 7.4M / 10.5M 字符（每个参数 340 / 185 / 122 个字符）；N_opt ∝ C^0.73。</li>
+  <li>我们的训练集只有约 100 万字符，最优训练要重复 6–10 遍，重复数据价值递减，这会让最优分配偏向更大的模型；参数只计非嵌入部分，字符级的“词元”也与真实模型不可比。因此 0.73 不应被看作对 Chinchilla 结论的反驳。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Kaplan et al. 2020：N_opt ∝ C^0.73，D_opt ∝ C^0.27。</li>
+  <li>Hoffmann et al. <em>Training Compute-Optimal Large Language Models</em>. NeurIPS 2022：IsoFLOP 等三种方法都给出 N 与 D 约按 C^0.5 同步增长，约 20 个词元 / 参数；Chinchilla（70B，1.4T 词元）优于 Gopher（280B）。</li>
+  <li>Meta. <em>The Llama 3 Herd of Models</em>. 2024：8B 模型训练了约 15T 词元。</li>
+  <li>Sardana et al. <em>Beyond Chinchilla-Optimal: Accounting for Inference in Language Model Scaling Laws</em>. 2024。</li>
+</ul>
