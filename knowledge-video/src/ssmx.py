@@ -308,19 +308,6 @@ def recall_batch(n_pairs=8, n_keys=16):
     return fn
 
 
-# remember the first token over a gap of `gap` blanks: tokens 1..8, blank 0, marker 9 at the end
-def memory_batch(gap=256, K=8):
-    def fn(rng, n):
-        x = np.zeros((n, gap + 2), np.int32)
-        y = np.zeros_like(x)
-        w = np.zeros(x.shape)
-        first = rng.integers(1, K + 1, n)
-        x[:, 0], x[:, -1] = first, K + 1
-        y[:, -1], w[:, -1] = first, 1
-        return x, y, w
-    return fn
-
-
 # ---------------------------------------------------------------- experiments
 def _strip(r):
     return {k: v for k, v in r.items() if k != "p"}
@@ -348,10 +335,4 @@ def exp_recall(steps=1500, n_pairs=16):
         out[("mamba", N)] = _strip(train(["mamba", "mamba"], bf, 34, steps=steps, N=N, eval_fn=acc_eval(bf)))
     out["hybrid"] = _strip(train(["mamba", "attn"], bf, 34, steps=steps, eval_fn=acc_eval(bf)))
     return out
-
-
-def exp_memory(steps=800, gap=256):
-    bf = memory_batch(gap=gap)
-    return {name: _strip(train(["lti"], bf, 10, steps=steps, d=32, dt_range=rng_, eval_fn=acc_eval(bf, n=256), eval_every=steps // 8))
-            for name, rng_ in [("fast", (0.5, 1.0)), ("slow", (1e-3, 1e-1))]}
 
