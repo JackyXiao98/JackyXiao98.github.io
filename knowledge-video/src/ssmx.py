@@ -93,13 +93,15 @@ def scan_parallel(a, b):
 
 
 # ---------------------------------------------------------------- model
-def init(key, mixers, V, d=64, N=16, expand=2, heads=4, dt_range=(1e-3, 1e-1)):
+def init(key, mixers, V, d=64, N=16, expand=2, heads=4, dt_range=(1e-3, 1e-1), shift=False):
     import jax
     import jax.numpy as jnp
     E = expand * d
     ks = iter(jax.random.split(key, 64))
     g = lambda s, sc: jax.random.normal(next(ks), s) * sc
     p = dict(tok=g((V, d), 0.5), out=g((d, V), 1 / np.sqrt(d)), layers=[])
+    if shift:
+        p["prev"] = g((V, d), 0.5)                     # embedding of the previous token, added to the input
     for m in mixers:
         L = dict(w1=g((d, 4 * d), 1 / np.sqrt(d)), w2=g((4 * d, d), 1 / np.sqrt(4 * d) / 2))
         if m in ("attn", "linattn"):
@@ -172,6 +174,8 @@ def forward(p, x, mixers):
     import jax.numpy as jnp
     ln = lambda h: (h - h.mean(-1, keepdims=True)) / jnp.sqrt(h.var(-1, keepdims=True) + 1e-5)
     h = p["tok"][x]
+    if "prev" in p:
+        h = h + p["prev"][jnp.pad(x, ((0, 0), (1, 0)))[:, :-1]]
     for L, m in zip(p["layers"], mixers):
         h = h + mixer(L, m, ln(h))
         h = h + jnp.maximum(0, ln(h) @ L["w1"]) @ L["w2"]
@@ -183,12 +187,12 @@ def n_params(p):
     return int(sum(np.prod(a.shape) for a in jax.tree_util.tree_leaves(p)))
 
 
-def train(mixers, batch_fn, V, steps=2000, lr=3e-3, d=64, N=16, seed=0, eval_fn=None, eval_every=None, dt_range=(1e-3, 1e-1), batch_size=32):
+def train(mixers, batch_fn, V, steps=2000, lr=3e-3, d=64, N=16, seed=0, eval_fn=None, eval_every=None, dt_range=(1e-3, 1e-1), batch_size=32, shift=False):
     """batch_fn(rng, n) -> (x, y, w): inputs, targets, loss weights (B, T)."""
     import jax
     import jax.numpy as jnp
     import optax
-    p = init(jax.random.PRNGKey(seed), mixers, V, d=d, N=N, dt_range=dt_range)
+    p = init(jax.random.PRNGKey(seed), mixers, V, d=d, N=N, dt_range=dt_range, shift=shift)
     opt = optax.chain(optax.clip_by_global_norm(1.0), optax.adamw(optax.warmup_cosine_decay_schedule(0, lr, 100, steps, lr * 0.1), weight_decay=0.0))
     st = opt.init(p)
 
@@ -288,22 +292,22 @@ def acc_eval(batch_fn, n=512):
     return ev
 
 
-# associative recall: keys 1..16, values 17..32, query marker 33; pairs (k v) ... then k? -> v
-def recall_batch(n_pairs=8, n_keys=16):
-    V0 = n_keys
-
+# multi-query associative recall: keys 1..K, values K+1..2K; n_pairs (key value) pairs, then n_pairs queries
+# (keys in random order), each followed by the answer (teacher forcing); loss at every query position.
+def recall_batch(n_pairs=16, n_keys=32):
     def fn(rng, n):
-        T = 2 * n_pairs + 2
+        T = 4 * n_pairs
         x = np.zeros((n, T), np.int32)
         y = np.zeros_like(x)
         w = np.zeros(x.shape)
         for i in range(n):
             keys = rng.choice(n_keys, n_pairs, replace=False) + 1
-            vals = rng.integers(0, n_keys, n_pairs) + V0 + 1
+            vals = rng.integers(0, n_keys, n_pairs) + n_keys + 1
             x[i, 0:2 * n_pairs:2], x[i, 1:2 * n_pairs:2] = keys, vals
-            q = rng.integers(n_pairs)
-            x[i, -2], x[i, -1] = 2 * n_keys + 1, keys[q]
-            y[i, -1], w[i, -1] = vals[q], 1
+            order = rng.permutation(n_pairs)
+            qpos = 2 * n_pairs + 2 * np.arange(n_pairs)
+            x[i, qpos], x[i, qpos + 1] = keys[order], vals[order]
+            y[i, qpos], w[i, qpos] = vals[order], 1
         return x, y, w
     return fn
 
@@ -328,11 +332,11 @@ def exp_selcopy(steps=1500):
             for name, mix in [("attn", ["attn", "attn"]), ("lti", ["lti", "lti"]), ("mamba", ["mamba", "mamba"])]}
 
 
-def exp_recall(steps=1500, n_pairs=16):
+def exp_recall(steps=2000, n_pairs=16):
     bf = recall_batch(n_pairs=n_pairs)
-    out = {"attn": _strip(train(["attn", "attn"], bf, 34, steps=steps, eval_fn=acc_eval(bf)))}
+    out = {"attn": _strip(train(["attn", "attn"], bf, 65, steps=steps, shift=True, eval_fn=acc_eval(bf)))}
     for N in (1, 4, 16, 64):
-        out[("mamba", N)] = _strip(train(["mamba", "mamba"], bf, 34, steps=steps, N=N, eval_fn=acc_eval(bf)))
-    out["hybrid"] = _strip(train(["mamba", "attn"], bf, 34, steps=steps, eval_fn=acc_eval(bf)))
+        out[("mamba", N)] = _strip(train(["mamba", "mamba"], bf, 65, steps=steps, N=N, shift=True, eval_fn=acc_eval(bf)))
+    out["hybrid"] = _strip(train(["mamba", "attn"], bf, 65, steps=steps, shift=True, eval_fn=acc_eval(bf)))
     return out
 
