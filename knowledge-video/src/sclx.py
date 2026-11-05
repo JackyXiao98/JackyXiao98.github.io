@@ -16,7 +16,7 @@ CTX = 64
 
 
 def cached(cdir, name, fn, **kw):
-    key = "_".join(f"{k}{v}" for k, v in sorted(kw.items()))
+    key = "_".join(f"{k}{v}" for k, v in sorted(kw.items()) if k != "cache_dir")
     path = os.path.join(cdir, f"{name}_{key}.pkl")
     if os.path.exists(path):
         return pickle.load(open(path, "rb"))
@@ -147,3 +147,65 @@ def exp_repeat():
     """Width 64, 3,000 steps (6.1 M tokens) drawn from unique pools of decreasing size -> 1 ... 48 epochs."""
     total = 3000 * 32 * CTX
     return {ep: train(d=64, steps=3000, train_chars=int(total / ep) + CTX + 1) for ep in (6.1, 12, 24, 48)}
+
+
+def exp_isoflop():
+    """For fixed training compute C = 6 N D, train each width with exactly the number of steps the budget allows
+    (a full cosine schedule per run), keeping runs with 250..18,000 steps."""
+    out = {}
+    for C in (6e11, 1.8e12, 5.4e12):
+        for d in WIDTHS:
+            steps = int(round(C / (6 * n_nonemb(d) * 32 * CTX)))
+            if 250 <= steps <= 18000:
+                out[(C, d)] = train(d=d, steps=steps, eval_every=steps)
+    return out
+
+
+def exp_emerge(cache_dir, n_prompts=300, k_max=8, n_samples=32, k_sample=6, seed=0):
+    """Using the saved models of exp_size (widths 16 / 32 / 64 / 128): from 64-character validation prompts,
+    (a) per-character greedy accuracy (teacher forcing) and exact match of the next k = 1..8 characters generated
+    greedily; (b) pass@k for the next 6 characters with temperature-1 sampling (n = 32 samples per prompt,
+    unbiased estimator)."""
+    import jax
+    import jax.numpy as jnp
+    from math import comb
+    R = cached(cache_dir, "size", exp_size)
+    D = data()
+    rng = np.random.default_rng(seed)
+    starts = rng.integers(0, len(D["val"]) - CTX - k_max - 1, n_prompts)
+    out = {}
+    for d in (16, 32, 64, 128):
+        p = jax.tree_util.tree_map(jnp.asarray, R[d]["p"])
+        fwd = jax.jit(forward)
+        X = np.stack([D["val"][s:s + CTX + k_max] for s in starts])
+        # teacher-forced per-char accuracy on the last positions
+        lg = np.asarray(fwd(p, jnp.array(X[:, k_max:k_max + CTX])))
+        acc_tf = float((lg[:, :-1].argmax(-1) == X[:, k_max + 1:k_max + CTX]).mean())
+        # greedy generation
+        ctx = X[:, :CTX].copy()
+        ok = np.ones(n_prompts, bool)
+        em = []
+        for k in range(k_max):
+            nxt = np.asarray(fwd(p, jnp.array(ctx[:, -CTX:])))[:, -1].argmax(-1)
+            ok &= nxt == X[:, CTX + k]
+            em.append(float(ok.mean()))
+            ctx = np.concatenate([ctx, nxt[:, None]], 1)
+        # sampling pass@k
+        succ = np.zeros(n_prompts)
+        r2 = np.random.default_rng(seed + d)
+        for _ in range(n_samples):
+            ctx = X[:, :CTX].copy()
+            good = np.ones(n_prompts, bool)
+            for k in range(k_sample):
+                lgt = np.asarray(fwd(p, jnp.array(ctx[:, -CTX:])))[:, -1]
+                pr = np.exp(lgt - lgt.max(-1, keepdims=True))
+                pr /= pr.sum(-1, keepdims=True)
+                nxt = (pr.cumsum(-1) > r2.random((n_prompts, 1))).argmax(-1)
+                good &= nxt == X[:, CTX + k]
+                ctx = np.concatenate([ctx, nxt[:, None]], 1)
+            succ += good
+        passk = {}
+        for k in (1, 2, 4, 8, 16, 32):
+            passk[k] = float(np.mean([1 - comb(n_samples - int(c), k) / comb(n_samples, k) for c in succ]))
+        out[d] = dict(N=n_nonemb(d), val=R[d]["val"], acc_tf=acc_tf, exact=em, passk=passk)
+    return out
