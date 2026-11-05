@@ -56,15 +56,8 @@ pagination:
   </div>
   {% endif %}
 
+<h3 class="kv-group"><span class="kv-group-num">01</span> 模型基础 <span class="kv-group-en">Foundations</span></h3>
 <div class="kv-entries">
-  <a class="kv-entry tech-card" href="{{ '/blog/diffusion/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-chart-dots-3" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Diffusion Model</strong>
-      <span>扩散模型</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
   <a class="kv-entry tech-card" href="{{ '/blog/transformer/' | relative_url }}">
     <span class="kv-entry-icon"><i class="ti ti-brain" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
@@ -73,83 +66,11 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/differential-privacy/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></span>
+  <a class="kv-entry tech-card" href="{{ '/blog/tokenization/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-scissors" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
-      <strong>Differential Privacy</strong>
-      <span>差分隐私</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/video-generation/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Video Generation</strong>
-      <span>视频生成</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/recursive-self-improvement/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-refresh" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Recursive Self-Improvement</strong>
-      <span>递归自我改进</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/llm-rl/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-target-arrow" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>RL for LLMs</strong>
-      <span>大模型强化学习</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/distillation/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-flask" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Distillation</strong>
-      <span>知识蒸馏</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/interpretability/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-microscope" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Interpretability</strong>
-      <span>机制可解释性</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/optimization/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-trending-down" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Optimization</strong>
-      <span>深度学习优化</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/video-lora-edit/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-wand" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Video LoRA Edit</strong>
-      <span>视频 LoRA 编辑</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/moe/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-affiliate" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>Mixture of Experts</strong>
-      <span>混合专家模型</span>
-    </span>
-    <i class="ti ti-arrow-right" aria-hidden="true"></i>
-  </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/llm-inference/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-bolt" aria-hidden="true"></i></span>
-    <span class="kv-entry-text">
-      <strong>LLM Inference</strong>
-      <span>大模型推理加速 · 制作中</span>
+      <strong>Tokenization</strong>
+      <span>分词 · 制作中</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
@@ -161,11 +82,107 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
-  <a class="kv-entry tech-card" href="{{ '/blog/tokenization/' | relative_url }}">
-    <span class="kv-entry-icon"><i class="ti ti-scissors" aria-hidden="true"></i></span>
+</div>
+
+<h3 class="kv-group"><span class="kv-group-num">02</span> 训练与优化 <span class="kv-group-en">Training</span></h3>
+<div class="kv-entries">
+  <a class="kv-entry tech-card" href="{{ '/blog/optimization/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-trending-down" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
-      <strong>Tokenization</strong>
-      <span>分词 · 制作中</span>
+      <strong>Optimization</strong>
+      <span>深度学习优化</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/llm-rl/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-target-arrow" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>RL for LLMs</strong>
+      <span>大模型强化学习</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/recursive-self-improvement/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-refresh" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Recursive Self-Improvement</strong>
+      <span>递归自我改进</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+</div>
+
+<h3 class="kv-group"><span class="kv-group-num">03</span> 效率与部署 <span class="kv-group-en">Efficiency</span></h3>
+<div class="kv-entries">
+  <a class="kv-entry tech-card" href="{{ '/blog/moe/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-affiliate" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Mixture of Experts</strong>
+      <span>混合专家模型</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/distillation/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-flask" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Distillation</strong>
+      <span>知识蒸馏</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/llm-inference/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-bolt" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>LLM Inference</strong>
+      <span>大模型推理加速 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+</div>
+
+<h3 class="kv-group"><span class="kv-group-num">04</span> 生成模型 <span class="kv-group-en">Generative Models</span></h3>
+<div class="kv-entries">
+  <a class="kv-entry tech-card" href="{{ '/blog/diffusion/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-chart-dots-3" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Diffusion Model</strong>
+      <span>扩散模型</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/video-generation/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-movie" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Video Generation</strong>
+      <span>视频生成</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/video-lora-edit/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-wand" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Video LoRA Edit</strong>
+      <span>视频 LoRA 编辑</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+</div>
+
+<h3 class="kv-group"><span class="kv-group-num">05</span> 可解释与隐私 <span class="kv-group-en">Trust</span></h3>
+<div class="kv-entries">
+  <a class="kv-entry tech-card" href="{{ '/blog/interpretability/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-microscope" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Interpretability</strong>
+      <span>机制可解释性</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/differential-privacy/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Differential Privacy</strong>
+      <span>差分隐私</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

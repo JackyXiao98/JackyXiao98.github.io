@@ -1445,3 +1445,24 @@ a.kv-entry {
     animation: none;
   }
 }
+
+.kv-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 2rem 0 0;
+  font-size: 1.15rem;
+  color: var(--tech-text);
+
+  .kv-group-num {
+    font-family: $tech-font-mono;
+    color: var(--tech-accent);
+    font-size: 0.95rem;
+  }
+
+  .kv-group-en {
+    font-size: 0.85rem;
+    color: var(--tech-muted);
+    font-weight: 400;
+  }
+}
