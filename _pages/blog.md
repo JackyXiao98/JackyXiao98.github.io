@@ -86,7 +86,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-wave-sine" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>State Space Models</strong>
-      <span>状态空间模型与线性注意力 · 制作中</span>
+      <span>状态空间模型与线性注意力</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

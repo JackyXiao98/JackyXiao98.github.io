@@ -1,0 +1,17 @@
+<p>本系列的小实验（<code>ssmx</code>）：一个小的 pre-LN 残差网络（宽度 64，每层一个序列混合层 + MLP），混合层可以是因果 softmax 注意力（4 头，可学习位置编码）、线性注意力（特征映射 elu(x)+1）、固定参数的对角状态空间层（类似 S4D：步长、B、C 不随输入变化），或选择性状态空间层（类似 Mamba：步长、B、C 由输入计算）。两种状态空间层结构相同：输入投影到 2 倍宽度，宽度 4 的因果卷积，SiLU，对角状态（默认状态大小 16，A = −(1…16)，步长按对数均匀初始化在 [0.001, 0.1]），门控输出；线性递推用 <code>jax.lax.associative_scan</code> 计算。</p>
+<h3>视频中的实验</h3>
+<ul>
+  <li>状态空间对偶（numpy）：标量衰减 \(a_t\sim U(0.7,1)\)，\(h_t=a_t h_{t-1}+k_t v_t^\top,\ y_t=q_t^\top h_t\)，与矩阵形式 \(Y=(L\circ QK^\top)V\)，\(L_{ij}=\prod_{s=j+1}^{i}a_s\)（\(j\le i\)）比较；T = 32，d = 8，最大差别 7e-15。</li>
+  <li>莎士比亚（<code>ssmx.exp_lm</code>、<code>exp_lm_linpos</code>）：两层、宽度 64，2,000 步，上下文 128。验证损失：softmax 注意力 1.771；线性注意力（带可学习位置）1.895（不带位置 2.237）；固定参数 SSM 1.597；选择性 SSM 1.574；混合（第 1 层选择性 SSM + 第 2 层注意力）1.614。</li>
+  <li>联想回忆（<code>ssmx.exp_recall</code>，第 7 期的任务）：多查询联想回忆，2,000 步；每个查询答对 / 16 个全对：注意力 100% / 100%；混合（选择性 SSM N = 16 + 注意力）100% / 100%；选择性 SSM N = 16：21.5% / 0%（N = 64：86.4% / 13.1%）。</li>
+  <li>单一随机种子、很小的模型；字符级任务以局部结构为主。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Dao, Gu. <em>Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality</em>（Mamba-2）. ICML 2024。</li>
+  <li>Sun et al. <em>Retentive Network: A Successor to Transformer for Large Language Models</em>. 2023。</li>
+  <li>Yang et al. <em>Gated Linear Attention Transformers with Hardware-Efficient Training</em>. ICML 2024。</li>
+  <li>Schlag, Irie, Schmidhuber. <em>Linear Transformers Are Secretly Fast Weight Programmers</em>. ICML 2021；Yang et al. <em>Parallelizing Linear Transformers with the Delta Rule over Sequence Length</em>. NeurIPS 2024（DeltaNet）。</li>
+  <li>Peng et al. <em>RWKV: Reinventing RNNs for the Transformer Era</em>. Findings of EMNLP 2023。</li>
+  <li>Lieber et al. <em>Jamba: A Hybrid Transformer-Mamba Language Model</em>. 2024：注意力与 Mamba 层 1:7，加 MoE，上下文 256K。</li>
+</ul>

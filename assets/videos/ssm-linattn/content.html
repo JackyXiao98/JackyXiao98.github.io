@@ -1,0 +1,13 @@
+<p>本系列的小实验（<code>ssmx</code>）：一个小的 pre-LN 残差网络（宽度 64，每层一个序列混合层 + MLP），混合层可以是因果 softmax 注意力（4 头，可学习位置编码）、线性注意力（特征映射 elu(x)+1）、固定参数的对角状态空间层（类似 S4D：步长、B、C 不随输入变化），或选择性状态空间层（类似 Mamba：步长、B、C 由输入计算）。两种状态空间层结构相同：输入投影到 2 倍宽度，宽度 4 的因果卷积，SiLU，对角状态（默认状态大小 16，A = −(1…16)，步长按对数均匀初始化在 [0.001, 0.1]），门控输出；线性递推用 <code>jax.lax.associative_scan</code> 计算。</p>
+<h3>视频中的实验</h3>
+<ul>
+  <li><code>ssmx.linattn_parallel / linattn_recurrent</code>：特征映射 φ(x) = elu(x) + 1，随机 q、k、v（T = 32，d = 8），因果掩码的矩阵形式与 d × d 状态的循环形式最大差别 3.3e-16。</li>
+  <li><code>ssmx.exp_lm</code>（softmax 注意力）与 <code>ssmx.exp_lm_linpos</code>（线性注意力）：两层、宽度 64、4 个头、相同的可学习位置编码，莎士比亚字符级，上下文 128，训练 2,000 步：验证损失 1.771 vs 1.895。</li>
+  <li>线性注意力最初的一次运行没有位置编码，损失 2.237；为了公平比较，我们给它加上与 softmax 注意力相同的位置编码后重新训练，视频中使用后者。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Katharopoulos et al. <em>Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</em>. ICML 2020。</li>
+  <li>Sun et al. <em>Retentive Network</em>（RetNet）. 2023；Yang et al. <em>Gated Linear Attention</em>（GLA）. ICML 2024。</li>
+  <li>Schlag, Irie, Schmidhuber. <em>Linear Transformers Are Secretly Fast Weight Programmers</em>. ICML 2021；Yang et al. <em>Parallelizing Linear Transformers with the Delta Rule</em>（DeltaNet）. NeurIPS 2024。</li>
+</ul>

@@ -1,0 +1,12 @@
+<h3>视频中的计算（<code>ssmx.scan_parallel</code>）</h3>
+<ul>
+  <li>递推 \( h_t = a_t h_{t-1} + b_t \)，\(a_t\) 在 [0.5, 1] 上均匀随机、\(b_t\) 为标准正态。结合律算子 \( (a_1,b_1)\circ(a_2,b_2)=(a_1a_2,\ a_2b_1+b_2) \)。</li>
+  <li>Hillis–Steele 包含式前缀扫描：T = 8 / 1,024 / 65,536 时需要 3 / 10 / 16 轮，与顺序计算的最大差别 8.9e-16 / 8.9e-16 / 1.8e-15。Hillis–Steele 的总工作量为 O(T log T)；Blelloch 扫描可做到 O(T) 总工作量、2 log T 轮。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Blelloch. <em>Prefix Sums and Their Applications</em>. 1990。</li>
+  <li>Martin, Cundy. <em>Parallelizing Linear Recurrent Neural Nets Over Sequence Length</em>. ICLR 2018。</li>
+  <li>Smith et al. <em>Simplified State Space Layers for Sequence Modeling</em>（S5）. ICLR 2023：用并行扫描计算状态空间层。</li>
+  <li>Gu, Dao. <em>Mamba</em>. 2023：硬件感知的融合扫描内核。</li>
+</ul>

@@ -67,6 +67,8 @@ optional `upcoming` list of planned episodes.
 | `src/sclx.py` | scaling-law toys: character-level Transformers on Tiny Shakespeare (`SHAKESPEARE`) - width sweep, data-size and repeated-data runs, learning-rate sweep, IsoFLOP runs, greedy exact-match and pass@k evaluation (cached via `SCL_CACHE`) |
 | `src/lc01_why.py` … `src/lc09_systems.py` | Long Context series, nine episodes (`--series long-context`) |
 | `src/lcx.py` | long-context toys: character-level Transformers on Tiny Shakespeare with learned / sinusoidal / RoPE / ALiBi / no position encoding - length extrapolation, position interpolation and NTK scaling with fine-tuning, synthetic needle retrieval by depth (cached via `LC_CACHE`) |
+| `src/ssm01_cost.py` … `src/ssm09_tradeoffs.py` | State Space Models series, nine episodes (`--series ssm`) |
+| `src/ssmx.py` | state-space toys: numpy checks (linear attention parallel vs recurrent, SSM recurrence vs convolution, parallel scan) and small JAX models with softmax attention / linear attention / fixed-parameter SSM / selective SSM mixers - Tiny Shakespeare, selective copying, multi-query associative recall (cached via `SSM_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |

@@ -71,7 +71,7 @@ SCENES = [
         "在这么小的字符级模型上，状态空间模型反而比注意力好，它的局部归纳偏置很适合这类任务。这不代表大模型上的结论，但说明状态空间层在建模局部结构上很有效率。",
     ]),
     ("recall", [
-        f"回忆任务则正好相反。上一期，状态大小十六的选择性模型答对{pct_zh(RA['mamba'])}；只要把其中一层换成注意力，混合模型就答对了{pct_zh(RA['hybrid'], 1)}。一层注意力就补上了精确回忆的能力。",
+        f"回忆任务则正好相反。上一期，状态大小十六的选择性模型答对{pct_zh(RA['mamba'])}；只要把其中一层换成注意力，混合模型就答对了{pct_zh(RA['hybrid'])}。一层注意力就补上了精确回忆的能力。",
     ]),
     ("jamba", [
         "这正是混合架构的思路：大部分层用状态空间模型，便宜地处理长序列和局部结构；少量层用注意力，负责精确地取回信息。二零二四年的佳巴模型每八层里只有一层注意力，其余是曼巴层，上下文达到二十五万六千个词元，缓存比同规模的变换器小得多。之后又有不少模型采用了类似的混合设计。",
@@ -112,8 +112,8 @@ def sc_family(c, u, seg, su):
         y = 200 + i * 90
         d.rounded_rectangle([140, y, 1140, y + 70], 12, outline=col, width=2, fill=(12, 19, 34))
         d.text((170, y + 35), n, font=F_BODY, fill=col, anchor="lm")
-        d.text((480, y + 35), dec, font=F_SMALL, fill=TEXT, anchor="lm")
-        tv.fpaste(c, f, 900, y + 35, 26)
+        d.text((440, y + 35), dec, font=F_SMALL, fill=TEXT, anchor="lm")
+        tv.fpaste(c, f, 900, y + 35, 22 if "beta" in f else 26)
 
 
 def sc_lm(c, u, seg, su):
