@@ -90,6 +90,14 @@ pagination:
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>
+  <a class="kv-entry tech-card" href="{{ '/blog/long-context/' | relative_url }}">
+    <span class="kv-entry-icon"><i class="ti ti-ruler" aria-hidden="true"></i></span>
+    <span class="kv-entry-text">
+      <strong>Long Context</strong>
+      <span>长上下文 · 制作中</span>
+    </span>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+  </a>
 </div>
 
 <h3 class="kv-group"><span class="kv-group-num">02</span> 训练与优化 <span class="kv-group-en">Training</span></h3>
