@@ -105,7 +105,7 @@ def init(key, mixers, V, d=64, N=16, expand=2, heads=4, dt_range=(1e-3, 1e-1), s
     for m in mixers:
         L = dict(w1=g((d, 4 * d), 1 / np.sqrt(d)), w2=g((4 * d, d), 1 / np.sqrt(4 * d) / 2))
         if m in ("attn", "linattn"):
-            L.update(qkv=g((d, 3 * d), 1 / np.sqrt(d)), o=g((d, d), 1 / np.sqrt(d) / 2), pos=g((512, d), 0.05) if m == "attn" else jnp.zeros((1, d)))
+            L.update(qkv=g((d, 3 * d), 1 / np.sqrt(d)), o=g((d, d), 1 / np.sqrt(d) / 2), pos=g((512, d), 0.05))
         else:
             dt = np.exp(np.random.default_rng(0).uniform(np.log(dt_range[0]), np.log(dt_range[1]), E))
             L.update(inp=g((d, 2 * E), 1 / np.sqrt(d)), conv=g((4, E), 0.5), o=g((E, d), 1 / np.sqrt(E) / 2),
@@ -132,8 +132,7 @@ def mixer(L, m, x):
     Bsz, T, d = x.shape
     if m in ("attn", "linattn"):
         nh = 4
-        if m == "attn":
-            x = x + L["pos"][:T]
+        x = x + L["pos"][:T]
         q, k, v = jnp.split(x @ L["qkv"], 3, -1)
         sh = lambda t: t.reshape(Bsz, T, nh, d // nh).transpose(0, 2, 1, 3)
         q, k, v = sh(q), sh(k), sh(v)
@@ -340,3 +339,9 @@ def exp_recall(steps=2000, n_pairs=16):
     out["hybrid"] = _strip(train(["mamba", "attn"], bf, 65, steps=steps, shift=True, eval_fn=acc_eval(bf)))
     return out
 
+
+
+def exp_lm_linpos(steps=2000):
+    """Linear attention with the same learned position embedding as softmax attention."""
+    D = shakespeare()
+    return _strip(train(["linattn", "linattn"], lm_batch(), D["V"], steps=steps, eval_fn=lm_eval(), eval_every=steps // 10))
