@@ -94,7 +94,7 @@ pagination:
     <span class="kv-entry-icon"><i class="ti ti-ruler" aria-hidden="true"></i></span>
     <span class="kv-entry-text">
       <strong>Long Context</strong>
-      <span>长上下文 · 制作中</span>
+      <span>长上下文</span>
     </span>
     <i class="ti ti-arrow-right" aria-hidden="true"></i>
   </a>

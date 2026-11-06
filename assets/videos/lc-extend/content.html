@@ -1,0 +1,15 @@
+<p>本系列的小实验（<code>lcx</code>）：两层 pre-LN 因果变换器（d = 64，4 个 16 维的头，MLP 256），Tiny Shakespeare 字符级语言建模（后 10% 作验证集）。位置方案五选一：可学习绝对位置（1,024 行的表，超出训练长度的行从未被训练）、正弦绝对位置、RoPE（底数 10,000）、ALiBi（四个头的斜率 1/2、1/4、1/8、1/16）、无位置编码。默认在长度 64 的片段上训练 2,000 步（批量 32，Adam 3e-3，余弦）。</p>
+<h3>视频中的实验（<code>lcx.exp_extend</code>）</h3>
+<ul>
+  <li>第三期在长度 64 上训练的 RoPE 模型，在长度 256 的验证片段上评估（位置 0–63 / 64–127 / 128–254 的平均损失）：</li>
+  <li>直接使用 1.75 / 2.16 / 3.52；位置插值（位置 ÷ 4，不训练）3.65 / 3.81 / 3.74；NTK 缩放（底数 10,000 × 4^(16/14) ≈ 48,761，不训练）1.80 / 1.79 / 2.39。</li>
+  <li>在长度 256 上微调 200 步（学习率 1e-3，20 步预热）：不插值 1.76 / 1.73 / 1.68；插值后微调 1.86 / 1.84 / 1.76。</li>
+  <li>在这个小实验里直接微调优于插值后微调，与 Chen et al. 在 LLaMA 上的结论（插值后约 1,000 步即可，直接微调扩展很慢）相反；我们的模型小、扩展倍数仅 4 倍，单一随机种子，不能据此推广。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Chen et al. <em>Extending Context Window of Large Language Models via Positional Interpolation</em>. 2023。</li>
+  <li>bloc97. <em>NTK-Aware Scaled RoPE</em>（Reddit / GitHub，2023）。</li>
+  <li>Peng et al. <em>YaRN: Efficient Context Window Extension of Large Language Models</em>. ICLR 2024（arXiv 2023）。</li>
+  <li>Xiong et al. <em>Effective Long-Context Scaling of Foundation Models</em>. 2023：调整 RoPE 底数并继续预训练。</li>
+</ul>

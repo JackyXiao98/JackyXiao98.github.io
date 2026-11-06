@@ -1,0 +1,11 @@
+<p>本系列的小实验（<code>lcx</code>）：两层 pre-LN 因果变换器（d = 64，4 个 16 维的头，MLP 256），Tiny Shakespeare 字符级语言建模（后 10% 作验证集）。位置方案五选一：可学习绝对位置（1,024 行的表，超出训练长度的行从未被训练）、正弦绝对位置、RoPE（底数 10,000）、ALiBi（四个头的斜率 1/2、1/4、1/8、1/16）、无位置编码。默认在长度 64 的片段上训练 2,000 步（批量 32，Adam 3e-3，余弦）。</p>
+<h3>视频中的实验（<code>lcx.exp_needle</code>）</h3>
+<ul>
+  <li>检索任务与第四期相同。长度 512、深度 0 / 0.25 / 0.5 / 0.75 / 1（0 = 离查询最远）时 RoPE 的正确率 90.6% / 73.0% / 89.5% / 100% / 100%；长度 128 时三种模型都接近 100%。</li>
+  <li>我们的训练数据中键值对的深度完全均匀，没有复现真实模型的“两头高、中间低”的曲线；第一个场景中的 U 形曲线是示意图。</li>
+</ul>
+<h3>参考</h3>
+<ul>
+  <li>Liu et al. <em>Lost in the Middle: How Language Models Use Long Contexts</em>. TACL 2024（arXiv 2023）：多文档问答中，答案在开头或结尾时准确率最高，在中间时最低。</li>
+  <li>An et al. <em>Make Your LLM Fully Utilize the Context</em>（IN2 训练）. 2024：构造信息位于中间的训练数据。</li>
+</ul>

@@ -65,6 +65,8 @@ optional `upcoming` list of planned episodes.
 | `src/tokx.py` | tokenization toys from scratch: character- and byte-level BPE, WordPiece-style scores, a small Unigram tokenizer, vocabulary-size language models, number and multilingual token counts (Tiny Shakespeare + Tang poems via `TOK_DATA`, cached via `TOK_CACHE`) |
 | `src/scl01_powerlaw.py` … `src/scl09_testtime.py` | Scaling Laws series, nine episodes (`--series scaling-laws`) |
 | `src/sclx.py` | scaling-law toys: character-level Transformers on Tiny Shakespeare (`SHAKESPEARE`) - width sweep, data-size and repeated-data runs, learning-rate sweep, IsoFLOP runs, greedy exact-match and pass@k evaluation (cached via `SCL_CACHE`) |
+| `src/lc01_why.py` … `src/lc09_systems.py` | Long Context series, nine episodes (`--series long-context`) |
+| `src/lcx.py` | long-context toys: character-level Transformers on Tiny Shakespeare with learned / sinusoidal / RoPE / ALiBi / no position encoding - length extrapolation, position interpolation and NTK scaling with fine-tuning, synthetic needle retrieval by depth (cached via `LC_CACHE`) |
 | `src/tfm.py`, `src/tviz.py`, `src/zhnum.py` | small JAX Transformer trained on 2-digit addition (cached via `TF_CACHE`), chart/matrix helpers, numbers → spoken Chinese |
 | `src/check_align.py` | transcribe each subtitle span with ASR and compare to the script |
 | `src/preview.py`, `src/thumb.py`, `src/tts_bench.py` | frame previews, cover frames, voice comparison |
